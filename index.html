@@ -1,2651 +1,1323 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+/* =========================================================
+   BM 400 SRC — NEW COLOR THEME
+   Primary Green: #30B457
+   Primary Yellow: #FFF200
+========================================================= */
 
-  <title>BM 400 SRC | Student Representative Council</title>
+:root {
+  --bm-green: #30B457;
+  --bm-yellow: #FFF200;
 
-  <!-- Firebase -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-    import {
-      getAuth,
-      GoogleAuthProvider,
-      signInWithPopup,
-      signOut,
-      onAuthStateChanged
-    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+  --bm-dark-green: #176B32;
+  --bm-deep-green: #0E5125;
 
-    import {
-      getFirestore,
-      collection,
-      addDoc,
-      updateDoc,
-      deleteDoc,
-      doc,
-      onSnapshot,
-      query,
-      orderBy,
-      setDoc,
-      getDoc
-    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+  --bm-light-green: #EAF9EF;
+  --bm-pale-green: #F5FCF7;
 
-    /*
-      ============================================================
-      FIREBASE CONFIG
-      ============================================================
+  --bm-text: #183D25;
+  --bm-muted: #647568;
 
-      Replace these values with your Firebase project settings.
+  --white: #FFFFFF;
+  --border: #DCEBDD;
+}
 
-      Firebase Console
-      → Project Settings
-      → Your apps
-      → Web app
-    */
 
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT.firebasestorage.app",
-      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-      appId: "YOUR_APP_ID"
-    };
+/* =========================================================
+   GLOBAL
+========================================================= */
 
-    const app = initializeApp(firebaseConfig);
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+html {
+  scroll-behavior: smooth;
+}
 
-    const provider = new GoogleAuthProvider();
+body {
+  font-family:
+    Inter,
+    Arial,
+    Helvetica,
+    sans-serif;
 
-    /*
-      ============================================================
-      ADMIN ACCOUNT
-      ============================================================
-    */
+  background: var(--bm-pale-green);
 
-    const ADMIN_EMAIL =
-      "src.hs@baktimulya400cibubur.sch.id";
+  color: var(--bm-text);
 
-    let currentUser = null;
+  line-height: 1.6;
+}
 
-    /*
-      ============================================================
-      LOGIN
-      ============================================================
-    */
+button {
+  cursor: pointer;
 
-    window.loginWithGoogle = async function () {
-      try {
-        await signInWithPopup(auth, provider);
-      } catch (error) {
-        console.error(error);
-        alert("Login failed: " + error.message);
-      }
-    };
+  font-family: inherit;
+}
 
-    window.logout = async function () {
-      await signOut(auth);
-    };
 
-    /*
-      ============================================================
-      AUTH STATE
-      ============================================================
-    */
+/* =========================================================
+   NAVBAR
+========================================================= */
 
-    onAuthStateChanged(auth, async (user) => {
+.navbar {
 
-      currentUser = user;
+  position: sticky;
 
-      const loginButton =
-        document.getElementById("loginButton");
+  top: 0;
 
-      const logoutButton =
-        document.getElementById("logoutButton");
+  z-index: 100;
 
-      const userInfo =
-        document.getElementById("userInfo");
+  height: 82px;
 
-      const adminPanel =
-        document.getElementById("adminPanel");
+  background: var(--white);
 
-      if (user) {
+  border-bottom:
+    3px solid var(--bm-green);
 
-        loginButton.style.display = "none";
-        logoutButton.style.display = "inline-flex";
+  display: flex;
 
-        userInfo.innerHTML = `
-          <span>${user.email}</span>
-        `;
+  align-items: center;
 
-        /*
-          Only this email gets admin access.
-        */
+  padding:
+    10px 5%;
 
-        if (
-          user.email.toLowerCase() ===
-          ADMIN_EMAIL.toLowerCase()
-        ) {
+  gap: 30px;
 
-          adminPanel.style.display = "block";
+  box-shadow:
+    0 4px 18px rgba(48,180,87,.08);
+}
 
-        } else {
 
-          adminPanel.style.display = "none";
+/* Logo */
 
-        }
+.logo-area {
 
-      } else {
+  display: flex;
 
-        loginButton.style.display = "inline-flex";
-        logoutButton.style.display = "none";
+  align-items: center;
 
-        userInfo.innerHTML = "";
+  gap: 12px;
 
-        adminPanel.style.display = "none";
-      }
-    });
+  min-width: 260px;
+}
 
-    /*
-      ============================================================
-      INTRODUCTION
-      ============================================================
-    */
+.logo-area img {
 
-    const introRef = doc(
-      db,
-      "website",
-      "introduction"
+  width: 60px;
+
+  height: 60px;
+
+  object-fit: contain;
+}
+
+.logo-text strong {
+
+  display: block;
+
+  font-size: 18px;
+
+  color: var(--bm-green);
+}
+
+.logo-text span {
+
+  display: block;
+
+  font-size: 11px;
+
+  color: var(--bm-muted);
+}
+
+
+/* Navigation */
+
+.nav-links {
+
+  display: flex;
+
+  justify-content: center;
+
+  gap: 5px;
+
+  flex: 1;
+}
+
+.nav-links button {
+
+  border: 0;
+
+  background: transparent;
+
+  color: #536456;
+
+  padding:
+    10px 13px;
+
+  border-radius: 9px;
+
+  font-weight: 600;
+
+  transition:
+    .2s ease;
+}
+
+.nav-links button:hover {
+
+  background:
+    var(--bm-light-green);
+
+  color:
+    var(--bm-green);
+}
+
+
+/* Login */
+
+.auth-area {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+}
+
+#userInfo {
+
+  font-size: 11px;
+
+  color: var(--bm-muted);
+
+  max-width: 180px;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+.google-button,
+.primary-button {
+
+  border: 0;
+
+  background:
+    var(--bm-green);
+
+  color: var(--white);
+
+  padding:
+    11px 17px;
+
+  border-radius: 9px;
+
+  font-weight: 700;
+
+  transition: .2s ease;
+}
+
+.google-button:hover,
+.primary-button:hover {
+
+  background:
+    var(--bm-dark-green);
+
+  transform:
+    translateY(-1px);
+}
+
+.logout-button {
+
+  border:
+    1px solid var(--border);
+
+  background:
+    var(--white);
+
+  color:
+    var(--bm-dark-green);
+
+  padding:
+    9px 12px;
+
+  border-radius:
+    8px;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+
+  min-height: 520px;
+
+  padding:
+    80px 8%;
+
+  display: grid;
+
+  grid-template-columns:
+    1.3fr .7fr;
+
+  align-items: center;
+
+  gap: 50px;
+
+  /*
+    Green → yellow → white
+  */
+
+  background:
+
+    linear-gradient(
+      120deg,
+      var(--bm-green) 0%,
+      #53C875 38%,
+      #F8FAE5 72%,
+      var(--white) 100%
     );
 
-    onSnapshot(introRef, (snapshot) => {
+  position: relative;
 
-      if (snapshot.exists()) {
+  overflow: hidden;
+}
 
-        const data = snapshot.data();
 
-        document.getElementById(
-          "schoolTitle"
-        ).textContent =
-          data.title || "Bakti Mulya 400 Cibubur";
+/* Decorative yellow circle */
 
-        document.getElementById(
-          "schoolDescription"
-        ).textContent =
-          data.description || "";
+.hero::after {
 
-        document.getElementById(
-          "adminIntroTitle"
-        ).value =
-          data.title || "";
+  content: "";
 
-        document.getElementById(
-          "adminIntroDescription"
-        ).value =
-          data.description || "";
+  position: absolute;
 
-      }
+  width: 380px;
 
-    });
+  height: 380px;
 
-    /*
-      ============================================================
-      SAVE INTRODUCTION
-      ============================================================
-    */
+  right: -120px;
 
-    window.saveIntroduction = async function () {
+  top: -130px;
 
-      if (!isAdmin()) return;
+  background:
+    var(--bm-yellow);
 
-      const title =
-        document.getElementById(
-          "adminIntroTitle"
-        ).value;
+  border-radius: 50%;
 
-      const description =
-        document.getElementById(
-          "adminIntroDescription"
-        ).value;
+  opacity: .9;
+}
 
-      await setDoc(
-        introRef,
-        {
-          title,
-          description
-        },
-        {
-          merge: true
-        }
-      );
 
-      alert("Introduction updated.");
-    };
+/* Hero text */
 
-    /*
-      ============================================================
-      MONEY REPORTS
-      ============================================================
-    */
+.hero > div {
 
-    const moneyQuery = query(
-      collection(db, "moneyReports"),
-      orderBy("monthKey", "desc")
+  position: relative;
+
+  z-index: 2;
+}
+
+.eyebrow {
+
+  color:
+    var(--bm-deep-green);
+
+  font-size:
+    11px;
+
+  font-weight:
+    900;
+
+  letter-spacing:
+    .14em;
+}
+
+.hero h1 {
+
+  color:
+    var(--bm-deep-green);
+
+  font-size:
+    clamp(
+      44px,
+      6vw,
+      78px
     );
 
-    onSnapshot(moneyQuery, (snapshot) => {
+  line-height:
+    .98;
 
-      const table =
-        document.getElementById(
-          "moneyTable"
-        );
+  margin:
+    15px 0;
+}
 
-      table.innerHTML = "";
+.hero p {
 
-      snapshot.forEach((item) => {
+  color:
+    #31563B;
 
-        const data = item.data();
+  font-size:
+    20px;
+}
 
-        const row =
-          document.createElement("tr");
 
-        row.innerHTML = `
-          <td>
-            <strong>${escapeHTML(data.month)}</strong>
-          </td>
+/* Hero buttons */
 
-          <td>
-            ${formatMoney(data.opening)}
-          </td>
+.hero-buttons {
 
-          <td class="income">
-            ${formatMoney(data.income)}
-          </td>
+  margin-top:
+    30px;
 
-          <td class="expense">
-            ${formatMoney(data.expense)}
-          </td>
+  display:
+    flex;
 
-          <td>
-            ${formatMoney(data.closing)}
-          </td>
+  gap:
+    12px;
+}
 
-          <td>
-            ${escapeHTML(data.notes || "-")}
-          </td>
+.hero-buttons a {
 
-          <td class="admin-actions"
-              style="display:none">
+  text-decoration:
+    none;
 
-            <button
-              class="small-button"
-              onclick="editMoney('${item.id}')">
-              Edit
-            </button>
+  background:
+    var(--bm-dark-green);
 
-            <button
-              class="small-button delete"
-              onclick="deleteMoney('${item.id}')">
-              Delete
-            </button>
+  color:
+    var(--white);
 
-          </td>
-        `;
+  padding:
+    13px 18px;
 
-        table.appendChild(row);
-      });
+  border-radius:
+    10px;
 
-      updateAdminVisibility();
+  font-weight:
+    700;
 
-    });
+  transition:
+    .2s ease;
+}
 
-    /*
-      ADD MONEY REPORT
-    */
+.hero-buttons a:hover {
 
-    window.addMoney = async function () {
+  background:
+    var(--bm-deep-green);
 
-      if (!isAdmin()) return;
+  transform:
+    translateY(-2px);
+}
 
-      const month =
-        document.getElementById(
-          "moneyMonth"
-        ).value;
+.hero-buttons a.secondary {
 
-      const monthKey =
-        document.getElementById(
-          "moneyMonthKey"
-        ).value;
+  background:
+    var(--white);
 
-      const opening =
-        Number(
-          document.getElementById(
-            "moneyOpening"
-          ).value
-        );
+  color:
+    var(--bm-dark-green);
 
-      const income =
-        Number(
-          document.getElementById(
-            "moneyIncome"
-          ).value
-        );
+  border:
+    2px solid var(--bm-green);
+}
 
-      const expense =
-        Number(
-          document.getElementById(
-            "moneyExpense"
-          ).value
-        );
 
-      const closing =
-        Number(
-          document.getElementById(
-            "moneyClosing"
-          ).value
-        );
+/* Hero card */
 
-      const notes =
-        document.getElementById(
-          "moneyNotes"
-        ).value;
+.hero-card {
 
-      await addDoc(
-        collection(db, "moneyReports"),
-        {
-          month,
-          monthKey,
-          opening,
-          income,
-          expense,
-          closing,
-          notes
-        }
-      );
+  position:
+    relative;
 
-      document.getElementById(
-        "moneyForm"
-      ).reset();
+  z-index:
+    3;
 
-      alert("Monthly report added.");
-    };
+  background:
+    rgba(255,255,255,.96);
 
-    /*
-      EDIT MONEY
-    */
+  border:
+    3px solid var(--bm-yellow);
 
-    window.editMoney = async function (id) {
+  padding:
+    35px;
 
-      if (!isAdmin()) return;
+  border-radius:
+    24px;
 
-      const newMonth =
-        prompt("Month:");
+  box-shadow:
+    0 20px 60px rgba(
+      14,
+      81,
+      37,
+      .20
+    );
+}
 
-      if (!newMonth) return;
+.hero-card .small {
 
-      const newIncome =
-        Number(
-          prompt("Income:")
-        );
+  color:
+    var(--bm-green);
 
-      const newExpense =
-        Number(
-          prompt("Expenses:")
-        );
+  font-size:
+    11px;
 
-      await updateDoc(
-        doc(db, "moneyReports", id),
-        {
-          month: newMonth,
-          income: newIncome,
-          expense: newExpense,
-          closing:
-            newIncome - newExpense
-        }
-      );
+  font-weight:
+    900;
 
-    };
+  letter-spacing:
+    .15em;
+}
 
-    /*
-      DELETE MONEY
-    */
+.hero-card h3 {
 
-    window.deleteMoney = async function (id) {
+  color:
+    var(--bm-dark-green);
 
-      if (!isAdmin()) return;
+  font-size:
+    29px;
 
-      if (
-        !confirm(
-          "Delete this monthly report?"
-        )
-      ) return;
+  line-height:
+    1.15;
 
-      await deleteDoc(
-        doc(db, "moneyReports", id)
-      );
-    };
+  margin:
+    12px 0;
+}
 
-    /*
-      ============================================================
-      DEPARTMENT REPORTS
-      ============================================================
-    */
+.hero-card p {
 
-    const departmentQuery = query(
-      collection(db, "departmentReports"),
-      orderBy("monthKey", "desc")
+  font-size:
+    15px;
+
+  color:
+    var(--bm-muted);
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.container {
+
+  width:
+    min(
+      1120px,
+      90%
     );
 
-    onSnapshot(
-      departmentQuery,
-      (snapshot) => {
+  margin:
+    0 auto;
+}
 
-        const container =
-          document.getElementById(
-            "departmentContainer"
-          );
+.about-grid {
 
-        container.innerHTML = "";
+  margin-top:
+    -40px;
 
-        snapshot.forEach((item) => {
+  position:
+    relative;
 
-          const data =
-            item.data();
+  z-index:
+    5;
 
-          const card =
-            document.createElement(
-              "div"
-            );
+  display:
+    grid;
 
-          card.className =
-            "department-card";
+  grid-template-columns:
+    1.2fr .8fr;
 
-          card.innerHTML = `
+  gap:
+    22px;
+}
 
-            <div class="department-header">
+.card {
 
-              <span class="department-month">
-                ${escapeHTML(data.month)}
-              </span>
+  background:
+    var(--white);
 
-              <span class="department-tag">
-                ${escapeHTML(data.department)}
-              </span>
+  border:
+    1px solid var(--border);
 
-            </div>
+  border-radius:
+    18px;
 
-            <h3>
-              ${escapeHTML(data.title)}
-            </h3>
+  padding:
+    30px;
 
-            <h4>Work Summary</h4>
+  box-shadow:
+    0 12px 35px rgba(
+      48,
+      180,
+      87,
+      .08
+    );
+}
 
-            <p>
-              ${escapeHTML(data.summary)}
-            </p>
+.section {
 
-            <h4>Achievements</h4>
+  padding:
+    80px 0 0;
+}
 
-            <p>
-              ${escapeHTML(data.achievements)}
-            </p>
+.section-label {
 
-            <h4>Next Plan</h4>
+  color:
+    var(--bm-green);
 
-            <p>
-              ${escapeHTML(data.nextPlan)}
-            </p>
+  font-size:
+    11px;
 
-            <div
-              class="admin-actions department-admin"
-              style="display:none"
-            >
+  font-weight:
+    900;
 
-              <button
-                class="small-button delete"
-                onclick="deleteDepartment('${item.id}')">
+  letter-spacing:
+    .13em;
+}
 
-                Delete
+h2 {
 
-              </button>
+  color:
+    var(--bm-dark-green);
 
-            </div>
-          `;
+  font-size:
+    32px;
 
-          container.appendChild(card);
+  margin:
+    8px 0 20px;
+}
 
-        });
+.card p {
 
-        updateAdminVisibility();
+  color:
+    var(--bm-muted);
 
-      }
+  line-height:
+    1.8;
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.stats {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:
+    14px;
+}
+
+.stat {
+
+  padding:
+    17px;
+
+  background:
+    var(--bm-light-green);
+
+  border-left:
+    5px solid var(--bm-green);
+
+  border-radius:
+    12px;
+}
+
+.stat strong {
+
+  display:
+    block;
+
+  color:
+    var(--bm-dark-green);
+
+  font-size:
+    20px;
+}
+
+.stat span {
+
+  color:
+    var(--bm-muted);
+
+  font-size:
+    11px;
+}
+
+
+/* =========================================================
+   SECTION HEADER
+========================================================= */
+
+.section-header {
+
+  display:
+    flex;
+
+  align-items:
+    end;
+
+  justify-content:
+    space-between;
+
+  margin-bottom:
+    25px;
+}
+
+.section-header button {
+
+  border:
+    0;
+
+  background:
+    var(--bm-green);
+
+  color:
+    var(--white);
+
+  padding:
+    12px 17px;
+
+  border-radius:
+    9px;
+
+  font-weight:
+    700;
+}
+
+.section-header button:hover {
+
+  background:
+    var(--bm-dark-green);
+}
+
+
+/* =========================================================
+   MONEY TABLE
+========================================================= */
+
+.table-wrapper {
+
+  background:
+    var(--white);
+
+  border:
+    1px solid var(--border);
+
+  border-radius:
+    18px;
+
+  overflow:
+    auto;
+
+  box-shadow:
+    0 12px 35px rgba(
+      48,
+      180,
+      87,
+      .07
+    );
+}
+
+table {
+
+  width:
+    100%;
+
+  min-width:
+    900px;
+
+  border-collapse:
+    collapse;
+}
+
+th {
+
+  background:
+    var(--bm-green);
+
+  color:
+    var(--white);
+
+  padding:
+    15px;
+
+  text-align:
+    left;
+
+  font-size:
+    11px;
+
+  text-transform:
+    uppercase;
+
+  letter-spacing:
+    .05em;
+}
+
+td {
+
+  padding:
+    15px;
+
+  border-bottom:
+    1px solid #EDF4ED;
+
+  font-size:
+    13px;
+
+  color:
+    #5F6B61;
+}
+
+tr:hover td {
+
+  background:
+    #F8FCF9;
+}
+
+.income {
+
+  color:
+    #21853C;
+
+  font-weight:
+    700;
+}
+
+.expense {
+
+  color:
+    #B34C2E;
+
+  font-weight:
+    700;
+}
+
+
+/* =========================================================
+   DEPARTMENT REPORTS
+========================================================= */
+
+#departmentContainer {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:
+    20px;
+}
+
+.department-card {
+
+  background:
+    var(--white);
+
+  border:
+    1px solid var(--border);
+
+  border-radius:
+    18px;
+
+  padding:
+    28px;
+
+  box-shadow:
+    0 12px 35px rgba(
+      48,
+      180,
+      87,
+      .07
     );
 
-    /*
-      ADD DEPARTMENT REPORT
-    */
-
-    window.addDepartment = async function () {
-
-      if (!isAdmin()) return;
-
-      const department =
-        document.getElementById(
-          "departmentName"
-        ).value;
-
-      const month =
-        document.getElementById(
-          "departmentMonth"
-        ).value;
-
-      const monthKey =
-        document.getElementById(
-          "departmentMonthKey"
-        ).value;
-
-      const title =
-        document.getElementById(
-          "departmentTitle"
-        ).value;
-
-      const summary =
-        document.getElementById(
-          "departmentSummary"
-        ).value;
-
-      const achievements =
-        document.getElementById(
-          "departmentAchievements"
-        ).value;
-
-      const nextPlan =
-        document.getElementById(
-          "departmentNextPlan"
-        ).value;
-
-      await addDoc(
-        collection(
-          db,
-          "departmentReports"
-        ),
-        {
-          department,
-          month,
-          monthKey,
-          title,
-          summary,
-          achievements,
-          nextPlan
-        }
-      );
-
-      document.getElementById(
-        "departmentForm"
-      ).reset();
-
-      alert(
-        "Department report added."
-      );
-    };
-
-    /*
-      DELETE DEPARTMENT
-    */
-
-    window.deleteDepartment =
-      async function (id) {
-
-        if (!isAdmin()) return;
-
-        if (
-          !confirm(
-            "Delete this department report?"
-          )
-        ) return;
-
-        await deleteDoc(
-          doc(
-            db,
-            "departmentReports",
-            id
-          )
-        );
-      };
-
-    /*
-      ============================================================
-      ADMIN HELPERS
-      ============================================================
-    */
-
-    function isAdmin() {
-
-      return (
-        currentUser &&
-        currentUser.email.toLowerCase() ===
-          ADMIN_EMAIL.toLowerCase()
-      );
-
-    }
-
-    function updateAdminVisibility() {
-
-      const elements =
-        document.querySelectorAll(
-          ".admin-actions"
-        );
-
-      elements.forEach((element) => {
-
-        element.style.display =
-          isAdmin()
-            ? "flex"
-            : "none";
-
-      });
-
-    }
-
-    /*
-      ============================================================
-      FORMATTERS
-      ============================================================
-    */
-
-    function formatMoney(value) {
-
-      return new Intl.NumberFormat(
-        "id-ID",
-        {
-          style: "currency",
-          currency: "IDR",
-          maximumFractionDigits: 0
-        }
-      ).format(value || 0);
+  transition:
+    .2s ease;
+}
 
-    }
+.department-card:hover {
 
-    function escapeHTML(value) {
+  transform:
+    translateY(-3px);
 
-      return String(value || "")
-        .replace(
-          /&/g,
-          "&amp;"
-        )
-        .replace(
-          /</g,
-          "&lt;"
-        )
-        .replace(
-          />/g,
-          "&gt;"
-        )
-        .replace(
-          /"/g,
-          "&quot;"
-        )
-        .replace(
-          /'/g,
-          "&#039;"
-        );
+  border-color:
+    var(--bm-green);
 
-    }
+  box-shadow:
+    0 16px 40px rgba(
+      48,
+      180,
+      87,
+      .14
+    );
+}
 
-  </script>
+.department-header {
 
-  <style>
+  display:
+    flex;
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+  justify-content:
+    space-between;
 
-    html {
-      scroll-behavior: smooth;
-    }
+  align-items:
+    center;
+}
 
-    body {
-      font-family:
-        Inter,
-        Arial,
-        Helvetica,
-        sans-serif;
+.department-month {
 
-      background:
-        #f9fce9;
+  color:
+    #788473;
 
-      color:
-        #173d1b;
+  font-size:
+    12px;
+}
 
-      line-height:
-        1.6;
-    }
+.department-tag {
 
-    button {
-      cursor: pointer;
-      font-family: inherit;
-    }
+  background:
+    var(--bm-yellow);
 
-    /* =========================
-       NAVBAR
-    ========================== */
+  color:
+    var(--bm-deep-green);
 
-    .navbar {
+  padding:
+    6px 10px;
 
-      position: sticky;
-      top: 0;
+  border-radius:
+    999px;
 
-      z-index: 100;
+  font-size:
+    11px;
 
-      height: 82px;
+  font-weight:
+    900;
+}
 
-      background:
-        rgba(255,255,255,.97);
+.department-card h3 {
 
-      border-bottom:
-        1px solid #dce8bd;
+  color:
+    var(--bm-dark-green);
 
-      display:
-        flex;
+  font-size:
+    24px;
 
-      align-items:
-        center;
+  margin:
+    18px 0;
+}
 
-      padding:
-        10px 5%;
+.department-card h4 {
 
-      gap:
-        30px;
-    }
+  color:
+    var(--bm-green);
 
-    .logo-area {
+  font-size:
+    11px;
 
-      display:
-        flex;
+  text-transform:
+    uppercase;
 
-      align-items:
-        center;
+  letter-spacing:
+    .07em;
 
-      gap:
-        12px;
+  margin-top:
+    18px;
+}
 
-      min-width:
-        260px;
-    }
+.department-card p {
 
-    .logo-area img {
+  color:
+    var(--bm-muted);
 
-      width:
-        60px;
+  font-size:
+    14px;
 
-      height:
-        60px;
+  margin-top:
+    5px;
+}
 
-      object-fit:
-        contain;
-    }
 
-    .logo-text strong {
+/* =========================================================
+   ADMIN PANEL
+========================================================= */
 
-      display:
-        block;
+#adminPanel {
 
-      font-size:
-        18px;
+  display:
+    none;
 
-      color:
-        #21621d;
-    }
+  margin-top:
+    70px;
+}
 
-    .logo-text span {
+.admin-box {
 
-      display:
-        block;
+  border:
+    2px solid var(--bm-green);
 
-      font-size:
-        11px;
+  background:
+    var(--bm-light-green);
+}
 
-      color:
-        #71806d;
-    }
+.admin-title {
 
-    .nav-links {
+  display:
+    flex;
 
-      display:
-        flex;
+  align-items:
+    center;
 
-      justify-content:
-        center;
+  justify-content:
+    space-between;
 
-      gap:
-        5px;
+  margin-bottom:
+    25px;
+}
 
-      flex:
-        1;
-    }
+.admin-badge {
 
-    .nav-links button {
+  background:
+    var(--bm-yellow);
 
-      border:
-        0;
+  color:
+    var(--bm-deep-green);
 
-      background:
-        transparent;
+  padding:
+    6px 10px;
 
-      color:
-        #52604e;
+  border-radius:
+    999px;
 
-      padding:
-        10px 13px;
+  font-size:
+    10px;
 
-      border-radius:
-        9px;
+  font-weight:
+    900;
+}
 
-      font-weight:
-        600;
-    }
+.admin-grid {
 
-    .nav-links button:hover {
+  display:
+    grid;
 
-      background:
-        #edf8c9;
+  grid-template-columns:
+    1fr 1fr;
 
-      color:
-        #276021;
-    }
+  gap:
+    22px;
 
-    .auth-area {
+  margin-top:
+    20px;
+}
 
-      display:
-        flex;
+.admin-form {
 
-      align-items:
-        center;
+  display:
+    grid;
 
-      gap:
-        8px;
-    }
+  gap:
+    12px;
+}
 
-    .google-button,
-    .primary-button {
+.admin-form label {
 
-      border:
-        0;
+  color:
+    #4F604F;
 
-      background:
-        #23611e;
+  font-size:
+    12px;
 
-      color:
-        white;
+  font-weight:
+    700;
+}
 
-      padding:
-        11px 17px;
+.admin-form input,
+.admin-form textarea {
 
-      border-radius:
-        9px;
+  width:
+    100%;
 
-      font-weight:
-        700;
-    }
+  padding:
+    11px;
 
-    .google-button:hover,
-    .primary-button:hover {
+  margin-top:
+    5px;
 
-      background:
-        #174b18;
-    }
+  border:
+    1px solid #C9DCCB;
 
-    .logout-button {
+  border-radius:
+    8px;
 
-      border:
-        1px solid #cbd9b7;
+  background:
+    var(--white);
 
-      background:
-        white;
+  color:
+    var(--bm-text);
 
-      color:
-        #315a2e;
+  resize:
+    vertical;
+}
 
-      padding:
-        9px 12px;
+.admin-form input:focus,
+.admin-form textarea:focus {
 
-      border-radius:
-        8px;
-    }
+  outline:
+    2px solid var(--bm-green);
 
-    #userInfo {
+  border-color:
+    var(--bm-green);
+}
 
-      font-size:
-        11px;
+.admin-form button {
 
-      color:
-        #687567;
+  border:
+    0;
 
-      max-width:
-        180px;
+  background:
+    var(--bm-green);
 
-      overflow:
-        hidden;
+  color:
+    var(--white);
 
-      text-overflow:
-        ellipsis;
+  padding:
+    12px;
 
-      white-space:
-        nowrap;
-    }
+  border-radius:
+    8px;
 
-    /* =========================
-       HERO
-    ========================== */
+  font-weight:
+    700;
+}
 
-    .hero {
+.admin-form button:hover {
 
-      min-height:
-        520px;
+  background:
+    var(--bm-dark-green);
+}
 
-      padding:
-        80px 8%;
+.small-button {
 
-      display:
-        grid;
+  border:
+    1px solid #C7D9C9;
 
-      grid-template-columns:
-        1.3fr .7fr;
+  background:
+    var(--white);
 
-      align-items:
-        center;
+  color:
+    var(--bm-dark-green);
 
-      gap:
-        50px;
+  padding:
+    6px 9px;
 
-      background:
-        linear-gradient(
-          120deg,
-          #e5f6a9,
-          #faffef 60%,
-          #d9ef9a
-        );
-    }
+  border-radius:
+    6px;
 
-    .eyebrow {
+  font-size:
+    11px;
+}
 
-      color:
-        #557f29;
+.small-button:hover {
 
-      font-size:
-        11px;
+  background:
+    var(--bm-light-green);
+}
 
-      font-weight:
-        800;
+.small-button.delete {
 
-      letter-spacing:
-        .14em;
-    }
+  color:
+    #A23D2A;
 
-    .hero h1 {
+  border-color:
+    #E0B9AE;
+}
 
-      color:
-        #174c1c;
+.admin-actions {
 
-      font-size:
-        clamp(
-          44px,
-          6vw,
-          78px
-        );
+  gap:
+    6px;
 
-      line-height:
-        .98;
+  margin-top:
+    10px;
+}
 
-      margin:
-        15px 0;
-    }
 
-    .hero p {
+/* =========================================================
+   FOOTER
+========================================================= */
 
-      color:
-        #61705d;
+footer {
 
-      font-size:
-        20px;
-    }
+  margin-top:
+    100px;
 
-    .hero-buttons {
+  background:
+    var(--bm-dark-green);
 
-      margin-top:
-        30px;
+  color:
+    var(--white);
 
-      display:
-        flex;
+  padding:
+    40px 8%;
 
-      gap:
-        12px;
-    }
+  display:
+    flex;
 
-    .hero-buttons a {
+  align-items:
+    center;
 
-      text-decoration:
-        none;
+  gap:
+    15px;
 
-      background:
-        #23611e;
+  border-top:
+    8px solid var(--bm-yellow);
+}
 
-      color:
-        white;
+footer img {
 
-      padding:
-        13px 18px;
+  width:
+    60px;
 
-      border-radius:
-        10px;
+  height:
+    60px;
 
-      font-weight:
-        700;
-    }
+  object-fit:
+    contain;
+}
 
-    .hero-buttons a.secondary {
+footer span {
 
-      background:
-        white;
+  display:
+    block;
 
-      color:
-        #23611e;
+  color:
+    #CBE5D0;
 
-      border:
-        1px solid #cbdab5;
-    }
+  font-size:
+    12px;
 
-    .hero-card {
+  margin-top:
+    4px;
+}
 
-      background:
-        white;
 
-      border:
-        1px solid #dce8c8;
+/* =========================================================
+   MOBILE
+========================================================= */
 
-      padding:
-        35px;
+@media(max-width:900px) {
 
-      border-radius:
-        24px;
+  .navbar {
 
-      box-shadow:
-        0 20px 60px rgba(
-          44,
-          77,
-          22,
-          .12
-        );
-    }
+    height:
+      auto;
 
-    .hero-card .small {
+    flex-wrap:
+      wrap;
 
-      color:
-        #75932f;
+    padding:
+      10px 4%;
+  }
 
-      font-size:
-        11px;
+  .nav-links {
 
-      font-weight:
-        800;
+    order:
+      3;
 
-      letter-spacing:
-        .15em;
-    }
+    width:
+      100%;
 
-    .hero-card h3 {
+    overflow:
+      auto;
 
-      color:
-        #22551f;
+    justify-content:
+      flex-start;
+  }
 
-      font-size:
-        29px;
+  .hero {
 
-      line-height:
-        1.15;
+    grid-template-columns:
+      1fr;
 
-      margin:
-        12px 0;
-    }
+    padding:
+      60px 6%;
+  }
 
-    .hero-card p {
+  .about-grid {
 
-      font-size:
-        15px;
-    }
+    grid-template-columns:
+      1fr;
 
-    /* =========================
-       CONTENT
-    ========================== */
+    margin-top:
+      20px;
+  }
 
-    .container {
+  #departmentContainer {
 
-      width:
-        min(
-          1120px,
-          90%
-        );
+    grid-template-columns:
+      1fr;
+  }
 
-      margin:
-        0 auto;
-    }
+  .admin-grid {
 
-    .about-grid {
+    grid-template-columns:
+      1fr;
+  }
 
-      margin-top:
-        -40px;
+}
 
-      position:
-        relative;
+@media(max-width:600px) {
 
-      display:
-        grid;
+  .logo-text span {
 
-      grid-template-columns:
-        1.2fr .8fr;
+    display:
+      none;
+  }
 
-      gap:
-        22px;
-    }
+  .auth-area #userInfo {
 
-    .card {
+    display:
+      none;
+  }
 
-      background:
-        white;
+  .hero h1 {
 
-      border:
-        1px solid #dfe9d1;
+    font-size:
+      45px;
+  }
 
-      border-radius:
-        18px;
+  .hero-buttons {
 
-      padding:
-        30px;
+    flex-direction:
+      column;
+  }
 
-      box-shadow:
-        0 12px 35px rgba(
-          50,
-          85,
-          20,
-          .07
-        );
-    }
+  .section-header {
 
-    .section {
+    align-items:
+      flex-start;
 
-      padding:
-        80px 0 0;
-    }
+    flex-direction:
+      column;
 
-    .section-label {
+    gap:
+      15px;
+  }
 
-      color:
-        #62882f;
+  .stats {
 
-      font-size:
-        11px;
+    grid-template-columns:
+      1fr;
+  }
 
-      font-weight:
-        800;
-
-      letter-spacing:
-        .13em;
-    }
-
-    h2 {
-
-      color:
-        #20521d;
-
-      font-size:
-        32px;
-
-      margin:
-        8px 0 20px;
-    }
-
-    .card p {
-
-      color:
-        #657261;
-
-      line-height:
-        1.8;
-    }
-
-    /* =========================
-       STATS
-    ========================== */
-
-    .stats {
-
-      display:
-        grid;
-
-      grid-template-columns:
-        1fr 1fr;
-
-      gap:
-        14px;
-    }
-
-    .stat {
-
-      padding:
-        17px;
-
-      background:
-        #f2f8dc;
-
-      border-radius:
-        12px;
-    }
-
-    .stat strong {
-
-      display:
-        block;
-
-      color:
-        #2c6324;
-
-      font-size:
-        20px;
-    }
-
-    .stat span {
-
-      color:
-        #778472;
-
-      font-size:
-        11px;
-    }
-
-    /* =========================
-       SECTION HEADER
-    ========================== */
-
-    .section-header {
-
-      display:
-        flex;
-
-      align-items:
-        end;
-
-      justify-content:
-        space-between;
-
-      margin-bottom:
-        25px;
-    }
-
-    .section-header button {
-
-      border:
-        0;
-
-      background:
-        #23611e;
-
-      color:
-        white;
-
-      padding:
-        12px 17px;
-
-      border-radius:
-        9px;
-
-      font-weight:
-        700;
-    }
-
-    /* =========================
-       TABLE
-    ========================== */
-
-    .table-wrapper {
-
-      background:
-        white;
-
-      border:
-        1px solid #dfe9d1;
-
-      border-radius:
-        18px;
-
-      overflow:
-        auto;
-
-      box-shadow:
-        0 12px 35px rgba(
-          50,
-          85,
-          20,
-          .07
-        );
-    }
-
-    table {
-
-      width:
-        100%;
-
-      min-width:
-        900px;
-
-      border-collapse:
-        collapse;
-    }
-
-    th {
-
-      background:
-        #eef7d5;
-
-      color:
-        #526448;
-
-      padding:
-        15px;
-
-      text-align:
-        left;
-
-      font-size:
-        11px;
-
-      text-transform:
-        uppercase;
-    }
-
-    td {
-
-      padding:
-        15px;
-
-      border-bottom:
-        1px solid #edf1e8;
-
-      font-size:
-        13px;
-
-      color:
-        #5f6b5c;
-    }
-
-    .income {
-
-      color:
-        #287229;
-
-      font-weight:
-        700;
-    }
-
-    .expense {
-
-      color:
-        #a64e31;
-
-      font-weight:
-        700;
-    }
-
-    /* =========================
-       DEPARTMENTS
-    ========================== */
-
-    #departmentContainer {
-
-      display:
-        grid;
-
-      grid-template-columns:
-        1fr 1fr;
-
-      gap:
-        20px;
-    }
-
-    .department-card {
-
-      background:
-        white;
-
-      border:
-        1px solid #dfe9d1;
-
-      border-radius:
-        18px;
-
-      padding:
-        28px;
-
-      box-shadow:
-        0 12px 35px rgba(
-          50,
-          85,
-          20,
-          .07
-        );
-    }
-
-    .department-header {
-
-      display:
-        flex;
-
-      justify-content:
-        space-between;
-
-      align-items:
-        center;
-    }
-
-    .department-month {
-
-      color:
-        #788473;
-
-      font-size:
-        12px;
-    }
-
-    .department-tag {
-
-      background:
-        #e8f4c5;
-
-      color:
-        #38682e;
-
-      padding:
-        6px 10px;
-
-      border-radius:
-        999px;
-
-      font-size:
-        11px;
-
-      font-weight:
-        700;
-    }
-
-    .department-card h3 {
-
-      color:
-        #245522;
-
-      font-size:
-        24px;
-
-      margin:
-        18px 0;
-    }
-
-    .department-card h4 {
-
-      color:
-        #55704c;
-
-      font-size:
-        11px;
-
-      text-transform:
-        uppercase;
-
-      letter-spacing:
-        .07em;
-
-      margin-top:
-        18px;
-    }
-
-    .department-card p {
-
-      color:
-        #647061;
-
-      font-size:
-        14px;
-
-      margin-top:
-        5px;
-    }
-
-    /* =========================
-       ADMIN
-    ========================== */
-
-    #adminPanel {
-
-      display:
-        none;
-
-      margin-top:
-        70px;
-    }
-
-    .admin-box {
-
-      border:
-        2px solid #cfe49b;
-
-      background:
-        #f8fce9;
-    }
-
-    .admin-title {
-
-      display:
-        flex;
-
-      align-items:
-        center;
-
-      justify-content:
-        space-between;
-
-      margin-bottom:
-        25px;
-    }
-
-    .admin-badge {
-
-      background:
-        #dff34d;
-
-      color:
-        #24521c;
-
-      padding:
-        6px 10px;
-
-      border-radius:
-        999px;
-
-      font-size:
-        10px;
-
-      font-weight:
-        900;
-    }
-
-    .admin-grid {
-
-      display:
-        grid;
-
-      grid-template-columns:
-        1fr 1fr;
-
-      gap:
-        22px;
-
-      margin-top:
-        20px;
-    }
-
-    .admin-form {
-
-      display:
-        grid;
-
-      gap:
-        12px;
-    }
-
-    .admin-form label {
-
-      color:
-        #4f604a;
-
-      font-size:
-        12px;
-
-      font-weight:
-        700;
-    }
-
-    .admin-form input,
-    .admin-form textarea {
-
-      width:
-        100%;
-
-      padding:
-        11px;
-
-      margin-top:
-        5px;
-
-      border:
-        1px solid #cad8b9;
-
-      border-radius:
-        8px;
-
-      background:
-        white;
-
-      color:
-        #203c20;
-
-      resize:
-        vertical;
-    }
-
-    .admin-form button {
-
-      border:
-        0;
-
-      background:
-        #23611e;
-
-      color:
-        white;
-
-      padding:
-        12px;
-
-      border-radius:
-        8px;
-
-      font-weight:
-        700;
-    }
-
-    .small-button {
-
-      border:
-        1px solid #cbd8bc;
-
-      background:
-        white;
-
-      color:
-        #35622d;
-
-      padding:
-        6px 9px;
-
-      border-radius:
-        6px;
-
-      font-size:
-        11px;
-    }
-
-    .small-button.delete {
-
-      color:
-        #a23d2a;
-
-      border-color:
-        #e0b9ae;
-    }
-
-    .admin-actions {
-
-      gap:
-        6px;
-
-      margin-top:
-        10px;
-    }
-
-    /* =========================
-       FOOTER
-    ========================== */
-
-    footer {
-
-      margin-top:
-        100px;
-
-      background:
-        #173d18;
-
-      color:
-        white;
-
-      padding:
-        40px 8%;
-
-      display:
-        flex;
-
-      align-items:
-        center;
-
-      gap:
-        15px;
-    }
-
-    footer img {
-
-      width:
-        60px;
-
-      height:
-        60px;
-
-      object-fit:
-        contain;
-    }
-
-    footer span {
-
-      display:
-        block;
-
-      color:
-        #c8d8bb;
-
-      font-size:
-        12px;
-
-      margin-top:
-        4px;
-    }
-
-    /* =========================
-       MOBILE
-    ========================== */
-
-    @media(max-width:900px) {
-
-      .navbar {
-
-        height:
-          auto;
-
-        flex-wrap:
-          wrap;
-
-        padding:
-          10px 4%;
-      }
-
-      .nav-links {
-
-        order:
-          3;
-
-        width:
-          100%;
-
-        overflow:
-          auto;
-
-        justify-content:
-          flex-start;
-      }
-
-      .hero {
-
-        grid-template-columns:
-          1fr;
-
-        padding:
-          60px 6%;
-      }
-
-      .about-grid {
-
-        grid-template-columns:
-          1fr;
-
-        margin-top:
-          20px;
-      }
-
-      #departmentContainer {
-
-        grid-template-columns:
-          1fr;
-      }
-
-      .admin-grid {
-
-        grid-template-columns:
-          1fr;
-      }
-
-    }
-
-    @media(max-width:600px) {
-
-      .logo-text span {
-
-        display:
-          none;
-      }
-
-      .auth-area #userInfo {
-
-        display:
-          none;
-      }
-
-      .hero h1 {
-
-        font-size:
-          45px;
-      }
-
-      .hero-buttons {
-
-        flex-direction:
-          column;
-      }
-
-      .section-header {
-
-        align-items:
-          flex-start;
-
-        flex-direction:
-          column;
-
-        gap:
-          15px;
-      }
-
-      .stats {
-
-        grid-template-columns:
-          1fr;
-      }
-
-    }
-
-  </style>
-</head>
-
-<body>
-
-  <!-- =========================================================
-       NAVBAR
-  ========================================================== -->
-
-  <header class="navbar">
-
-    <div class="logo-area">
-
-      <!-- Put your uploaded logo in the same folder as index.html -->
-      <!-- Rename it to: bm400-logo.png -->
-
-      <img
-        src="bm400-logo.png"
-        alt="Bakti Mulya 400"
-      />
-
-      <div class="logo-text">
-
-        <strong>
-          BM 400
-        </strong>
-
-        <span>
-          Upper Secondary Student Representative Council
-        </span>
-
-      </div>
-
-    </div>
-
-    <nav class="nav-links">
-
-      <button onclick="scrollToSection('home')">
-        Home
-      </button>
-
-      <button onclick="scrollToSection('money')">
-        Money Management
-      </button>
-
-      <button onclick="scrollToSection('departments')">
-        Departments
-      </button>
-
-      <button onclick="scrollToSection('adminPanel')">
-        Admin
-      </button>
-
-    </nav>
-
-    <div class="auth-area">
-
-      <span id="userInfo"></span>
-
-      <button
-        id="loginButton"
-        class="google-button"
-        onclick="loginWithGoogle()"
-      >
-        Sign in with Google
-      </button>
-
-      <button
-        id="logoutButton"
-        class="logout-button"
-        onclick="logout()"
-        style="display:none"
-      >
-        Log out
-      </button>
-
-    </div>
-
-  </header>
-
-
-  <!-- =========================================================
-       HERO
-  ========================================================== -->
-
-  <section
-    id="home"
-    class="hero"
-  >
-
-    <div>
-
-      <span class="eyebrow">
-        STUDENT LEADERSHIP · TRANSPARENCY · COLLABORATION
-      </span>
-
-      <h1>
-        Student Representative Council
-      </h1>
-
-      <p>
-        Upper Secondary School
-        <br />
-        Bakti Mulya 400 Cibubur
-      </p>
-
-      <div class="hero-buttons">
-
-        <a href="#money">
-          View Money Reports
-        </a>
-
-        <a
-          href="#departments"
-          class="secondary"
-        >
-          Department Reports
-        </a>
-
-      </div>
-
-    </div>
-
-    <div class="hero-card">
-
-      <span class="small">
-        BM 400 SRC PORTAL
-      </span>
-
-      <h3>
-        Student-led.
-        <br />
-        Accountable.
-        <br />
-        Connected.
-      </h3>
-
-      <p>
-        A central platform for the Upper Secondary
-        Student Representative Council to share
-        information, financial reports, and department
-        activities.
-      </p>
-
-    </div>
-
-  </section>
-
-
-  <!-- =========================================================
-       ABOUT
-  ========================================================== -->
-
-  <section class="container about-grid">
-
-    <article class="card">
-
-      <span class="section-label">
-        ABOUT BM 400
-      </span>
-
-      <h2 id="schoolTitle">
-        Bakti Mulya 400 Cibubur
-      </h2>
-
-      <p id="schoolDescription">
-        Bakti Mulya 400 Cibubur is an educational
-        community that supports students in developing
-        academic excellence, leadership, character,
-        collaboration, and responsibility.
-        The Upper Secondary Student Representative
-        Council provides a student-led platform for
-        representation, communication, activities,
-        and accountability.
-      </p>
-
-    </article>
-
-
-    <article class="card">
-
-      <span class="section-label">
-        SRC AT A GLANCE
-      </span>
-
-      <h2>
-        Transparency
-      </h2>
-
-      <div class="stats">
-
-        <div class="stat">
-
-          <strong>
-            Monthly
-          </strong>
-
-          <span>
-            Financial reporting
-          </span>
-
-        </div>
-
-        <div class="stat">
-
-          <strong>
-            Student
-          </strong>
-
-          <span>
-            Department activities
-          </span>
-
-        </div>
-
-        <div class="stat">
-
-          <strong>
-            Open
-          </strong>
-
-          <span>
-            Information access
-          </span>
-
-        </div>
-
-        <div class="stat">
-
-          <strong>
-            SRC
-          </strong>
-
-          <span>
-            Student leadership
-          </span>
-
-        </div>
-
-      </div>
-
-    </article>
-
-  </section>
-
-
-  <!-- =========================================================
-       MONEY MANAGEMENT
-  ========================================================== -->
-
-  <section
-    id="money"
-    class="container section"
-  >
-
-    <div class="section-header">
-
-      <div>
-
-        <span class="section-label">
-          FINANCIAL TRANSPARENCY
-        </span>
-
-        <h2>
-          Monthly SRC Money Management
-        </h2>
-
-      </div>
-
-    </div>
-
-
-    <div class="table-wrapper">
-
-      <table>
-
-        <thead>
-
-          <tr>
-
-            <th>
-              Month
-            </th>
-
-            <th>
-              Opening Balance
-            </th>
-
-            <th>
-              Income
-            </th>
-
-            <th>
-              Expenses
-            </th>
-
-            <th>
-              Closing Balance
-            </th>
-
-            <th>
-              Notes
-            </th>
-
-            <th class="admin-actions">
-              Admin
-            </th>
-
-          </tr>
-
-        </thead>
-
-        <tbody id="moneyTable">
-
-          <tr>
-
-            <td colspan="7"
-                style="text-align:center">
-
-              Loading reports...
-
-            </td>
-
-          </tr>
-
-        </tbody>
-
-      </table>
-
-    </div>
-
-  </section>
-
-
-  <!-- =========================================================
-       DEPARTMENTS
-  ========================================================== -->
-
-  <section
-    id="departments"
-    class="container section"
-  >
-
-    <div class="section-header">
-
-      <div>
-
-        <span class="section-label">
-          STUDENT ACTIVITIES
-        </span>
-
-        <h2>
-          SRC Department Work Reports
-        </h2>
-
-      </div>
-
-    </div>
-
-
-    <div id="departmentContainer">
-
-      <div class="card">
-
-        Loading department reports...
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- =========================================================
-       ADMIN PANEL
-  ========================================================== -->
-
-  <section
-    id="adminPanel"
-    class="container section"
-  >
-
-    <div class="card admin-box">
-
-      <div class="admin-title">
-
-        <div>
-
-          <span class="section-label">
-            ADMIN CONTROL
-          </span>
-
-          <h2>
-            SRC Website Management
-          </h2>
-
-        </div>
-
-        <span class="admin-badge">
-          ADMIN
-        </span>
-
-      </div>
-
-
-      <p style="margin-bottom:25px">
-
-        Logged in as:
-        <strong>
-          src.hs@baktimulya400cibubur.sch.id
-        </strong>
-
-        <br />
-
-        This account can manage the SRC website,
-        monthly financial reports, and department
-        reports.
-
-      </p>
-
-
-      <div class="admin-grid">
-
-
-        <!-- INTRODUCTION FORM -->
-
-        <div class="card">
-
-          <h3 style="margin-bottom:15px">
-
-            Edit Website Introduction
-
-          </h3>
-
-          <form
-            class="admin-form"
-            onsubmit="
-              event.preventDefault();
-              saveIntroduction();
-            "
-          >
-
-            <label>
-
-              School Title
-
-              <input
-                id="adminIntroTitle"
-                type="text"
-                placeholder="Bakti Mulya 400 Cibubur"
-              />
-
-            </label>
-
-
-            <label>
-
-              Introduction
-
-              <textarea
-                id="adminIntroDescription"
-                rows="7"
-                placeholder="Write the BM 400 introduction..."
-              ></textarea>
-
-            </label>
-
-
-            <button type="submit">
-
-              Save Introduction
-
-            </button>
-
-          </form>
-
-        </div>
-
-
-        <!-- MONEY FORM -->
-
-        <div class="card">
-
-          <h3 style="margin-bottom:15px">
-
-            Add Monthly Money Report
-
-          </h3>
-
-          <form
-            id="moneyForm"
-            class="admin-form"
-            onsubmit="
-              event.preventDefault();
-              addMoney();
-            "
-          >
-
-            <label>
-
-              Month
-
-              <input
-                id="moneyMonth"
-                placeholder="September 2026"
-                required
-              />
-
-            </label>
-
-
-            <label>
-
-              Month Key
-
-              <input
-                id="moneyMonthKey"
-                placeholder="2026-09"
-                required
-              />
-
-            </label>
-
-
-            <label>
-
-              Opening Balance
-
-              <input
-                id="moneyOpening"
-                type="number"
-                value="0"
-              />
-
-            </label>
-
-
-            <label>
-
-              Income
-
-              <input
-                id="moneyIncome"
-                type="number"
-                value="0"
-              />
-
-            </label>
-
-
-            <label>
-
-              Expenses
-
-              <input
-                id="moneyExpense"
-                type="number"
-                value="0"
-              />
-
-            </label>
-
-
-            <label>
-
-              Closing Balance
-
-              <input
-                id="moneyClosing"
-                type="number"
-                value="0"
-              />
-
-            </label>
-
-
-            <label>
-
-              Notes
-
-              <textarea
-                id="moneyNotes"
-                rows="3"
-              ></textarea>
-
-            </label>
-
-
-            <button type="submit">
-
-              Add Financial Report
-
-            </button>
-
-          </form>
-
-        </div>
-
-
-        <!-- DEPARTMENT FORM -->
-
-        <div class="card">
-
-          <h3 style="margin-bottom:15px">
-
-            Add Department Report
-
-          </h3>
-
-          <form
-            id="departmentForm"
-            class="admin-form"
-            onsubmit="
-              event.preventDefault();
-              addDepartment();
-            "
-          >
-
-            <label>
-
-              Department
-
-              <input
-                id="departmentName"
-                placeholder="Events Department"
-                required
-              />
-
-            </label>
-
-
-            <label>
-
-              Month
-
-              <input
-                id="departmentMonth"
-                placeholder="September 2026"
-                required
-              />
-
-            </label>
-
-
-            <label>
-
-              Month Key
-
-              <input
-                id="departmentMonthKey"
-                placeholder="2026-09"
-                required
-              />
-
-            </label>
-
-
-            <label>
-
-              Report Title
-
-              <input
-                id="departmentTitle"
-                placeholder="September Activity Report"
-                required
-              />
-
-            </label>
-
-
-            <label>
-
-              Work Summary
-
-              <textarea
-                id="departmentSummary"
-                rows="4"
-                required
-              ></textarea>
-
-            </label>
-
-
-            <label>
-
-              Achievements
-
-              <textarea
-                id="departmentAchievements"
-                rows="4"
-                required
-              ></textarea>
-
-            </label>
-
-
-            <label>
-
-              Next Plan
-
-              <textarea
-                id="departmentNextPlan"
-                rows="4"
-                required
-              ></textarea>
-
-            </label>
-
-
-            <button type="submit">
-
-              Add Department Report
-
-            </button>
-
-          </form>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- =========================================================
-       FOOTER
-  ========================================================== -->
-
-  <footer>
-
-    <img
-      src="bm400-logo.png"
-      alt="BM 400"
-    />
-
-    <div>
-
-      <strong>
-        BM 400 Upper Secondary SRC
-      </strong>
-
-      <span>
-        Bakti Mulya 400 Cibubur ·
-        Student Representative Council
-      </span>
-
-    </div>
-
-  </footer>
-
-
-  <!-- =========================================================
-       NAVIGATION SCRIPT
-  ========================================================== -->
-
-  <script>
-
-    function scrollToSection(id) {
-
-      const element =
-        document.getElementById(id);
-
-      if (element) {
-
-        element.scrollIntoView({
-          behavior: "smooth"
-        });
-
-      }
-
-    }
-
-  </script>
-
-</body>
-</html>
+}

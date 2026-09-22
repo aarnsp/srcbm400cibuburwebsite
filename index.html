@@ -1,0 +1,2651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>BM 400 SRC | Student Representative Council</title>
+
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+    import {
+      getAuth,
+      GoogleAuthProvider,
+      signInWithPopup,
+      signOut,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      updateDoc,
+      deleteDoc,
+      doc,
+      onSnapshot,
+      query,
+      orderBy,
+      setDoc,
+      getDoc
+    } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+    /*
+      ============================================================
+      FIREBASE CONFIG
+      ============================================================
+
+      Replace these values with your Firebase project settings.
+
+      Firebase Console
+      → Project Settings
+      → Your apps
+      → Web app
+    */
+
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT.firebasestorage.app",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    const app = initializeApp(firebaseConfig);
+
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const provider = new GoogleAuthProvider();
+
+    /*
+      ============================================================
+      ADMIN ACCOUNT
+      ============================================================
+    */
+
+    const ADMIN_EMAIL =
+      "src.hs@baktimulya400cibubur.sch.id";
+
+    let currentUser = null;
+
+    /*
+      ============================================================
+      LOGIN
+      ============================================================
+    */
+
+    window.loginWithGoogle = async function () {
+      try {
+        await signInWithPopup(auth, provider);
+      } catch (error) {
+        console.error(error);
+        alert("Login failed: " + error.message);
+      }
+    };
+
+    window.logout = async function () {
+      await signOut(auth);
+    };
+
+    /*
+      ============================================================
+      AUTH STATE
+      ============================================================
+    */
+
+    onAuthStateChanged(auth, async (user) => {
+
+      currentUser = user;
+
+      const loginButton =
+        document.getElementById("loginButton");
+
+      const logoutButton =
+        document.getElementById("logoutButton");
+
+      const userInfo =
+        document.getElementById("userInfo");
+
+      const adminPanel =
+        document.getElementById("adminPanel");
+
+      if (user) {
+
+        loginButton.style.display = "none";
+        logoutButton.style.display = "inline-flex";
+
+        userInfo.innerHTML = `
+          <span>${user.email}</span>
+        `;
+
+        /*
+          Only this email gets admin access.
+        */
+
+        if (
+          user.email.toLowerCase() ===
+          ADMIN_EMAIL.toLowerCase()
+        ) {
+
+          adminPanel.style.display = "block";
+
+        } else {
+
+          adminPanel.style.display = "none";
+
+        }
+
+      } else {
+
+        loginButton.style.display = "inline-flex";
+        logoutButton.style.display = "none";
+
+        userInfo.innerHTML = "";
+
+        adminPanel.style.display = "none";
+      }
+    });
+
+    /*
+      ============================================================
+      INTRODUCTION
+      ============================================================
+    */
+
+    const introRef = doc(
+      db,
+      "website",
+      "introduction"
+    );
+
+    onSnapshot(introRef, (snapshot) => {
+
+      if (snapshot.exists()) {
+
+        const data = snapshot.data();
+
+        document.getElementById(
+          "schoolTitle"
+        ).textContent =
+          data.title || "Bakti Mulya 400 Cibubur";
+
+        document.getElementById(
+          "schoolDescription"
+        ).textContent =
+          data.description || "";
+
+        document.getElementById(
+          "adminIntroTitle"
+        ).value =
+          data.title || "";
+
+        document.getElementById(
+          "adminIntroDescription"
+        ).value =
+          data.description || "";
+
+      }
+
+    });
+
+    /*
+      ============================================================
+      SAVE INTRODUCTION
+      ============================================================
+    */
+
+    window.saveIntroduction = async function () {
+
+      if (!isAdmin()) return;
+
+      const title =
+        document.getElementById(
+          "adminIntroTitle"
+        ).value;
+
+      const description =
+        document.getElementById(
+          "adminIntroDescription"
+        ).value;
+
+      await setDoc(
+        introRef,
+        {
+          title,
+          description
+        },
+        {
+          merge: true
+        }
+      );
+
+      alert("Introduction updated.");
+    };
+
+    /*
+      ============================================================
+      MONEY REPORTS
+      ============================================================
+    */
+
+    const moneyQuery = query(
+      collection(db, "moneyReports"),
+      orderBy("monthKey", "desc")
+    );
+
+    onSnapshot(moneyQuery, (snapshot) => {
+
+      const table =
+        document.getElementById(
+          "moneyTable"
+        );
+
+      table.innerHTML = "";
+
+      snapshot.forEach((item) => {
+
+        const data = item.data();
+
+        const row =
+          document.createElement("tr");
+
+        row.innerHTML = `
+          <td>
+            <strong>${escapeHTML(data.month)}</strong>
+          </td>
+
+          <td>
+            ${formatMoney(data.opening)}
+          </td>
+
+          <td class="income">
+            ${formatMoney(data.income)}
+          </td>
+
+          <td class="expense">
+            ${formatMoney(data.expense)}
+          </td>
+
+          <td>
+            ${formatMoney(data.closing)}
+          </td>
+
+          <td>
+            ${escapeHTML(data.notes || "-")}
+          </td>
+
+          <td class="admin-actions"
+              style="display:none">
+
+            <button
+              class="small-button"
+              onclick="editMoney('${item.id}')">
+              Edit
+            </button>
+
+            <button
+              class="small-button delete"
+              onclick="deleteMoney('${item.id}')">
+              Delete
+            </button>
+
+          </td>
+        `;
+
+        table.appendChild(row);
+      });
+
+      updateAdminVisibility();
+
+    });
+
+    /*
+      ADD MONEY REPORT
+    */
+
+    window.addMoney = async function () {
+
+      if (!isAdmin()) return;
+
+      const month =
+        document.getElementById(
+          "moneyMonth"
+        ).value;
+
+      const monthKey =
+        document.getElementById(
+          "moneyMonthKey"
+        ).value;
+
+      const opening =
+        Number(
+          document.getElementById(
+            "moneyOpening"
+          ).value
+        );
+
+      const income =
+        Number(
+          document.getElementById(
+            "moneyIncome"
+          ).value
+        );
+
+      const expense =
+        Number(
+          document.getElementById(
+            "moneyExpense"
+          ).value
+        );
+
+      const closing =
+        Number(
+          document.getElementById(
+            "moneyClosing"
+          ).value
+        );
+
+      const notes =
+        document.getElementById(
+          "moneyNotes"
+        ).value;
+
+      await addDoc(
+        collection(db, "moneyReports"),
+        {
+          month,
+          monthKey,
+          opening,
+          income,
+          expense,
+          closing,
+          notes
+        }
+      );
+
+      document.getElementById(
+        "moneyForm"
+      ).reset();
+
+      alert("Monthly report added.");
+    };
+
+    /*
+      EDIT MONEY
+    */
+
+    window.editMoney = async function (id) {
+
+      if (!isAdmin()) return;
+
+      const newMonth =
+        prompt("Month:");
+
+      if (!newMonth) return;
+
+      const newIncome =
+        Number(
+          prompt("Income:")
+        );
+
+      const newExpense =
+        Number(
+          prompt("Expenses:")
+        );
+
+      await updateDoc(
+        doc(db, "moneyReports", id),
+        {
+          month: newMonth,
+          income: newIncome,
+          expense: newExpense,
+          closing:
+            newIncome - newExpense
+        }
+      );
+
+    };
+
+    /*
+      DELETE MONEY
+    */
+
+    window.deleteMoney = async function (id) {
+
+      if (!isAdmin()) return;
+
+      if (
+        !confirm(
+          "Delete this monthly report?"
+        )
+      ) return;
+
+      await deleteDoc(
+        doc(db, "moneyReports", id)
+      );
+    };
+
+    /*
+      ============================================================
+      DEPARTMENT REPORTS
+      ============================================================
+    */
+
+    const departmentQuery = query(
+      collection(db, "departmentReports"),
+      orderBy("monthKey", "desc")
+    );
+
+    onSnapshot(
+      departmentQuery,
+      (snapshot) => {
+
+        const container =
+          document.getElementById(
+            "departmentContainer"
+          );
+
+        container.innerHTML = "";
+
+        snapshot.forEach((item) => {
+
+          const data =
+            item.data();
+
+          const card =
+            document.createElement(
+              "div"
+            );
+
+          card.className =
+            "department-card";
+
+          card.innerHTML = `
+
+            <div class="department-header">
+
+              <span class="department-month">
+                ${escapeHTML(data.month)}
+              </span>
+
+              <span class="department-tag">
+                ${escapeHTML(data.department)}
+              </span>
+
+            </div>
+
+            <h3>
+              ${escapeHTML(data.title)}
+            </h3>
+
+            <h4>Work Summary</h4>
+
+            <p>
+              ${escapeHTML(data.summary)}
+            </p>
+
+            <h4>Achievements</h4>
+
+            <p>
+              ${escapeHTML(data.achievements)}
+            </p>
+
+            <h4>Next Plan</h4>
+
+            <p>
+              ${escapeHTML(data.nextPlan)}
+            </p>
+
+            <div
+              class="admin-actions department-admin"
+              style="display:none"
+            >
+
+              <button
+                class="small-button delete"
+                onclick="deleteDepartment('${item.id}')">
+
+                Delete
+
+              </button>
+
+            </div>
+          `;
+
+          container.appendChild(card);
+
+        });
+
+        updateAdminVisibility();
+
+      }
+    );
+
+    /*
+      ADD DEPARTMENT REPORT
+    */
+
+    window.addDepartment = async function () {
+
+      if (!isAdmin()) return;
+
+      const department =
+        document.getElementById(
+          "departmentName"
+        ).value;
+
+      const month =
+        document.getElementById(
+          "departmentMonth"
+        ).value;
+
+      const monthKey =
+        document.getElementById(
+          "departmentMonthKey"
+        ).value;
+
+      const title =
+        document.getElementById(
+          "departmentTitle"
+        ).value;
+
+      const summary =
+        document.getElementById(
+          "departmentSummary"
+        ).value;
+
+      const achievements =
+        document.getElementById(
+          "departmentAchievements"
+        ).value;
+
+      const nextPlan =
+        document.getElementById(
+          "departmentNextPlan"
+        ).value;
+
+      await addDoc(
+        collection(
+          db,
+          "departmentReports"
+        ),
+        {
+          department,
+          month,
+          monthKey,
+          title,
+          summary,
+          achievements,
+          nextPlan
+        }
+      );
+
+      document.getElementById(
+        "departmentForm"
+      ).reset();
+
+      alert(
+        "Department report added."
+      );
+    };
+
+    /*
+      DELETE DEPARTMENT
+    */
+
+    window.deleteDepartment =
+      async function (id) {
+
+        if (!isAdmin()) return;
+
+        if (
+          !confirm(
+            "Delete this department report?"
+          )
+        ) return;
+
+        await deleteDoc(
+          doc(
+            db,
+            "departmentReports",
+            id
+          )
+        );
+      };
+
+    /*
+      ============================================================
+      ADMIN HELPERS
+      ============================================================
+    */
+
+    function isAdmin() {
+
+      return (
+        currentUser &&
+        currentUser.email.toLowerCase() ===
+          ADMIN_EMAIL.toLowerCase()
+      );
+
+    }
+
+    function updateAdminVisibility() {
+
+      const elements =
+        document.querySelectorAll(
+          ".admin-actions"
+        );
+
+      elements.forEach((element) => {
+
+        element.style.display =
+          isAdmin()
+            ? "flex"
+            : "none";
+
+      });
+
+    }
+
+    /*
+      ============================================================
+      FORMATTERS
+      ============================================================
+    */
+
+    function formatMoney(value) {
+
+      return new Intl.NumberFormat(
+        "id-ID",
+        {
+          style: "currency",
+          currency: "IDR",
+          maximumFractionDigits: 0
+        }
+      ).format(value || 0);
+
+    }
+
+    function escapeHTML(value) {
+
+      return String(value || "")
+        .replace(
+          /&/g,
+          "&amp;"
+        )
+        .replace(
+          /</g,
+          "&lt;"
+        )
+        .replace(
+          />/g,
+          "&gt;"
+        )
+        .replace(
+          /"/g,
+          "&quot;"
+        )
+        .replace(
+          /'/g,
+          "&#039;"
+        );
+
+    }
+
+  </script>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family:
+        Inter,
+        Arial,
+        Helvetica,
+        sans-serif;
+
+      background:
+        #f9fce9;
+
+      color:
+        #173d1b;
+
+      line-height:
+        1.6;
+    }
+
+    button {
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    /* =========================
+       NAVBAR
+    ========================== */
+
+    .navbar {
+
+      position: sticky;
+      top: 0;
+
+      z-index: 100;
+
+      height: 82px;
+
+      background:
+        rgba(255,255,255,.97);
+
+      border-bottom:
+        1px solid #dce8bd;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      padding:
+        10px 5%;
+
+      gap:
+        30px;
+    }
+
+    .logo-area {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        12px;
+
+      min-width:
+        260px;
+    }
+
+    .logo-area img {
+
+      width:
+        60px;
+
+      height:
+        60px;
+
+      object-fit:
+        contain;
+    }
+
+    .logo-text strong {
+
+      display:
+        block;
+
+      font-size:
+        18px;
+
+      color:
+        #21621d;
+    }
+
+    .logo-text span {
+
+      display:
+        block;
+
+      font-size:
+        11px;
+
+      color:
+        #71806d;
+    }
+
+    .nav-links {
+
+      display:
+        flex;
+
+      justify-content:
+        center;
+
+      gap:
+        5px;
+
+      flex:
+        1;
+    }
+
+    .nav-links button {
+
+      border:
+        0;
+
+      background:
+        transparent;
+
+      color:
+        #52604e;
+
+      padding:
+        10px 13px;
+
+      border-radius:
+        9px;
+
+      font-weight:
+        600;
+    }
+
+    .nav-links button:hover {
+
+      background:
+        #edf8c9;
+
+      color:
+        #276021;
+    }
+
+    .auth-area {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        8px;
+    }
+
+    .google-button,
+    .primary-button {
+
+      border:
+        0;
+
+      background:
+        #23611e;
+
+      color:
+        white;
+
+      padding:
+        11px 17px;
+
+      border-radius:
+        9px;
+
+      font-weight:
+        700;
+    }
+
+    .google-button:hover,
+    .primary-button:hover {
+
+      background:
+        #174b18;
+    }
+
+    .logout-button {
+
+      border:
+        1px solid #cbd9b7;
+
+      background:
+        white;
+
+      color:
+        #315a2e;
+
+      padding:
+        9px 12px;
+
+      border-radius:
+        8px;
+    }
+
+    #userInfo {
+
+      font-size:
+        11px;
+
+      color:
+        #687567;
+
+      max-width:
+        180px;
+
+      overflow:
+        hidden;
+
+      text-overflow:
+        ellipsis;
+
+      white-space:
+        nowrap;
+    }
+
+    /* =========================
+       HERO
+    ========================== */
+
+    .hero {
+
+      min-height:
+        520px;
+
+      padding:
+        80px 8%;
+
+      display:
+        grid;
+
+      grid-template-columns:
+        1.3fr .7fr;
+
+      align-items:
+        center;
+
+      gap:
+        50px;
+
+      background:
+        linear-gradient(
+          120deg,
+          #e5f6a9,
+          #faffef 60%,
+          #d9ef9a
+        );
+    }
+
+    .eyebrow {
+
+      color:
+        #557f29;
+
+      font-size:
+        11px;
+
+      font-weight:
+        800;
+
+      letter-spacing:
+        .14em;
+    }
+
+    .hero h1 {
+
+      color:
+        #174c1c;
+
+      font-size:
+        clamp(
+          44px,
+          6vw,
+          78px
+        );
+
+      line-height:
+        .98;
+
+      margin:
+        15px 0;
+    }
+
+    .hero p {
+
+      color:
+        #61705d;
+
+      font-size:
+        20px;
+    }
+
+    .hero-buttons {
+
+      margin-top:
+        30px;
+
+      display:
+        flex;
+
+      gap:
+        12px;
+    }
+
+    .hero-buttons a {
+
+      text-decoration:
+        none;
+
+      background:
+        #23611e;
+
+      color:
+        white;
+
+      padding:
+        13px 18px;
+
+      border-radius:
+        10px;
+
+      font-weight:
+        700;
+    }
+
+    .hero-buttons a.secondary {
+
+      background:
+        white;
+
+      color:
+        #23611e;
+
+      border:
+        1px solid #cbdab5;
+    }
+
+    .hero-card {
+
+      background:
+        white;
+
+      border:
+        1px solid #dce8c8;
+
+      padding:
+        35px;
+
+      border-radius:
+        24px;
+
+      box-shadow:
+        0 20px 60px rgba(
+          44,
+          77,
+          22,
+          .12
+        );
+    }
+
+    .hero-card .small {
+
+      color:
+        #75932f;
+
+      font-size:
+        11px;
+
+      font-weight:
+        800;
+
+      letter-spacing:
+        .15em;
+    }
+
+    .hero-card h3 {
+
+      color:
+        #22551f;
+
+      font-size:
+        29px;
+
+      line-height:
+        1.15;
+
+      margin:
+        12px 0;
+    }
+
+    .hero-card p {
+
+      font-size:
+        15px;
+    }
+
+    /* =========================
+       CONTENT
+    ========================== */
+
+    .container {
+
+      width:
+        min(
+          1120px,
+          90%
+        );
+
+      margin:
+        0 auto;
+    }
+
+    .about-grid {
+
+      margin-top:
+        -40px;
+
+      position:
+        relative;
+
+      display:
+        grid;
+
+      grid-template-columns:
+        1.2fr .8fr;
+
+      gap:
+        22px;
+    }
+
+    .card {
+
+      background:
+        white;
+
+      border:
+        1px solid #dfe9d1;
+
+      border-radius:
+        18px;
+
+      padding:
+        30px;
+
+      box-shadow:
+        0 12px 35px rgba(
+          50,
+          85,
+          20,
+          .07
+        );
+    }
+
+    .section {
+
+      padding:
+        80px 0 0;
+    }
+
+    .section-label {
+
+      color:
+        #62882f;
+
+      font-size:
+        11px;
+
+      font-weight:
+        800;
+
+      letter-spacing:
+        .13em;
+    }
+
+    h2 {
+
+      color:
+        #20521d;
+
+      font-size:
+        32px;
+
+      margin:
+        8px 0 20px;
+    }
+
+    .card p {
+
+      color:
+        #657261;
+
+      line-height:
+        1.8;
+    }
+
+    /* =========================
+       STATS
+    ========================== */
+
+    .stats {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap:
+        14px;
+    }
+
+    .stat {
+
+      padding:
+        17px;
+
+      background:
+        #f2f8dc;
+
+      border-radius:
+        12px;
+    }
+
+    .stat strong {
+
+      display:
+        block;
+
+      color:
+        #2c6324;
+
+      font-size:
+        20px;
+    }
+
+    .stat span {
+
+      color:
+        #778472;
+
+      font-size:
+        11px;
+    }
+
+    /* =========================
+       SECTION HEADER
+    ========================== */
+
+    .section-header {
+
+      display:
+        flex;
+
+      align-items:
+        end;
+
+      justify-content:
+        space-between;
+
+      margin-bottom:
+        25px;
+    }
+
+    .section-header button {
+
+      border:
+        0;
+
+      background:
+        #23611e;
+
+      color:
+        white;
+
+      padding:
+        12px 17px;
+
+      border-radius:
+        9px;
+
+      font-weight:
+        700;
+    }
+
+    /* =========================
+       TABLE
+    ========================== */
+
+    .table-wrapper {
+
+      background:
+        white;
+
+      border:
+        1px solid #dfe9d1;
+
+      border-radius:
+        18px;
+
+      overflow:
+        auto;
+
+      box-shadow:
+        0 12px 35px rgba(
+          50,
+          85,
+          20,
+          .07
+        );
+    }
+
+    table {
+
+      width:
+        100%;
+
+      min-width:
+        900px;
+
+      border-collapse:
+        collapse;
+    }
+
+    th {
+
+      background:
+        #eef7d5;
+
+      color:
+        #526448;
+
+      padding:
+        15px;
+
+      text-align:
+        left;
+
+      font-size:
+        11px;
+
+      text-transform:
+        uppercase;
+    }
+
+    td {
+
+      padding:
+        15px;
+
+      border-bottom:
+        1px solid #edf1e8;
+
+      font-size:
+        13px;
+
+      color:
+        #5f6b5c;
+    }
+
+    .income {
+
+      color:
+        #287229;
+
+      font-weight:
+        700;
+    }
+
+    .expense {
+
+      color:
+        #a64e31;
+
+      font-weight:
+        700;
+    }
+
+    /* =========================
+       DEPARTMENTS
+    ========================== */
+
+    #departmentContainer {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap:
+        20px;
+    }
+
+    .department-card {
+
+      background:
+        white;
+
+      border:
+        1px solid #dfe9d1;
+
+      border-radius:
+        18px;
+
+      padding:
+        28px;
+
+      box-shadow:
+        0 12px 35px rgba(
+          50,
+          85,
+          20,
+          .07
+        );
+    }
+
+    .department-header {
+
+      display:
+        flex;
+
+      justify-content:
+        space-between;
+
+      align-items:
+        center;
+    }
+
+    .department-month {
+
+      color:
+        #788473;
+
+      font-size:
+        12px;
+    }
+
+    .department-tag {
+
+      background:
+        #e8f4c5;
+
+      color:
+        #38682e;
+
+      padding:
+        6px 10px;
+
+      border-radius:
+        999px;
+
+      font-size:
+        11px;
+
+      font-weight:
+        700;
+    }
+
+    .department-card h3 {
+
+      color:
+        #245522;
+
+      font-size:
+        24px;
+
+      margin:
+        18px 0;
+    }
+
+    .department-card h4 {
+
+      color:
+        #55704c;
+
+      font-size:
+        11px;
+
+      text-transform:
+        uppercase;
+
+      letter-spacing:
+        .07em;
+
+      margin-top:
+        18px;
+    }
+
+    .department-card p {
+
+      color:
+        #647061;
+
+      font-size:
+        14px;
+
+      margin-top:
+        5px;
+    }
+
+    /* =========================
+       ADMIN
+    ========================== */
+
+    #adminPanel {
+
+      display:
+        none;
+
+      margin-top:
+        70px;
+    }
+
+    .admin-box {
+
+      border:
+        2px solid #cfe49b;
+
+      background:
+        #f8fce9;
+    }
+
+    .admin-title {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      margin-bottom:
+        25px;
+    }
+
+    .admin-badge {
+
+      background:
+        #dff34d;
+
+      color:
+        #24521c;
+
+      padding:
+        6px 10px;
+
+      border-radius:
+        999px;
+
+      font-size:
+        10px;
+
+      font-weight:
+        900;
+    }
+
+    .admin-grid {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap:
+        22px;
+
+      margin-top:
+        20px;
+    }
+
+    .admin-form {
+
+      display:
+        grid;
+
+      gap:
+        12px;
+    }
+
+    .admin-form label {
+
+      color:
+        #4f604a;
+
+      font-size:
+        12px;
+
+      font-weight:
+        700;
+    }
+
+    .admin-form input,
+    .admin-form textarea {
+
+      width:
+        100%;
+
+      padding:
+        11px;
+
+      margin-top:
+        5px;
+
+      border:
+        1px solid #cad8b9;
+
+      border-radius:
+        8px;
+
+      background:
+        white;
+
+      color:
+        #203c20;
+
+      resize:
+        vertical;
+    }
+
+    .admin-form button {
+
+      border:
+        0;
+
+      background:
+        #23611e;
+
+      color:
+        white;
+
+      padding:
+        12px;
+
+      border-radius:
+        8px;
+
+      font-weight:
+        700;
+    }
+
+    .small-button {
+
+      border:
+        1px solid #cbd8bc;
+
+      background:
+        white;
+
+      color:
+        #35622d;
+
+      padding:
+        6px 9px;
+
+      border-radius:
+        6px;
+
+      font-size:
+        11px;
+    }
+
+    .small-button.delete {
+
+      color:
+        #a23d2a;
+
+      border-color:
+        #e0b9ae;
+    }
+
+    .admin-actions {
+
+      gap:
+        6px;
+
+      margin-top:
+        10px;
+    }
+
+    /* =========================
+       FOOTER
+    ========================== */
+
+    footer {
+
+      margin-top:
+        100px;
+
+      background:
+        #173d18;
+
+      color:
+        white;
+
+      padding:
+        40px 8%;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        15px;
+    }
+
+    footer img {
+
+      width:
+        60px;
+
+      height:
+        60px;
+
+      object-fit:
+        contain;
+    }
+
+    footer span {
+
+      display:
+        block;
+
+      color:
+        #c8d8bb;
+
+      font-size:
+        12px;
+
+      margin-top:
+        4px;
+    }
+
+    /* =========================
+       MOBILE
+    ========================== */
+
+    @media(max-width:900px) {
+
+      .navbar {
+
+        height:
+          auto;
+
+        flex-wrap:
+          wrap;
+
+        padding:
+          10px 4%;
+      }
+
+      .nav-links {
+
+        order:
+          3;
+
+        width:
+          100%;
+
+        overflow:
+          auto;
+
+        justify-content:
+          flex-start;
+      }
+
+      .hero {
+
+        grid-template-columns:
+          1fr;
+
+        padding:
+          60px 6%;
+      }
+
+      .about-grid {
+
+        grid-template-columns:
+          1fr;
+
+        margin-top:
+          20px;
+      }
+
+      #departmentContainer {
+
+        grid-template-columns:
+          1fr;
+      }
+
+      .admin-grid {
+
+        grid-template-columns:
+          1fr;
+      }
+
+    }
+
+    @media(max-width:600px) {
+
+      .logo-text span {
+
+        display:
+          none;
+      }
+
+      .auth-area #userInfo {
+
+        display:
+          none;
+      }
+
+      .hero h1 {
+
+        font-size:
+          45px;
+      }
+
+      .hero-buttons {
+
+        flex-direction:
+          column;
+      }
+
+      .section-header {
+
+        align-items:
+          flex-start;
+
+        flex-direction:
+          column;
+
+        gap:
+          15px;
+      }
+
+      .stats {
+
+        grid-template-columns:
+          1fr;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================================================
+       NAVBAR
+  ========================================================== -->
+
+  <header class="navbar">
+
+    <div class="logo-area">
+
+      <!-- Put your uploaded logo in the same folder as index.html -->
+      <!-- Rename it to: bm400-logo.png -->
+
+      <img
+        src="bm400-logo.png"
+        alt="Bakti Mulya 400"
+      />
+
+      <div class="logo-text">
+
+        <strong>
+          BM 400
+        </strong>
+
+        <span>
+          Upper Secondary Student Representative Council
+        </span>
+
+      </div>
+
+    </div>
+
+    <nav class="nav-links">
+
+      <button onclick="scrollToSection('home')">
+        Home
+      </button>
+
+      <button onclick="scrollToSection('money')">
+        Money Management
+      </button>
+
+      <button onclick="scrollToSection('departments')">
+        Departments
+      </button>
+
+      <button onclick="scrollToSection('adminPanel')">
+        Admin
+      </button>
+
+    </nav>
+
+    <div class="auth-area">
+
+      <span id="userInfo"></span>
+
+      <button
+        id="loginButton"
+        class="google-button"
+        onclick="loginWithGoogle()"
+      >
+        Sign in with Google
+      </button>
+
+      <button
+        id="logoutButton"
+        class="logout-button"
+        onclick="logout()"
+        style="display:none"
+      >
+        Log out
+      </button>
+
+    </div>
+
+  </header>
+
+
+  <!-- =========================================================
+       HERO
+  ========================================================== -->
+
+  <section
+    id="home"
+    class="hero"
+  >
+
+    <div>
+
+      <span class="eyebrow">
+        STUDENT LEADERSHIP · TRANSPARENCY · COLLABORATION
+      </span>
+
+      <h1>
+        Student Representative Council
+      </h1>
+
+      <p>
+        Upper Secondary School
+        <br />
+        Bakti Mulya 400 Cibubur
+      </p>
+
+      <div class="hero-buttons">
+
+        <a href="#money">
+          View Money Reports
+        </a>
+
+        <a
+          href="#departments"
+          class="secondary"
+        >
+          Department Reports
+        </a>
+
+      </div>
+
+    </div>
+
+    <div class="hero-card">
+
+      <span class="small">
+        BM 400 SRC PORTAL
+      </span>
+
+      <h3>
+        Student-led.
+        <br />
+        Accountable.
+        <br />
+        Connected.
+      </h3>
+
+      <p>
+        A central platform for the Upper Secondary
+        Student Representative Council to share
+        information, financial reports, and department
+        activities.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================================================
+       ABOUT
+  ========================================================== -->
+
+  <section class="container about-grid">
+
+    <article class="card">
+
+      <span class="section-label">
+        ABOUT BM 400
+      </span>
+
+      <h2 id="schoolTitle">
+        Bakti Mulya 400 Cibubur
+      </h2>
+
+      <p id="schoolDescription">
+        Bakti Mulya 400 Cibubur is an educational
+        community that supports students in developing
+        academic excellence, leadership, character,
+        collaboration, and responsibility.
+        The Upper Secondary Student Representative
+        Council provides a student-led platform for
+        representation, communication, activities,
+        and accountability.
+      </p>
+
+    </article>
+
+
+    <article class="card">
+
+      <span class="section-label">
+        SRC AT A GLANCE
+      </span>
+
+      <h2>
+        Transparency
+      </h2>
+
+      <div class="stats">
+
+        <div class="stat">
+
+          <strong>
+            Monthly
+          </strong>
+
+          <span>
+            Financial reporting
+          </span>
+
+        </div>
+
+        <div class="stat">
+
+          <strong>
+            Student
+          </strong>
+
+          <span>
+            Department activities
+          </span>
+
+        </div>
+
+        <div class="stat">
+
+          <strong>
+            Open
+          </strong>
+
+          <span>
+            Information access
+          </span>
+
+        </div>
+
+        <div class="stat">
+
+          <strong>
+            SRC
+          </strong>
+
+          <span>
+            Student leadership
+          </span>
+
+        </div>
+
+      </div>
+
+    </article>
+
+  </section>
+
+
+  <!-- =========================================================
+       MONEY MANAGEMENT
+  ========================================================== -->
+
+  <section
+    id="money"
+    class="container section"
+  >
+
+    <div class="section-header">
+
+      <div>
+
+        <span class="section-label">
+          FINANCIAL TRANSPARENCY
+        </span>
+
+        <h2>
+          Monthly SRC Money Management
+        </h2>
+
+      </div>
+
+    </div>
+
+
+    <div class="table-wrapper">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>
+              Month
+            </th>
+
+            <th>
+              Opening Balance
+            </th>
+
+            <th>
+              Income
+            </th>
+
+            <th>
+              Expenses
+            </th>
+
+            <th>
+              Closing Balance
+            </th>
+
+            <th>
+              Notes
+            </th>
+
+            <th class="admin-actions">
+              Admin
+            </th>
+
+          </tr>
+
+        </thead>
+
+        <tbody id="moneyTable">
+
+          <tr>
+
+            <td colspan="7"
+                style="text-align:center">
+
+              Loading reports...
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================================================
+       DEPARTMENTS
+  ========================================================== -->
+
+  <section
+    id="departments"
+    class="container section"
+  >
+
+    <div class="section-header">
+
+      <div>
+
+        <span class="section-label">
+          STUDENT ACTIVITIES
+        </span>
+
+        <h2>
+          SRC Department Work Reports
+        </h2>
+
+      </div>
+
+    </div>
+
+
+    <div id="departmentContainer">
+
+      <div class="card">
+
+        Loading department reports...
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================================================
+       ADMIN PANEL
+  ========================================================== -->
+
+  <section
+    id="adminPanel"
+    class="container section"
+  >
+
+    <div class="card admin-box">
+
+      <div class="admin-title">
+
+        <div>
+
+          <span class="section-label">
+            ADMIN CONTROL
+          </span>
+
+          <h2>
+            SRC Website Management
+          </h2>
+
+        </div>
+
+        <span class="admin-badge">
+          ADMIN
+        </span>
+
+      </div>
+
+
+      <p style="margin-bottom:25px">
+
+        Logged in as:
+        <strong>
+          src.hs@baktimulya400cibubur.sch.id
+        </strong>
+
+        <br />
+
+        This account can manage the SRC website,
+        monthly financial reports, and department
+        reports.
+
+      </p>
+
+
+      <div class="admin-grid">
+
+
+        <!-- INTRODUCTION FORM -->
+
+        <div class="card">
+
+          <h3 style="margin-bottom:15px">
+
+            Edit Website Introduction
+
+          </h3>
+
+          <form
+            class="admin-form"
+            onsubmit="
+              event.preventDefault();
+              saveIntroduction();
+            "
+          >
+
+            <label>
+
+              School Title
+
+              <input
+                id="adminIntroTitle"
+                type="text"
+                placeholder="Bakti Mulya 400 Cibubur"
+              />
+
+            </label>
+
+
+            <label>
+
+              Introduction
+
+              <textarea
+                id="adminIntroDescription"
+                rows="7"
+                placeholder="Write the BM 400 introduction..."
+              ></textarea>
+
+            </label>
+
+
+            <button type="submit">
+
+              Save Introduction
+
+            </button>
+
+          </form>
+
+        </div>
+
+
+        <!-- MONEY FORM -->
+
+        <div class="card">
+
+          <h3 style="margin-bottom:15px">
+
+            Add Monthly Money Report
+
+          </h3>
+
+          <form
+            id="moneyForm"
+            class="admin-form"
+            onsubmit="
+              event.preventDefault();
+              addMoney();
+            "
+          >
+
+            <label>
+
+              Month
+
+              <input
+                id="moneyMonth"
+                placeholder="September 2026"
+                required
+              />
+
+            </label>
+
+
+            <label>
+
+              Month Key
+
+              <input
+                id="moneyMonthKey"
+                placeholder="2026-09"
+                required
+              />
+
+            </label>
+
+
+            <label>
+
+              Opening Balance
+
+              <input
+                id="moneyOpening"
+                type="number"
+                value="0"
+              />
+
+            </label>
+
+
+            <label>
+
+              Income
+
+              <input
+                id="moneyIncome"
+                type="number"
+                value="0"
+              />
+
+            </label>
+
+
+            <label>
+
+              Expenses
+
+              <input
+                id="moneyExpense"
+                type="number"
+                value="0"
+              />
+
+            </label>
+
+
+            <label>
+
+              Closing Balance
+
+              <input
+                id="moneyClosing"
+                type="number"
+                value="0"
+              />
+
+            </label>
+
+
+            <label>
+
+              Notes
+
+              <textarea
+                id="moneyNotes"
+                rows="3"
+              ></textarea>
+
+            </label>
+
+
+            <button type="submit">
+
+              Add Financial Report
+
+            </button>
+
+          </form>
+
+        </div>
+
+
+        <!-- DEPARTMENT FORM -->
+
+        <div class="card">
+
+          <h3 style="margin-bottom:15px">
+
+            Add Department Report
+
+          </h3>
+
+          <form
+            id="departmentForm"
+            class="admin-form"
+            onsubmit="
+              event.preventDefault();
+              addDepartment();
+            "
+          >
+
+            <label>
+
+              Department
+
+              <input
+                id="departmentName"
+                placeholder="Events Department"
+                required
+              />
+
+            </label>
+
+
+            <label>
+
+              Month
+
+              <input
+                id="departmentMonth"
+                placeholder="September 2026"
+                required
+              />
+
+            </label>
+
+
+            <label>
+
+              Month Key
+
+              <input
+                id="departmentMonthKey"
+                placeholder="2026-09"
+                required
+              />
+
+            </label>
+
+
+            <label>
+
+              Report Title
+
+              <input
+                id="departmentTitle"
+                placeholder="September Activity Report"
+                required
+              />
+
+            </label>
+
+
+            <label>
+
+              Work Summary
+
+              <textarea
+                id="departmentSummary"
+                rows="4"
+                required
+              ></textarea>
+
+            </label>
+
+
+            <label>
+
+              Achievements
+
+              <textarea
+                id="departmentAchievements"
+                rows="4"
+                required
+              ></textarea>
+
+            </label>
+
+
+            <label>
+
+              Next Plan
+
+              <textarea
+                id="departmentNextPlan"
+                rows="4"
+                required
+              ></textarea>
+
+            </label>
+
+
+            <button type="submit">
+
+              Add Department Report
+
+            </button>
+
+          </form>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================================================
+       FOOTER
+  ========================================================== -->
+
+  <footer>
+
+    <img
+      src="bm400-logo.png"
+      alt="BM 400"
+    />
+
+    <div>
+
+      <strong>
+        BM 400 Upper Secondary SRC
+      </strong>
+
+      <span>
+        Bakti Mulya 400 Cibubur ·
+        Student Representative Council
+      </span>
+
+    </div>
+
+  </footer>
+
+
+  <!-- =========================================================
+       NAVIGATION SCRIPT
+  ========================================================== -->
+
+  <script>
+
+    function scrollToSection(id) {
+
+      const element =
+        document.getElementById(id);
+
+      if (element) {
+
+        element.scrollIntoView({
+          behavior: "smooth"
+        });
+
+      }
+
+    }
+
+  </script>
+
+</body>
+</html>

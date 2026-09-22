@@ -73,17 +73,18 @@
     <header class="sticky top-0 z-40 bg-white border-b border-slate-200 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
-                <!-- School & SRC Brand Logo -->
+                <!-- School & SRC Brand Logo (Upper Left Corner) -->
                 <div class="flex items-center space-x-3 cursor-pointer" onclick="scrollToSection('hero')">
-                    <div class="w-12 h-12 rounded-xl bg-bmgreen text-slate-900 font-bold flex items-center justify-center shadow-md border-2 border-bmyellow">
-                        <i class="fa-solid font-bold text-xl text-slate-900">BM</i>
+                    <!-- Dynamic Header Logo Container -->
+                    <div class="flex items-center space-x-2 bg-slate-50 p-1.5 rounded-xl border border-slate-200 shadow-sm">
+                        <img id="site-logo-img" src="https://placehold.co/180x60/30B457/FFF200?text=BM+400+Cibubur" alt="BM 400 & Cambridge Logo" class="h-10 w-auto object-contain rounded-md" onerror="this.onerror=null; this.src='https://placehold.co/180x60/30B457/FFF200?text=BM+400+Cibubur';">
                     </div>
-                    <div>
+                    <div class="hidden sm:block">
                         <div class="flex items-center space-x-2">
-                            <span class="font-extrabold text-lg tracking-tight text-slate-900">SRC BM 400</span>
-                            <span class="bg-bmyellow text-slate-900 text-xs font-bold px-2 py-0.5 rounded-full border border-yellow-400">Cibubur</span>
+                            <span class="font-extrabold text-base lg:text-lg tracking-tight text-slate-900">SRC BM 400</span>
+                            <span class="bg-bmyellow text-slate-900 text-[10px] sm:text-xs font-bold px-2 py-0.5 rounded-full border border-yellow-400">Cibubur</span>
                         </div>
-                        <p class="text-xs text-slate-500 font-medium">Upper Secondary School Council</p>
+                        <p class="text-[11px] text-slate-500 font-medium">Upper Secondary School Council</p>
                     </div>
                 </div>
 
@@ -132,11 +133,16 @@
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <div class="flex items-center space-x-2">
                 <span class="bg-bmgreen text-white text-xs px-2 py-0.5 rounded font-extrabold shadow-sm">ADMIN ACTIVE</span>
-                <span>Logged in as official SRC Admin (<code class="bg-white/80 px-1.5 py-0.5 rounded border border-yellow-500 font-mono text-slate-900">src.hs@baktimulya400cibubur.sch.id</code>). You can edit financial rows & department reports!</span>
+                <span>Logged in as official SRC Admin (<code class="bg-white/80 px-1.5 py-0.5 rounded border border-yellow-500 font-mono text-slate-900">src.hs@baktimulya400cibubur.sch.id</code>). You can edit financial rows, media images & department reports!</span>
             </div>
-            <button onclick="logoutAdmin()" class="text-xs bg-slate-900 text-white hover:bg-slate-800 px-2.5 py-1 rounded-md transition-colors">
-                Sign Out
-            </button>
+            <div class="flex items-center gap-2">
+                <button onclick="openImageModal()" class="text-xs bg-bmgreen text-white hover:bg-bmgreen-hover px-2.5 py-1 rounded-md transition-colors flex items-center gap-1 shadow-sm">
+                    <i class="fa-solid fa-image"></i> Change Images
+                </button>
+                <button onclick="logoutAdmin()" class="text-xs bg-slate-900 text-white hover:bg-slate-800 px-2.5 py-1 rounded-md transition-colors">
+                    Sign Out
+                </button>
+            </div>
         </div>
     </div>
 
@@ -150,16 +156,16 @@
                     <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
                         <div class="inline-flex items-center space-x-2 bg-white/20 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/30 text-xs sm:text-sm font-semibold text-bmyellow shadow-sm">
                             <i class="fa-solid fa-graduation-cap text-bmyellow"></i>
-                            <span>Official Student Representative Council Portal</span>
+                            <span>Cambridge International & National Plus High School</span>
                         </div>
                         
                         <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
-                            Upper Secondary School <br>
-                            <span class="text-bmyellow drop-shadow-md">Bakti Mulya 400 Cibubur</span>
+                            Student Representative Council <br>
+                            <span class="text-bmyellow drop-shadow-md">BM 400 Cibubur</span>
                         </h1>
                         
                         <p class="text-slate-100 text-base sm:text-lg max-w-2xl font-normal leading-relaxed">
-                            Welcome to the official portal of the Student Representative Council (SRC) / MPK-OSIS Upper Secondary School Bakti Mulya 400 Cibubur. Fostering academic leadership, integrity, student voice, and vibrant campus culture.
+                            Welcome to the official digital hub of the Student Representative Council (SRC / MPK-OSIS) Upper Secondary School Bakti Mulya 400 Cibubur. Driven by Islamic values, academic excellence, and international Cambridge standards, our council empowers student leadership across 8 specialized executive departments.
                         </p>
 
                         <div class="pt-4 flex flex-wrap justify-center lg:justify-start gap-4">
@@ -174,37 +180,46 @@
                         </div>
                     </div>
 
-                    <!-- Intro Highlights Card -->
+                    <!-- Intro Highlights Card & Editable Hero Graphic -->
                     <div class="lg:col-span-5">
-                        <div id="about" class="glass-card rounded-2xl p-6 sm:p-8 text-slate-800 shadow-2xl border-2 border-bmyellow relative">
+                        <div id="about" class="glass-card rounded-2xl p-6 sm:p-8 text-slate-800 shadow-2xl border-2 border-bmyellow relative space-y-4">
                             <div class="absolute -top-3 right-6 bg-bmgreen text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow">
-                                School Profile
+                                Campus Showcase
                             </div>
-                            <h3 class="text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
+
+                            <!-- Dynamic Editable Hero Graphic -->
+                            <div class="relative overflow-hidden rounded-xl border border-slate-200 shadow-inner group">
+                                <img id="site-hero-banner" src="https://placehold.co/600x320/30B457/FFF200?text=BM+400+Cibubur+Campus+Life" alt="BM 400 Campus & Student Life" class="w-full h-44 object-cover rounded-xl transition-transform duration-500 group-hover:scale-105" onerror="this.onerror=null; this.src='https://placehold.co/600x320/30B457/FFF200?text=BM+400+Cibubur+Campus+Life';">
+                                <div class="absolute bottom-2 left-2 bg-slate-900/80 text-white text-[10px] font-semibold px-2.5 py-1 rounded-md backdrop-blur-sm">
+                                    <i class="fa-solid fa-camera text-bmyellow mr-1"></i> SMA Bakti Mulya 400 Cibubur
+                                </div>
+                            </div>
+
+                            <h3 class="text-xl font-bold text-slate-900 flex items-center gap-2">
                                 <i class="fa-solid fa-school text-bmgreen"></i>
-                                About BM 400 Cibubur
+                                About SRC BM 400 Governance
                             </h3>
-                            <p class="text-sm text-slate-600 leading-relaxed mb-4">
-                                SMA Bakti Mulya 400 Cibubur is a premier Islamic national plus senior high school dedicated to preparing globally capable, religious, technologically fluent, and character-driven leaders.
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                The Student Representative Council serves as the primary bridge between the student body, faculty, and administration. By organizing impactful academic, religious, social, and creative work programs, the council develops globally competitive leaders with noble character.
                             </p>
 
-                            <div class="space-y-3 border-t border-slate-200 pt-4">
-                                <div class="flex items-start gap-3">
-                                    <div class="p-2 bg-bmgreen-light text-bmgreen rounded-lg shrink-0 mt-0.5">
-                                        <i class="fa-solid fa-bullseye"></i>
+                            <div class="space-y-2.5 border-t border-slate-200 pt-3">
+                                <div class="flex items-start gap-2.5">
+                                    <div class="p-1.5 bg-bmgreen-light text-bmgreen rounded-lg shrink-0 mt-0.5">
+                                        <i class="fa-solid fa-bullseye text-xs"></i>
                                     </div>
                                     <div>
-                                        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-900">SRC Vision</h4>
-                                        <p class="text-xs text-slate-600">To build a transparent, creative, and collaborative student governance that empowers every student's potential.</p>
+                                        <h4 class="text-xs font-bold text-slate-900">SRC Vision</h4>
+                                        <p class="text-[11px] text-slate-600">Building transparent, collaborative, and student-driven school governance.</p>
                                     </div>
                                 </div>
-                                <div class="flex items-start gap-3">
-                                    <div class="p-2 bg-bmyellow-light text-bmyellow-text rounded-lg shrink-0 mt-0.5 border border-yellow-300">
-                                        <i class="fa-solid fa-shield-halved"></i>
+                                <div class="flex items-start gap-2.5">
+                                    <div class="p-1.5 bg-bmyellow-light text-bmyellow-text rounded-lg shrink-0 mt-0.5 border border-yellow-300">
+                                        <i class="fa-solid fa-shield-halved text-xs"></i>
                                     </div>
                                     <div>
-                                        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-900">SRC Mission</h4>
-                                        <p class="text-xs text-slate-600">Upholding accountability through public monthly financial reports and active department work execution.</p>
+                                        <h4 class="text-xs font-bold text-slate-900">Department Synergy</h4>
+                                        <p class="text-[11px] text-slate-600">8 active departments coordinating monthly budgets and public activity reports.</p>
                                     </div>
                                 </div>
                             </div>
@@ -259,10 +274,14 @@
                     </div>
                     
                     <div class="flex items-center gap-2">
-                        <!-- Add Row Button (Always clickable or triggers admin check) -->
+                        <!-- Add Row Button -->
                         <button onclick="handleAddNewRow()" class="bg-bmgreen hover:bg-bmgreen-hover text-white text-xs font-bold px-3.5 py-2 rounded-lg shadow transition-all flex items-center gap-1.5 border border-green-600">
                             <i class="fa-solid fa-plus"></i>
                             <span>Add Financial Entry</span>
+                        </button>
+
+                        <button id="manage-images-btn" onclick="openImageModal()" class="hidden bg-bmyellow hover:bg-yellow-300 text-slate-900 text-xs font-bold px-3 py-2 rounded-lg transition-colors border border-yellow-400">
+                            <i class="fa-solid fa-image mr-1"></i> Manage Site Images
                         </button>
                         
                         <button onclick="resetFinancialData()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-semibold px-3 py-2 rounded-lg transition-colors">
@@ -450,48 +469,69 @@
                 <div class="w-16 h-16 bg-bmgreen-light border-2 border-bmyellow text-bmgreen rounded-2xl flex items-center justify-center mx-auto mb-3 shadow">
                     <i class="fa-brands fa-google text-2xl text-bmgreen"></i>
                 </div>
-                <h3 class="text-xl font-extrabold text-slate-900">SRC Portal Authentication</h3>
-                <p class="text-xs text-slate-500 mt-1">Sign in using Google or official SRC account credentials</p>
+                <h3 class="text-xl font-extrabold text-slate-900">SRC Portal Sign In</h3>
+                <p class="text-xs text-slate-500 mt-1">Sign in with your Google account or institutional email</p>
             </div>
 
             <!-- Login Form / Google Flow -->
             <div class="space-y-4">
                 
-                <!-- Google Direct OAuth Simulation Button -->
-                <button onclick="simulatedGoogleLogin('src.hs@baktimulya400cibubur.sch.id')" class="w-full bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-bold py-3 px-4 rounded-xl shadow-sm flex items-center justify-center gap-3 transition-all">
-                    <svg class="w-5 h-5" viewBox="0 0 24 24">
-                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
-                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
-                    </svg>
-                    <span>Sign in as Admin (src.hs@...)</span>
-                </button>
-
-                <div class="relative flex py-2 items-center">
-                    <div class="flex-grow border-t border-slate-200"></div>
-                    <span class="flex-shrink mx-3 text-slate-400 text-xs">Or custom email login</span>
-                    <div class="flex-grow border-t border-slate-200"></div>
-                </div>
-
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">Email Address</label>
-                    <input type="email" id="custom-email-input" placeholder="src.hs@baktimulya400cibubur.sch.id" value="src.hs@baktimulya400cibubur.sch.id" class="w-full border border-slate-300 rounded-xl p-3 text-sm focus:outline-none focus:border-bmgreen">
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Enter Your Email Address</label>
+                    <input type="email" id="custom-email-input" placeholder="e.g. yourname@gmail.com or student@baktimulya400.sch.id" value="" class="w-full border border-slate-300 rounded-xl p-3 text-sm focus:outline-none focus:border-bmgreen">
                 </div>
 
-                <button onclick="handleCustomEmailLogin()" class="w-full bg-bmgreen hover:bg-bmgreen-hover text-white font-bold py-3 rounded-xl shadow transition-all border border-green-600">
-                    Sign In
+                <button onclick="handleCustomEmailLogin()" class="w-full bg-bmgreen hover:bg-bmgreen-hover text-white font-bold py-3 rounded-xl shadow transition-all border border-green-600 flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-google text-bmyellow"></i>
+                    <span>Sign In with Email</span>
                 </button>
 
                 <div class="bg-yellow-50 border border-yellow-300 rounded-xl p-3 text-xs text-slate-700 space-y-1">
                     <p class="font-bold text-slate-900 flex items-center gap-1">
-                        <i class="fa-solid fa-key text-bmyellow-text"></i> Admin Privilege Rule:
+                        <i class="fa-solid fa-shield-halved text-bmyellow-text"></i> Admin Rights Notice:
                     </p>
                     <p>
-                        Only user logging in with email <code class="bg-white px-1 py-0.5 rounded border font-mono">src.hs@baktimulya400cibubur.sch.id</code> will be granted full Admin rights to edit money management rows & department reports!
+                        To access editing rights for money management rows, website images, and department reports, you must sign in with the official SRC email account.
                     </p>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Edit Website Images Modal (Admin Only) -->
+    <div id="image-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border-2 border-bmgreen relative">
+            <button onclick="closeImageModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-2">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+
+            <h3 class="text-xl font-extrabold text-slate-900 mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-images text-bmgreen"></i>
+                <span>Update Website Images & Logos</span>
+            </h3>
+
+            <form id="image-form" onsubmit="saveSiteImages(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Header Logo URL (Upper Left Corner)</label>
+                    <input type="url" id="img-logo-url" required placeholder="https://example.com/logo.png" class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:outline-none focus:border-bmgreen">
+                    <p class="text-[10px] text-slate-400 mt-1">Direct link to official BM 400 + Cambridge logo graphic.</p>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Hero Banner Showcase Image URL</label>
+                    <input type="url" id="img-hero-url" required placeholder="https://example.com/campus.jpg" class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:outline-none focus:border-bmgreen">
+                    <p class="text-[10px] text-slate-400 mt-1">Photo of Upper Secondary School Bakti Mulya 400 Cibubur campus/activities.</p>
+                </div>
+
+                <div class="flex justify-end space-x-3 pt-2">
+                    <button type="button" onclick="closeImageModal()" class="px-4 py-2.5 rounded-xl border border-slate-300 text-slate-700 text-sm font-semibold hover:bg-slate-100">
+                        Cancel
+                    </button>
+                    <button type="submit" class="px-5 py-2.5 rounded-xl bg-bmgreen text-white text-sm font-bold shadow hover:bg-bmgreen-hover">
+                        Save Changes
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -603,6 +643,14 @@
     <script>
         // Official Admin Constant Email
         const ADMIN_EMAIL = "src.hs@baktimulya400cibubur.sch.id";
+
+        // Default Site Image Assets
+        const defaultSiteImages = {
+            logo: "https://placehold.co/220x70/30B457/FFF200?text=BM+400+Cibubur",
+            hero: "https://placehold.co/600x320/30B457/FFF200?text=BM+400+Cibubur+Campus+Life"
+        };
+
+        let siteImages = { ...defaultSiteImages };
 
         // Current Application State
         let currentUser = null; // { email: string, isAdmin: boolean }
@@ -722,6 +770,16 @@
 
         // Load Initial State from LocalStorage or Defaults
         function initState() {
+            // Load Site Images
+            const savedImages = localStorage.getItem('bm400_site_images');
+            if (savedImages) {
+                siteImages = JSON.parse(savedImages);
+            } else {
+                siteImages = { ...defaultSiteImages };
+                saveImagesToStorage();
+            }
+            applySiteImages();
+
             const savedFin = localStorage.getItem('bm400_financial_records');
             if (savedFin) {
                 financialRecords = JSON.parse(savedFin);
@@ -748,6 +806,46 @@
             renderDepartments();
         }
 
+        function saveImagesToStorage() {
+            localStorage.setItem('bm400_site_images', JSON.stringify(siteImages));
+        }
+
+        function applySiteImages() {
+            const logoElem = document.getElementById('site-logo-img');
+            const heroElem = document.getElementById('site-hero-banner');
+            if (logoElem && siteImages.logo) logoElem.src = siteImages.logo;
+            if (heroElem && siteImages.hero) heroElem.src = siteImages.hero;
+        }
+
+        function openImageModal() {
+            if (!currentUser || !currentUser.isAdmin) {
+                openAuthModal();
+                showToast('Admin privileges required to edit images!', 'error');
+                return;
+            }
+            document.getElementById('img-logo-url').value = siteImages.logo;
+            document.getElementById('img-hero-url').value = siteImages.hero;
+            document.getElementById('image-modal').classList.remove('hidden');
+        }
+
+        function closeImageModal() {
+            document.getElementById('image-modal').classList.add('hidden');
+        }
+
+        function saveSiteImages(e) {
+            e.preventDefault();
+            const logoUrl = document.getElementById('img-logo-url').value.trim();
+            const heroUrl = document.getElementById('img-hero-url').value.trim();
+
+            if (logoUrl) siteImages.logo = logoUrl;
+            if (heroUrl) siteImages.hero = heroUrl;
+
+            saveImagesToStorage();
+            applySiteImages();
+            closeImageModal();
+            showToast('Website images updated successfully!', 'success');
+        }
+
         function saveFinancialToStorage() {
             localStorage.setItem('bm400_financial_records', JSON.stringify(financialRecords));
         }
@@ -758,6 +856,7 @@
 
         // Authentication Handlers
         function openAuthModal() {
+            document.getElementById('custom-email-input').value = ""; // Always clear pre-filled text
             document.getElementById('auth-modal').classList.remove('hidden');
         }
 
@@ -765,31 +864,29 @@
             document.getElementById('auth-modal').classList.add('hidden');
         }
 
-        function simulatedGoogleLogin(email) {
+        function handleCustomEmailLogin() {
+            const emailInput = document.getElementById('custom-email-input').value.trim();
+            if (!emailInput) {
+                showToast('Please enter your email address.', 'error');
+                return;
+            }
+
             currentUser = {
-                email: email,
-                isAdmin: email.toLowerCase() === ADMIN_EMAIL.toLowerCase()
+                email: emailInput,
+                isAdmin: emailInput.toLowerCase() === ADMIN_EMAIL.toLowerCase()
             };
+
             localStorage.setItem('bm400_user', JSON.stringify(currentUser));
             closeAuthModal();
             updateAuthUI();
             renderFinancialTable();
             renderDepartments();
-            
-            if (currentUser.isAdmin) {
-                showToast(`Welcome Admin (${ADMIN_EMAIL})! Edit privileges granted.`, 'success');
-            } else {
-                showToast(`Signed in as ${email}`, 'info');
-            }
-        }
 
-        function handleCustomEmailLogin() {
-            const emailInput = document.getElementById('custom-email-input').value.trim();
-            if (!emailInput) {
-                showToast('Please enter a valid email address.', 'error');
-                return;
+            if (currentUser.isAdmin) {
+                showToast(`Welcome Admin (${ADMIN_EMAIL})! Edit rights active.`, 'success');
+            } else {
+                showToast(`Signed in as ${emailInput}`, 'info');
             }
-            simulatedGoogleLogin(emailInput);
         }
 
         function logoutAdmin() {
@@ -807,6 +904,7 @@
             const userEmailDisplay = document.getElementById('user-email-display');
             const userRoleDot = document.getElementById('user-role-dot');
             const authBtnText = document.getElementById('auth-btn-text');
+            const manageImagesBtn = document.getElementById('manage-images-btn');
 
             if (currentUser) {
                 userStatusBadge.classList.remove('hidden');
@@ -814,16 +912,19 @@
 
                 if (currentUser.isAdmin) {
                     adminNoticeBar.classList.remove('hidden');
+                    if (manageImagesBtn) manageImagesBtn.classList.remove('hidden');
                     userRoleDot.className = "w-2 h-2 rounded-full bg-bmgreen animate-pulse";
                     authBtnText.innerText = "Admin Account";
                 } else {
                     adminNoticeBar.classList.add('hidden');
+                    if (manageImagesBtn) manageImagesBtn.classList.add('hidden');
                     userRoleDot.className = "w-2 h-2 rounded-full bg-slate-400";
                     authBtnText.innerText = "Signed In";
                 }
             } else {
                 adminNoticeBar.classList.add('hidden');
                 userStatusBadge.classList.add('hidden');
+                if (manageImagesBtn) manageImagesBtn.classList.add('hidden');
                 authBtnText.innerText = "Sign In / Admin";
             }
         }

@@ -103,6 +103,13 @@
 
                 <!-- Auth / Admin Actions -->
                 <div class="flex items-center space-x-3">
+                    <!-- Real-time Cloud Sync Status Badge -->
+                    <div id="cloud-status-badge" class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 text-[11px] font-bold border border-emerald-200">
+                        <span class="w-2 h-2 rounded-full bg-bmgreen animate-ping"></span>
+                        <i class="fa-solid fa-cloud text-bmgreen"></i>
+                        <span id="cloud-status-text">Cloud Live</span>
+                    </div>
+
                     <div id="user-status-badge" class="hidden md:flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-slate-100 text-xs font-medium border">
                         <span id="user-role-dot" class="w-2 h-2 rounded-full bg-slate-400"></span>
                         <span id="user-email-display" class="text-slate-600 truncate max-w-[150px]">Guest Mode</span>
@@ -671,21 +678,22 @@
         import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Global Firebase variables provided by environment or default appId
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'src-bm400-cibubur-default';
+        // Global Firebase variables provided by environment or fallback appId
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'src-bm400-cibubur-default-v2';
         let db = null;
         let auth = null;
 
         window.cloudSyncEnabled = false;
 
         async function initCloudFirebase() {
-            if (typeof __firebase_config !== 'undefined' && __firebase_config) {
-                try {
+            try {
+                if (typeof __firebase_config !== 'undefined' && __firebase_config) {
                     const firebaseConfig = JSON.parse(__firebase_config);
                     const app = initializeApp(firebaseConfig);
                     auth = getAuth(app);
                     db = getFirestore(app);
 
+                    // Authenticate prior to subscribing to Firestore
                     if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                         await signInWithCustomToken(auth, __initial_auth_token);
                     } else {
@@ -693,21 +701,21 @@
                     }
 
                     window.cloudSyncEnabled = true;
-                    console.log("Firebase Cloud Sync active on appId:", appId);
+                    updateCloudBadge(true);
 
-                    // Document References for public global data
+                    // Document References for public global data across all devices
                     const imagesDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'site_config', 'images');
                     const finDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'financial_data', 'records');
                     const deptsDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'departments_data', 'reports');
 
-                    // Real-time listener for Website Images
+                    // Real-time listener for Website Images with mandatory error handling
                     onSnapshot(imagesDocRef, (snap) => {
                         if (snap.exists() && snap.data().siteImages) {
                             siteImages = snap.data().siteImages;
                             saveImagesToStorage(false);
                             applySiteImages();
                         }
-                    }, (err) => console.error("Images sync error:", err));
+                    }, (err) => console.error("Images cloud sync error:", err));
 
                     // Real-time listener for Financial Money Management Table
                     onSnapshot(finDocRef, (snap) => {
@@ -716,7 +724,7 @@
                             saveFinancialToStorage(false);
                             renderFinancialTable();
                         }
-                    }, (err) => console.error("Financial sync error:", err));
+                    }, (err) => console.error("Financial cloud sync error:", err));
 
                     // Real-time listener for Departments Work Reports
                     onSnapshot(deptsDocRef, (snap) => {
@@ -725,11 +733,137 @@
                             saveDeptsToStorage(false);
                             renderDepartments();
                         }
-                    }, (err) => console.error("Departments sync error:", err));
+                    }, (err) => console.error("Departments cloud sync error:", err));
 
-                } catch (err) {
-                    console.warn("Firebase initialization failed, falling back to local storage:", err);
+                } else {
+                    updateCloudBadge(false);
                 }
+            } catch (err) {
+                console.warn("Firebase cloud init failed, operating on local storage fallback:", err);
+                updateCloudBadge(false);
+            }
+        }
+
+        function updateCloudBadge(isOnline) {
+            const badge = document.getElementById('cloud-status-badge');
+            const text = document.getElementById('cloud-status-text');
+            if (!badge || !text) return;
+
+            if (isOnline) {
+                badge.className = "hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 text-[11px] font-bold border border-emerald-200";
+                text.innerText = "Cloud Live";
+            } else {
+                badge.className = "hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 text-[11px] font-bold border border-amber-200";
+                text.innerText = "Local Cache";
+            }
+        }
+
+        // Expose Cloud Save Methods to global scope
+        window.saveCloudImages = async function(data) {
+            if (window.cloudSyncEnabled && db) {
+                try {
+                    const imagesDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'site_config', 'images');
+                    await setDoc(imagesDocRef, { siteImages: data, updatedAt: new Date().toISOString() });
+                } catch (e) { 
+                    console.error("Error saving images to cloud database:", e);
+                    showToast('Failed to push images to cloud server: ' + (e.message || e), 'error');
+                }
+            }
+        };
+
+        window.saveCloudFinancial = async function(data) {
+            if (window.cloudSyncEnabled && db) {
+                try {
+                    const finDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'financial_data', 'records');
+                    await setDoc(finDocRef, { records: data, updatedAt: new Date().toISOString() });
+                } catch (e) { 
+                    console.error("Error saving financial records to cloud database:", e);
+                    showToast('Failed to push financial data to cloud server!', 'error');
+                }
+            }
+        };
+
+        window.saveCloudDepts = async function(data) {
+            if (window.cloudSyncEnabled && db) {
+                try {
+                    const deptsDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'departments_data', 'reports');
+                    await setDoc(deptsDocRef, { departments: data, updatedAt: new Date().toISOString() });
+                } catch (e) { 
+                    console.error("Error saving departments to cloud database:", e);
+                    showToast('Failed to push department reports to cloud server!', 'error');
+                }
+            }
+        };
+
+        window.addEventListener('DOMContentLoaded', initCloudFirebase);
+    </script>
+
+    <script>
+        // Official Admin Constant Email
+        const ADMIN_EMAIL = "src.hs@baktimulya400cibubur.sch.id";
+
+        // Default Site Image Assets
+        const defaultSiteImages = {
+            logo: "https://placehold.co/220x70/30B457/FFF200?text=BM+400+Cibubur",
+            hero: "https://placehold.co/600x320/30B457/FFF200?text=BM+400+Cibubur+Campus+Life"
+        };
+
+        let siteImages = { ...defaultSiteImages };
+        let tempSiteImages = { logo: '', hero: '' };
+
+        // Current Application State
+        let currentUser = null; // { email: string, isAdmin: boolean }
+
+        // Client-side Image Compression Helper to fit within Firestore 1MB document limit
+        function compressImageFile(file, maxWidth, maxHeight, quality, callback) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > maxWidth) {
+                        height = Math.round((height * maxWidth) / width);
+                        width = maxWidth;
+                    }
+                    if (height > maxHeight) {
+                        width = Math.round((width * maxHeight) / height);
+                        height = maxHeight;
+                    }
+
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+                    callback(compressedDataUrl);
+                };
+                img.onerror = function() {
+                    showToast('Unable to read selected image file.', 'error');
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Updated image preview handler with automatic mobile compression
+        function previewImageFile(input, previewId, key) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                
+                showToast('Optimizing image for cross-device sharing...', 'info');
+
+                const maxW = key === 'logo' ? 400 : 1000;
+                const maxH = key === 'logo' ? 200 : 600;
+
+                compressImageFile(file, maxW, maxH, 0.75, function(compressedUrl) {
+                    document.getElementById(previewId).src = compressedUrl;
+                    tempSiteImages[key] = compressedUrl;
+                    showToast('Image compressed & ready to save!', 'success');
+                });
             }
         }
 

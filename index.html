@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SRC Upper Secondary School Bakti Mulya 400 Cibubur</title>
+    <!-- Favicon (Green & Yellow BM 400 Theme) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%2330B457'/><circle cx='50' cy='50' r='44' fill='none' stroke='%23FFF200' stroke-width='3'/><text x='50' y='42' font-family='sans-serif' font-weight='900' font-size='32' fill='%23FFF200' text-anchor='middle'>BM</text><text x='50' y='72' font-family='sans-serif' font-weight='800' font-size='26' fill='%23FFFFFF' text-anchor='middle'>400</text></svg>">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -663,6 +665,105 @@
         <span id="toast-message" class="text-sm font-bold">Action successful</span>
     </div>
 
+    <!-- Firebase SDK for Real-time Cloud Data Sync -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Global Firebase variables provided by environment or default appId
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'src-bm400-cibubur-default';
+        let db = null;
+        let auth = null;
+
+        window.cloudSyncEnabled = false;
+
+        async function initCloudFirebase() {
+            if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+                try {
+                    const firebaseConfig = JSON.parse(__firebase_config);
+                    const app = initializeApp(firebaseConfig);
+                    auth = getAuth(app);
+                    db = getFirestore(app);
+
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+
+                    window.cloudSyncEnabled = true;
+                    console.log("Firebase Cloud Sync active on appId:", appId);
+
+                    // Document References for public global data
+                    const imagesDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'site_config', 'images');
+                    const finDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'financial_data', 'records');
+                    const deptsDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'departments_data', 'reports');
+
+                    // Real-time listener for Website Images
+                    onSnapshot(imagesDocRef, (snap) => {
+                        if (snap.exists() && snap.data().siteImages) {
+                            siteImages = snap.data().siteImages;
+                            saveImagesToStorage(false);
+                            applySiteImages();
+                        }
+                    }, (err) => console.error("Images sync error:", err));
+
+                    // Real-time listener for Financial Money Management Table
+                    onSnapshot(finDocRef, (snap) => {
+                        if (snap.exists() && snap.data().records) {
+                            financialRecords = snap.data().records;
+                            saveFinancialToStorage(false);
+                            renderFinancialTable();
+                        }
+                    }, (err) => console.error("Financial sync error:", err));
+
+                    // Real-time listener for Departments Work Reports
+                    onSnapshot(deptsDocRef, (snap) => {
+                        if (snap.exists() && snap.data().departments) {
+                            departmentsData = snap.data().departments;
+                            saveDeptsToStorage(false);
+                            renderDepartments();
+                        }
+                    }, (err) => console.error("Departments sync error:", err));
+
+                } catch (err) {
+                    console.warn("Firebase initialization failed, falling back to local storage:", err);
+                }
+            }
+        }
+
+        // Expose Cloud Save Methods
+        window.saveCloudImages = async function(data) {
+            if (window.cloudSyncEnabled && db) {
+                try {
+                    const imagesDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'site_config', 'images');
+                    await setDoc(imagesDocRef, { siteImages: data, updatedAt: new Date().toISOString() });
+                } catch (e) { console.error("Error saving images to cloud:", e); }
+            }
+        };
+
+        window.saveCloudFinancial = async function(data) {
+            if (window.cloudSyncEnabled && db) {
+                try {
+                    const finDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'financial_data', 'records');
+                    await setDoc(finDocRef, { records: data, updatedAt: new Date().toISOString() });
+                } catch (e) { console.error("Error saving financial records to cloud:", e); }
+            }
+        };
+
+        window.saveCloudDepts = async function(data) {
+            if (window.cloudSyncEnabled && db) {
+                try {
+                    const deptsDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'departments_data', 'reports');
+                    await setDoc(deptsDocRef, { departments: data, updatedAt: new Date().toISOString() });
+                } catch (e) { console.error("Error saving departments to cloud:", e); }
+            }
+        };
+
+        window.addEventListener('DOMContentLoaded', initCloudFirebase);
+    </script>
+
     <script>
         // Official Admin Constant Email
         const ADMIN_EMAIL = "src.hs@baktimulya400cibubur.sch.id";
@@ -800,7 +901,7 @@
                 siteImages = JSON.parse(savedImages);
             } else {
                 siteImages = { ...defaultSiteImages };
-                saveImagesToStorage();
+                saveImagesToStorage(false);
             }
             applySiteImages();
 
@@ -809,7 +910,7 @@
                 financialRecords = JSON.parse(savedFin);
             } else {
                 financialRecords = [...defaultFinancialRecords];
-                saveFinancialToStorage();
+                saveFinancialToStorage(false);
             }
 
             const savedDepts = localStorage.getItem('bm400_depts_data');
@@ -817,7 +918,7 @@
                 departmentsData = JSON.parse(savedDepts);
             } else {
                 departmentsData = [...defaultDepartmentsData];
-                saveDeptsToStorage();
+                saveDeptsToStorage(false);
             }
 
             const savedUser = localStorage.getItem('bm400_user');
@@ -830,8 +931,11 @@
             renderDepartments();
         }
 
-        function saveImagesToStorage() {
+        function saveImagesToStorage(triggerCloud = true) {
             localStorage.setItem('bm400_site_images', JSON.stringify(siteImages));
+            if (triggerCloud && typeof window.saveCloudImages === 'function') {
+                window.saveCloudImages(siteImages);
+            }
         }
 
         function applySiteImages() {
@@ -895,18 +999,24 @@
             if (tempSiteImages.logo) siteImages.logo = tempSiteImages.logo;
             if (tempSiteImages.hero) siteImages.hero = tempSiteImages.hero;
 
-            saveImagesToStorage();
+            saveImagesToStorage(true);
             applySiteImages();
             closeImageModal();
-            showToast('Website images saved and stored permanently!', 'success');
+            showToast('Website images saved and published live to everyone!', 'success');
         }
 
-        function saveFinancialToStorage() {
+        function saveFinancialToStorage(triggerCloud = true) {
             localStorage.setItem('bm400_financial_records', JSON.stringify(financialRecords));
+            if (triggerCloud && typeof window.saveCloudFinancial === 'function') {
+                window.saveCloudFinancial(financialRecords);
+            }
         }
 
-        function saveDeptsToStorage() {
+        function saveDeptsToStorage(triggerCloud = true) {
             localStorage.setItem('bm400_depts_data', JSON.stringify(departmentsData));
+            if (triggerCloud && typeof window.saveCloudDepts === 'function') {
+                window.saveCloudDepts(departmentsData);
+            }
         }
 
         // Authentication Handlers
@@ -1073,9 +1183,9 @@
         function deleteFinancialRecord(index) {
             if (!currentUser || !currentUser.isAdmin) return;
             financialRecords.splice(index, 1);
-            saveFinancialToStorage();
+            saveFinancialToStorage(true);
             renderFinancialTable();
-            showToast('Financial entry deleted', 'info');
+            showToast('Financial entry deleted and synced globally', 'info');
         }
 
         function saveFinancialRecord(e) {
@@ -1090,13 +1200,13 @@
 
             if (idx >= 0) {
                 financialRecords[idx] = recordObj;
-                showToast('Financial entry updated!', 'success');
+                showToast('Financial entry updated live!', 'success');
             } else {
                 financialRecords.push(recordObj);
-                showToast('New entry added to financial report!', 'success');
+                showToast('New entry added to financial report live!', 'success');
             }
 
-            saveFinancialToStorage();
+            saveFinancialToStorage(true);
             renderFinancialTable();
             closeFinancialModal();
         }
@@ -1107,7 +1217,7 @@
 
         function resetFinancialData() {
             financialRecords = [...defaultFinancialRecords];
-            saveFinancialToStorage();
+            saveFinancialToStorage(true);
             renderFinancialTable();
             showToast('Reset financial table to default 5 rows.', 'info');
         }
@@ -1206,10 +1316,10 @@
                 const progStr = document.getElementById('dept-programs').value;
                 departmentsData[idx].programs = progStr.split(',').map(s => s.trim()).filter(s => s.length > 0);
 
-                saveDeptsToStorage();
+                saveDeptsToStorage(true);
                 renderDepartments();
                 closeDeptModal();
-                showToast(`Updated ${departmentsData[idx].name} report!`, 'success');
+                showToast(`Updated ${departmentsData[idx].name} report live!`, 'success');
             }
         }
 

@@ -1,1323 +1,1116 @@
-/* =========================================================
-   BM 400 SRC — NEW COLOR THEME
-   Primary Green: #30B457
-   Primary Yellow: #FFF200
-========================================================= */
-
-:root {
-  --bm-green: #30B457;
-  --bm-yellow: #FFF200;
-
-  --bm-dark-green: #176B32;
-  --bm-deep-green: #0E5125;
-
-  --bm-light-green: #EAF9EF;
-  --bm-pale-green: #F5FCF7;
-
-  --bm-text: #183D25;
-  --bm-muted: #647568;
-
-  --white: #FFFFFF;
-  --border: #DCEBDD;
-}
-
-
-/* =========================================================
-   GLOBAL
-========================================================= */
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  font-family:
-    Inter,
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  background: var(--bm-pale-green);
-
-  color: var(--bm-text);
-
-  line-height: 1.6;
-}
-
-button {
-  cursor: pointer;
-
-  font-family: inherit;
-}
-
-
-/* =========================================================
-   NAVBAR
-========================================================= */
-
-.navbar {
-
-  position: sticky;
-
-  top: 0;
-
-  z-index: 100;
-
-  height: 82px;
-
-  background: var(--white);
-
-  border-bottom:
-    3px solid var(--bm-green);
-
-  display: flex;
-
-  align-items: center;
-
-  padding:
-    10px 5%;
-
-  gap: 30px;
-
-  box-shadow:
-    0 4px 18px rgba(48,180,87,.08);
-}
-
-
-/* Logo */
-
-.logo-area {
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 12px;
-
-  min-width: 260px;
-}
-
-.logo-area img {
-
-  width: 60px;
-
-  height: 60px;
-
-  object-fit: contain;
-}
-
-.logo-text strong {
-
-  display: block;
-
-  font-size: 18px;
-
-  color: var(--bm-green);
-}
-
-.logo-text span {
-
-  display: block;
-
-  font-size: 11px;
-
-  color: var(--bm-muted);
-}
-
-
-/* Navigation */
-
-.nav-links {
-
-  display: flex;
-
-  justify-content: center;
-
-  gap: 5px;
-
-  flex: 1;
-}
-
-.nav-links button {
-
-  border: 0;
-
-  background: transparent;
-
-  color: #536456;
-
-  padding:
-    10px 13px;
-
-  border-radius: 9px;
-
-  font-weight: 600;
-
-  transition:
-    .2s ease;
-}
-
-.nav-links button:hover {
-
-  background:
-    var(--bm-light-green);
-
-  color:
-    var(--bm-green);
-}
-
-
-/* Login */
-
-.auth-area {
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 8px;
-}
-
-#userInfo {
-
-  font-size: 11px;
-
-  color: var(--bm-muted);
-
-  max-width: 180px;
-
-  overflow: hidden;
-
-  text-overflow: ellipsis;
-
-  white-space: nowrap;
-}
-
-.google-button,
-.primary-button {
-
-  border: 0;
-
-  background:
-    var(--bm-green);
-
-  color: var(--white);
-
-  padding:
-    11px 17px;
-
-  border-radius: 9px;
-
-  font-weight: 700;
-
-  transition: .2s ease;
-}
-
-.google-button:hover,
-.primary-button:hover {
-
-  background:
-    var(--bm-dark-green);
-
-  transform:
-    translateY(-1px);
-}
-
-.logout-button {
-
-  border:
-    1px solid var(--border);
-
-  background:
-    var(--white);
-
-  color:
-    var(--bm-dark-green);
-
-  padding:
-    9px 12px;
-
-  border-radius:
-    8px;
-}
-
-
-/* =========================================================
-   HERO
-========================================================= */
-
-.hero {
-
-  min-height: 520px;
-
-  padding:
-    80px 8%;
-
-  display: grid;
-
-  grid-template-columns:
-    1.3fr .7fr;
-
-  align-items: center;
-
-  gap: 50px;
-
-  /*
-    Green → yellow → white
-  */
-
-  background:
-
-    linear-gradient(
-      120deg,
-      var(--bm-green) 0%,
-      #53C875 38%,
-      #F8FAE5 72%,
-      var(--white) 100%
-    );
-
-  position: relative;
-
-  overflow: hidden;
-}
-
-
-/* Decorative yellow circle */
-
-.hero::after {
-
-  content: "";
-
-  position: absolute;
-
-  width: 380px;
-
-  height: 380px;
-
-  right: -120px;
-
-  top: -130px;
-
-  background:
-    var(--bm-yellow);
-
-  border-radius: 50%;
-
-  opacity: .9;
-}
-
-
-/* Hero text */
-
-.hero > div {
-
-  position: relative;
-
-  z-index: 2;
-}
-
-.eyebrow {
-
-  color:
-    var(--bm-deep-green);
-
-  font-size:
-    11px;
-
-  font-weight:
-    900;
-
-  letter-spacing:
-    .14em;
-}
-
-.hero h1 {
-
-  color:
-    var(--bm-deep-green);
-
-  font-size:
-    clamp(
-      44px,
-      6vw,
-      78px
-    );
-
-  line-height:
-    .98;
-
-  margin:
-    15px 0;
-}
-
-.hero p {
-
-  color:
-    #31563B;
-
-  font-size:
-    20px;
-}
-
-
-/* Hero buttons */
-
-.hero-buttons {
-
-  margin-top:
-    30px;
-
-  display:
-    flex;
-
-  gap:
-    12px;
-}
-
-.hero-buttons a {
-
-  text-decoration:
-    none;
-
-  background:
-    var(--bm-dark-green);
-
-  color:
-    var(--white);
-
-  padding:
-    13px 18px;
-
-  border-radius:
-    10px;
-
-  font-weight:
-    700;
-
-  transition:
-    .2s ease;
-}
-
-.hero-buttons a:hover {
-
-  background:
-    var(--bm-deep-green);
-
-  transform:
-    translateY(-2px);
-}
-
-.hero-buttons a.secondary {
-
-  background:
-    var(--white);
-
-  color:
-    var(--bm-dark-green);
-
-  border:
-    2px solid var(--bm-green);
-}
-
-
-/* Hero card */
-
-.hero-card {
-
-  position:
-    relative;
-
-  z-index:
-    3;
-
-  background:
-    rgba(255,255,255,.96);
-
-  border:
-    3px solid var(--bm-yellow);
-
-  padding:
-    35px;
-
-  border-radius:
-    24px;
-
-  box-shadow:
-    0 20px 60px rgba(
-      14,
-      81,
-      37,
-      .20
-    );
-}
-
-.hero-card .small {
-
-  color:
-    var(--bm-green);
-
-  font-size:
-    11px;
-
-  font-weight:
-    900;
-
-  letter-spacing:
-    .15em;
-}
-
-.hero-card h3 {
-
-  color:
-    var(--bm-dark-green);
-
-  font-size:
-    29px;
-
-  line-height:
-    1.15;
-
-  margin:
-    12px 0;
-}
-
-.hero-card p {
-
-  font-size:
-    15px;
-
-  color:
-    var(--bm-muted);
-}
-
-
-/* =========================================================
-   CONTENT
-========================================================= */
-
-.container {
-
-  width:
-    min(
-      1120px,
-      90%
-    );
-
-  margin:
-    0 auto;
-}
-
-.about-grid {
-
-  margin-top:
-    -40px;
-
-  position:
-    relative;
-
-  z-index:
-    5;
-
-  display:
-    grid;
-
-  grid-template-columns:
-    1.2fr .8fr;
-
-  gap:
-    22px;
-}
-
-.card {
-
-  background:
-    var(--white);
-
-  border:
-    1px solid var(--border);
-
-  border-radius:
-    18px;
-
-  padding:
-    30px;
-
-  box-shadow:
-    0 12px 35px rgba(
-      48,
-      180,
-      87,
-      .08
-    );
-}
-
-.section {
-
-  padding:
-    80px 0 0;
-}
-
-.section-label {
-
-  color:
-    var(--bm-green);
-
-  font-size:
-    11px;
-
-  font-weight:
-    900;
-
-  letter-spacing:
-    .13em;
-}
-
-h2 {
-
-  color:
-    var(--bm-dark-green);
-
-  font-size:
-    32px;
-
-  margin:
-    8px 0 20px;
-}
-
-.card p {
-
-  color:
-    var(--bm-muted);
-
-  line-height:
-    1.8;
-}
-
-
-/* =========================================================
-   STATS
-========================================================= */
-
-.stats {
-
-  display:
-    grid;
-
-  grid-template-columns:
-    1fr 1fr;
-
-  gap:
-    14px;
-}
-
-.stat {
-
-  padding:
-    17px;
-
-  background:
-    var(--bm-light-green);
-
-  border-left:
-    5px solid var(--bm-green);
-
-  border-radius:
-    12px;
-}
-
-.stat strong {
-
-  display:
-    block;
-
-  color:
-    var(--bm-dark-green);
-
-  font-size:
-    20px;
-}
-
-.stat span {
-
-  color:
-    var(--bm-muted);
-
-  font-size:
-    11px;
-}
-
-
-/* =========================================================
-   SECTION HEADER
-========================================================= */
-
-.section-header {
-
-  display:
-    flex;
-
-  align-items:
-    end;
-
-  justify-content:
-    space-between;
-
-  margin-bottom:
-    25px;
-}
-
-.section-header button {
-
-  border:
-    0;
-
-  background:
-    var(--bm-green);
-
-  color:
-    var(--white);
-
-  padding:
-    12px 17px;
-
-  border-radius:
-    9px;
-
-  font-weight:
-    700;
-}
-
-.section-header button:hover {
-
-  background:
-    var(--bm-dark-green);
-}
-
-
-/* =========================================================
-   MONEY TABLE
-========================================================= */
-
-.table-wrapper {
-
-  background:
-    var(--white);
-
-  border:
-    1px solid var(--border);
-
-  border-radius:
-    18px;
-
-  overflow:
-    auto;
-
-  box-shadow:
-    0 12px 35px rgba(
-      48,
-      180,
-      87,
-      .07
-    );
-}
-
-table {
-
-  width:
-    100%;
-
-  min-width:
-    900px;
-
-  border-collapse:
-    collapse;
-}
-
-th {
-
-  background:
-    var(--bm-green);
-
-  color:
-    var(--white);
-
-  padding:
-    15px;
-
-  text-align:
-    left;
-
-  font-size:
-    11px;
-
-  text-transform:
-    uppercase;
-
-  letter-spacing:
-    .05em;
-}
-
-td {
-
-  padding:
-    15px;
-
-  border-bottom:
-    1px solid #EDF4ED;
-
-  font-size:
-    13px;
-
-  color:
-    #5F6B61;
-}
-
-tr:hover td {
-
-  background:
-    #F8FCF9;
-}
-
-.income {
-
-  color:
-    #21853C;
-
-  font-weight:
-    700;
-}
-
-.expense {
-
-  color:
-    #B34C2E;
-
-  font-weight:
-    700;
-}
-
-
-/* =========================================================
-   DEPARTMENT REPORTS
-========================================================= */
-
-#departmentContainer {
-
-  display:
-    grid;
-
-  grid-template-columns:
-    1fr 1fr;
-
-  gap:
-    20px;
-}
-
-.department-card {
-
-  background:
-    var(--white);
-
-  border:
-    1px solid var(--border);
-
-  border-radius:
-    18px;
-
-  padding:
-    28px;
-
-  box-shadow:
-    0 12px 35px rgba(
-      48,
-      180,
-      87,
-      .07
-    );
-
-  transition:
-    .2s ease;
-}
-
-.department-card:hover {
-
-  transform:
-    translateY(-3px);
-
-  border-color:
-    var(--bm-green);
-
-  box-shadow:
-    0 16px 40px rgba(
-      48,
-      180,
-      87,
-      .14
-    );
-}
-
-.department-header {
-
-  display:
-    flex;
-
-  justify-content:
-    space-between;
-
-  align-items:
-    center;
-}
-
-.department-month {
-
-  color:
-    #788473;
-
-  font-size:
-    12px;
-}
-
-.department-tag {
-
-  background:
-    var(--bm-yellow);
-
-  color:
-    var(--bm-deep-green);
-
-  padding:
-    6px 10px;
-
-  border-radius:
-    999px;
-
-  font-size:
-    11px;
-
-  font-weight:
-    900;
-}
-
-.department-card h3 {
-
-  color:
-    var(--bm-dark-green);
-
-  font-size:
-    24px;
-
-  margin:
-    18px 0;
-}
-
-.department-card h4 {
-
-  color:
-    var(--bm-green);
-
-  font-size:
-    11px;
-
-  text-transform:
-    uppercase;
-
-  letter-spacing:
-    .07em;
-
-  margin-top:
-    18px;
-}
-
-.department-card p {
-
-  color:
-    var(--bm-muted);
-
-  font-size:
-    14px;
-
-  margin-top:
-    5px;
-}
-
-
-/* =========================================================
-   ADMIN PANEL
-========================================================= */
-
-#adminPanel {
-
-  display:
-    none;
-
-  margin-top:
-    70px;
-}
-
-.admin-box {
-
-  border:
-    2px solid var(--bm-green);
-
-  background:
-    var(--bm-light-green);
-}
-
-.admin-title {
-
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  justify-content:
-    space-between;
-
-  margin-bottom:
-    25px;
-}
-
-.admin-badge {
-
-  background:
-    var(--bm-yellow);
-
-  color:
-    var(--bm-deep-green);
-
-  padding:
-    6px 10px;
-
-  border-radius:
-    999px;
-
-  font-size:
-    10px;
-
-  font-weight:
-    900;
-}
-
-.admin-grid {
-
-  display:
-    grid;
-
-  grid-template-columns:
-    1fr 1fr;
-
-  gap:
-    22px;
-
-  margin-top:
-    20px;
-}
-
-.admin-form {
-
-  display:
-    grid;
-
-  gap:
-    12px;
-}
-
-.admin-form label {
-
-  color:
-    #4F604F;
-
-  font-size:
-    12px;
-
-  font-weight:
-    700;
-}
-
-.admin-form input,
-.admin-form textarea {
-
-  width:
-    100%;
-
-  padding:
-    11px;
-
-  margin-top:
-    5px;
-
-  border:
-    1px solid #C9DCCB;
-
-  border-radius:
-    8px;
-
-  background:
-    var(--white);
-
-  color:
-    var(--bm-text);
-
-  resize:
-    vertical;
-}
-
-.admin-form input:focus,
-.admin-form textarea:focus {
-
-  outline:
-    2px solid var(--bm-green);
-
-  border-color:
-    var(--bm-green);
-}
-
-.admin-form button {
-
-  border:
-    0;
-
-  background:
-    var(--bm-green);
-
-  color:
-    var(--white);
-
-  padding:
-    12px;
-
-  border-radius:
-    8px;
-
-  font-weight:
-    700;
-}
-
-.admin-form button:hover {
-
-  background:
-    var(--bm-dark-green);
-}
-
-.small-button {
-
-  border:
-    1px solid #C7D9C9;
-
-  background:
-    var(--white);
-
-  color:
-    var(--bm-dark-green);
-
-  padding:
-    6px 9px;
-
-  border-radius:
-    6px;
-
-  font-size:
-    11px;
-}
-
-.small-button:hover {
-
-  background:
-    var(--bm-light-green);
-}
-
-.small-button.delete {
-
-  color:
-    #A23D2A;
-
-  border-color:
-    #E0B9AE;
-}
-
-.admin-actions {
-
-  gap:
-    6px;
-
-  margin-top:
-    10px;
-}
-
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
-footer {
-
-  margin-top:
-    100px;
-
-  background:
-    var(--bm-dark-green);
-
-  color:
-    var(--white);
-
-  padding:
-    40px 8%;
-
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  gap:
-    15px;
-
-  border-top:
-    8px solid var(--bm-yellow);
-}
-
-footer img {
-
-  width:
-    60px;
-
-  height:
-    60px;
-
-  object-fit:
-    contain;
-}
-
-footer span {
-
-  display:
-    block;
-
-  color:
-    #CBE5D0;
-
-  font-size:
-    12px;
-
-  margin-top:
-    4px;
-}
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media(max-width:900px) {
-
-  .navbar {
-
-    height:
-      auto;
-
-    flex-wrap:
-      wrap;
-
-    padding:
-      10px 4%;
-  }
-
-  .nav-links {
-
-    order:
-      3;
-
-    width:
-      100%;
-
-    overflow:
-      auto;
-
-    justify-content:
-      flex-start;
-  }
-
-  .hero {
-
-    grid-template-columns:
-      1fr;
-
-    padding:
-      60px 6%;
-  }
-
-  .about-grid {
-
-    grid-template-columns:
-      1fr;
-
-    margin-top:
-      20px;
-  }
-
-  #departmentContainer {
-
-    grid-template-columns:
-      1fr;
-  }
-
-  .admin-grid {
-
-    grid-template-columns:
-      1fr;
-  }
-
-}
-
-@media(max-width:600px) {
-
-  .logo-text span {
-
-    display:
-      none;
-  }
-
-  .auth-area #userInfo {
-
-    display:
-      none;
-  }
-
-  .hero h1 {
-
-    font-size:
-      45px;
-  }
-
-  .hero-buttons {
-
-    flex-direction:
-      column;
-  }
-
-  .section-header {
-
-    align-items:
-      flex-start;
-
-    flex-direction:
-      column;
-
-    gap:
-      15px;
-  }
-
-  .stats {
-
-    grid-template-columns:
-      1fr;
-  }
-
-}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SRC Upper Secondary School Bakti Mulya 400 Cibubur</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bmgreen: {
+                            DEFAULT: '#30B457',
+                            dark: '#21823e',
+                            light: '#eaf7ed',
+                            hover: '#289849'
+                        },
+                        bmyellow: {
+                            DEFAULT: '#FFF200',
+                            dark: '#d6cb00',
+                            light: '#fffde6',
+                            text: '#827a00'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar and theme highlights */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #30B457;
+            border-radius: 4px;
+        }
+        .bg-bm-pattern {
+            background-color: #30B457;
+            background-image: radial-gradient(#FFF200 1.2px, transparent 1.2px), radial-gradient(#FFF200 1.2px, #30B457 1.2px);
+            background-size: 48px 48px;
+            background-position: 0 0, 24px 24px;
+            opacity: 0.95;
+        }
+        .yellow-glow {
+            box-shadow: 0 0 25px rgba(255, 242, 0, 0.4);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col antialiased selection:bg-bmyellow selection:text-slate-900">
+
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-40 bg-white border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- School & SRC Brand Logo -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="scrollToSection('hero')">
+                    <div class="w-12 h-12 rounded-xl bg-bmgreen text-slate-900 font-bold flex items-center justify-center shadow-md border-2 border-bmyellow">
+                        <i class="fa-solid font-bold text-xl text-slate-900">BM</i>
+                    </div>
+                    <div>
+                        <div class="flex items-center space-x-2">
+                            <span class="font-extrabold text-lg tracking-tight text-slate-900">SRC BM 400</span>
+                            <span class="bg-bmyellow text-slate-900 text-xs font-bold px-2 py-0.5 rounded-full border border-yellow-400">Cibubur</span>
+                        </div>
+                        <p class="text-xs text-slate-500 font-medium">Upper Secondary School Council</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Nav Links -->
+                <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold text-slate-700">
+                    <a href="#about" class="hover:text-bmgreen transition-colors">About BM 400</a>
+                    <a href="#financial" class="hover:text-bmgreen transition-colors flex items-center gap-1.5">
+                        <span>Financial Report</span>
+                        <span class="w-2 h-2 rounded-full bg-bmgreen animate-pulse"></span>
+                    </a>
+                    <a href="#departments" class="hover:text-bmgreen transition-colors">Departments Work</a>
+                    <a href="#suggestion" class="hover:text-bmgreen transition-colors">Feedback</a>
+                </nav>
+
+                <!-- Auth / Admin Actions -->
+                <div class="flex items-center space-x-3">
+                    <div id="user-status-badge" class="hidden md:flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-slate-100 text-xs font-medium border">
+                        <span id="user-role-dot" class="w-2 h-2 rounded-full bg-slate-400"></span>
+                        <span id="user-email-display" class="text-slate-600 truncate max-w-[150px]">Guest Mode</span>
+                    </div>
+
+                    <button id="auth-btn" onclick="openAuthModal()" class="flex items-center gap-2 bg-bmgreen hover:bg-bmgreen-hover text-white px-4 py-2.5 rounded-xl font-bold text-sm shadow-md transition-all border border-green-600">
+                        <i class="fa-brands fa-google text-bmyellow"></i>
+                        <span id="auth-btn-text">Sign In / Admin</span>
+                    </button>
+
+                    <!-- Mobile Menu Toggle -->
+                    <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-200 bg-white px-4 pt-2 pb-4 space-y-2">
+            <a href="#about" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg text-slate-700 hover:bg-bmgreen-light hover:text-bmgreen font-medium">About BM 400</a>
+            <a href="#financial" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg text-slate-700 hover:bg-bmgreen-light hover:text-bmgreen font-medium">Financial Report</a>
+            <a href="#departments" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg text-slate-700 hover:bg-bmgreen-light hover:text-bmgreen font-medium">Departments Work</a>
+            <a href="#suggestion" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg text-slate-700 hover:bg-bmgreen-light hover:text-bmgreen font-medium">Feedback</a>
+        </div>
+    </header>
+
+    <!-- Admin Status Banner (Visible only when logged in as admin) -->
+    <div id="admin-notice-bar" class="hidden bg-bmyellow border-b border-yellow-400 text-slate-900 px-4 py-2.5 text-xs sm:text-sm font-bold shadow-inner">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <span class="bg-bmgreen text-white text-xs px-2 py-0.5 rounded font-extrabold shadow-sm">ADMIN ACTIVE</span>
+                <span>Logged in as official SRC Admin (<code class="bg-white/80 px-1.5 py-0.5 rounded border border-yellow-500 font-mono text-slate-900">src.hs@baktimulya400cibubur.sch.id</code>). You can edit financial rows & department reports!</span>
+            </div>
+            <button onclick="logoutAdmin()" class="text-xs bg-slate-900 text-white hover:bg-slate-800 px-2.5 py-1 rounded-md transition-colors">
+                Sign Out
+            </button>
+        </div>
+    </div>
+
+    <main class="flex-grow">
+        <!-- Hero & Short Introduction Section -->
+        <section id="hero" class="relative bg-bm-pattern text-white py-16 lg:py-24 overflow-hidden">
+            <div class="absolute inset-0 bg-slate-900/30"></div>
+            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid lg:grid-cols-12 gap-12 items-center">
+                    
+                    <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                        <div class="inline-flex items-center space-x-2 bg-white/20 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/30 text-xs sm:text-sm font-semibold text-bmyellow shadow-sm">
+                            <i class="fa-solid fa-graduation-cap text-bmyellow"></i>
+                            <span>Official Student Representative Council Portal</span>
+                        </div>
+                        
+                        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+                            Upper Secondary School <br>
+                            <span class="text-bmyellow drop-shadow-md">Bakti Mulya 400 Cibubur</span>
+                        </h1>
+                        
+                        <p class="text-slate-100 text-base sm:text-lg max-w-2xl font-normal leading-relaxed">
+                            Welcome to the official portal of the Student Representative Council (SRC) / MPK-OSIS Upper Secondary School Bakti Mulya 400 Cibubur. Fostering academic leadership, integrity, student voice, and vibrant campus culture.
+                        </p>
+
+                        <div class="pt-4 flex flex-wrap justify-center lg:justify-start gap-4">
+                            <a href="#financial" class="bg-bmyellow hover:bg-yellow-300 text-slate-900 font-bold px-6 py-3.5 rounded-xl shadow-lg transition-all transform hover:-translate-y-0.5 flex items-center gap-2 border border-yellow-400">
+                                <i class="fa-solid fa-wallet text-slate-900"></i>
+                                View Financial Report
+                            </a>
+                            <a href="#departments" class="bg-white/10 hover:bg-white/20 text-white border border-white/40 font-bold px-6 py-3.5 rounded-xl backdrop-blur-sm transition-all flex items-center gap-2">
+                                <i class="fa-solid fa-sitemap text-bmyellow"></i>
+                                Explore 8 Departments
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Intro Highlights Card -->
+                    <div class="lg:col-span-5">
+                        <div id="about" class="glass-card rounded-2xl p-6 sm:p-8 text-slate-800 shadow-2xl border-2 border-bmyellow relative">
+                            <div class="absolute -top-3 right-6 bg-bmgreen text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow">
+                                School Profile
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
+                                <i class="fa-solid fa-school text-bmgreen"></i>
+                                About BM 400 Cibubur
+                            </h3>
+                            <p class="text-sm text-slate-600 leading-relaxed mb-4">
+                                SMA Bakti Mulya 400 Cibubur is a premier Islamic national plus senior high school dedicated to preparing globally capable, religious, technologically fluent, and character-driven leaders.
+                            </p>
+
+                            <div class="space-y-3 border-t border-slate-200 pt-4">
+                                <div class="flex items-start gap-3">
+                                    <div class="p-2 bg-bmgreen-light text-bmgreen rounded-lg shrink-0 mt-0.5">
+                                        <i class="fa-solid fa-bullseye"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-900">SRC Vision</h4>
+                                        <p class="text-xs text-slate-600">To build a transparent, creative, and collaborative student governance that empowers every student's potential.</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <div class="p-2 bg-bmyellow-light text-bmyellow-text rounded-lg shrink-0 mt-0.5 border border-yellow-300">
+                                        <i class="fa-solid fa-shield-halved"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-900">SRC Mission</h4>
+                                        <p class="text-xs text-slate-600">Upholding accountability through public monthly financial reports and active department work execution.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Financial Report Section (Monthly SRC Money Management) -->
+        <section id="financial" class="py-16 bg-white border-b border-slate-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <!-- Section Header -->
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 pb-4 border-b border-slate-200 gap-4">
+                    <div>
+                        <div class="flex items-center space-x-2 text-bmgreen font-bold text-xs uppercase tracking-wider mb-1">
+                            <i class="fa-solid fa-chart-line"></i>
+                            <span>Financial Transparency & Accountability</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">
+                            Monthly Report of SRC Money Management
+                        </h2>
+                        <p class="text-sm text-slate-500 mt-1">
+                            Real-time recorded incoming funds, operational expenses, and running total balance.
+                        </p>
+                    </div>
+
+                    <!-- Financial Quick Stats -->
+                    <div class="flex flex-wrap gap-3">
+                        <div class="bg-bmgreen-light border border-green-200 rounded-xl px-4 py-2.5">
+                            <span class="block text-xs font-bold text-bmgreen uppercase">Total Income</span>
+                            <span id="stat-income" class="text-lg font-extrabold text-slate-900">Rp 0</span>
+                        </div>
+                        <div class="bg-red-50 border border-red-200 rounded-xl px-4 py-2.5">
+                            <span class="block text-xs font-bold text-red-600 uppercase">Total Expense</span>
+                            <span id="stat-expense" class="text-lg font-extrabold text-slate-900">Rp 0</span>
+                        </div>
+                        <div class="bg-bmyellow-light border border-yellow-300 rounded-xl px-4 py-2.5">
+                            <span class="block text-xs font-bold text-slate-800 uppercase">Net Balance</span>
+                            <span id="stat-total" class="text-lg font-extrabold text-bmgreen-dark">Rp 0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Admin Action Control Box for Financial Table -->
+                <div class="mb-4 flex flex-wrap justify-between items-center gap-3 bg-slate-50 p-3 rounded-xl border border-slate-200">
+                    <div class="text-xs font-semibold text-slate-600 flex items-center gap-2">
+                        <i class="fa-solid fa-circle-info text-bmgreen"></i>
+                        <span>Displaying recent financial entries for Academic Year 2026/2027</span>
+                    </div>
+                    
+                    <div class="flex items-center gap-2">
+                        <!-- Add Row Button (Always clickable or triggers admin check) -->
+                        <button onclick="handleAddNewRow()" class="bg-bmgreen hover:bg-bmgreen-hover text-white text-xs font-bold px-3.5 py-2 rounded-lg shadow transition-all flex items-center gap-1.5 border border-green-600">
+                            <i class="fa-solid fa-plus"></i>
+                            <span>Add Financial Entry</span>
+                        </button>
+                        
+                        <button onclick="resetFinancialData()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-semibold px-3 py-2 rounded-lg transition-colors">
+                            <i class="fa-solid fa-rotate-left mr-1"></i> Reset Default Data
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Financial Table Container -->
+                <div class="overflow-x-auto rounded-2xl border border-slate-200 shadow-md bg-white">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-bmgreen text-white text-xs font-bold uppercase tracking-wider border-b-2 border-bmyellow">
+                                <th class="py-4 px-4 w-12 text-center">#</th>
+                                <th class="py-4 px-6 min-w-[140px]">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-regular fa-calendar text-bmyellow"></i>
+                                        <span>Tanggal</span>
+                                    </div>
+                                </th>
+                                <th class="py-4 px-6 min-w-[170px] text-emerald-100">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-arrow-down-left text-bmyellow"></i>
+                                        <span>Jumlah Pemasukan</span>
+                                    </div>
+                                </th>
+                                <th class="py-4 px-6 min-w-[170px] text-red-100">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-arrow-up-right text-red-300"></i>
+                                        <span>Jumlah Pengeluaran</span>
+                                    </div>
+                                </th>
+                                <th class="py-4 px-6 min-w-[170px]">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-scale-balanced text-bmyellow"></i>
+                                        <span>Total</span>
+                                    </div>
+                                </th>
+                                <th class="py-4 px-6 min-w-[250px]">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-note-sticky text-bmyellow"></i>
+                                        <span>Keterangan</span>
+                                    </div>
+                                </th>
+                                <th class="py-4 px-4 w-28 text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="financial-table-body" class="divide-y divide-slate-100 text-sm font-medium">
+                            <!-- JS dynamic rows rendered here -->
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Departments Work Reports Section (8 Departments) -->
+        <section id="departments" class="py-16 bg-slate-100/70 border-b border-slate-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-3xl mx-auto mb-12">
+                    <span class="bg-bmyellow text-slate-900 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-yellow-400">
+                        Work Program Progress
+                    </span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3">
+                        Report of SRC Departments Work
+                    </h2>
+                    <p class="text-slate-600 text-sm sm:text-base mt-2">
+                        Detailed overview of completed and ongoing initiatives led by the 8 specialized SRC executive divisions.
+                    </p>
+                </div>
+
+                <!-- Department Cards Grid -->
+                <div id="departments-grid" class="grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6">
+                    <!-- Dynamic rendering via JavaScript -->
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Student Feedback & Ideas Section -->
+        <section id="suggestion" class="py-16 bg-white">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-slate-900 rounded-3xl p-8 sm:p-12 text-white shadow-2xl relative overflow-hidden border-4 border-bmgreen">
+                    <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-bmgreen/20 rounded-full blur-3xl"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center space-x-2 text-bmyellow font-bold text-xs uppercase tracking-wider mb-2">
+                            <i class="fa-solid fa-comment-dots"></i>
+                            <span>Student Voice Portal</span>
+                        </div>
+                        <h3 class="text-2xl sm:text-3xl font-extrabold">Have a Suggestion for SRC BM 400?</h3>
+                        <p class="text-slate-300 text-sm mt-2">
+                            Submit your aspirations, constructive feedback, or event requests directly to the council.
+                        </p>
+
+                        <form id="feedback-form" onsubmit="submitFeedback(event)" class="mt-6 space-y-4">
+                            <div class="grid sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-300 mb-1">Student Name / Alias</label>
+                                    <input type="text" id="fb-name" required placeholder="e.g. Raditya X-1" class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl p-3 text-sm focus:outline-none focus:border-bmyellow">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-300 mb-1">Target Department</label>
+                                    <select id="fb-dept" class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl p-3 text-sm focus:outline-none focus:border-bmyellow">
+                                        <option value="General SRC">General SRC Council</option>
+                                        <option value="Academic">Academic, Languages & Literacy</option>
+                                        <option value="Health">Health & Safety</option>
+                                        <option value="Talent">Talent & Achievement</option>
+                                        <option value="PR">PR, Tech & Info</option>
+                                        <option value="Environment">Environment & Cleanliness</option>
+                                        <option value="Religion">Religion & Social</option>
+                                        <option value="Entrepreneurship">Entrepreneurship</option>
+                                        <option value="Security">Security & Discipline</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-300 mb-1">Message / ASPIRATION</label>
+                                <textarea id="fb-msg" rows="3" required placeholder="Share your idea or report..." class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl p-3 text-sm focus:outline-none focus:border-bmyellow"></textarea>
+                            </div>
+                            <button type="submit" class="bg-bmyellow hover:bg-yellow-300 text-slate-900 font-bold px-6 py-3 rounded-xl shadow transition-all border border-yellow-400">
+                                Send Aspiration
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 text-sm py-12 border-t-4 border-bmyellow">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pb-8 border-b border-slate-800">
+                
+                <div>
+                    <div class="flex items-center space-x-3 mb-3">
+                        <div class="w-10 h-10 rounded-xl bg-bmgreen text-slate-900 font-bold flex items-center justify-center border-2 border-bmyellow">
+                            <span class="font-bold text-slate-900">BM</span>
+                        </div>
+                        <span class="font-extrabold text-white text-lg">SRC BM 400 Cibubur</span>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Student Representative Council of Upper Secondary School Bakti Mulya 400 Cibubur. Empowering future leaders through excellence and transparency.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold text-sm mb-3 uppercase tracking-wider text-bmyellow">Contact & Address</h4>
+                    <p class="text-xs leading-relaxed space-y-1">
+                        <span class="block"><i class="fa-solid fa-location-dot text-bmgreen mr-2"></i>Jl. Raya Lapangan Tembak, Cibubur, Jakarta Timur / Depok</span>
+                        <span class="block"><i class="fa-solid fa-envelope text-bmgreen mr-2"></i>src.hs@baktimulya400cibubur.sch.id</span>
+                        <span class="block"><i class="fa-solid fa-globe text-bmgreen mr-2"></i>baktimulya400.sch.id</span>
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-bold text-sm mb-3 uppercase tracking-wider text-bmyellow">Admin Access</h4>
+                    <p class="text-xs text-slate-400 mb-3">
+                        The primary admin account for editing this website is:
+                    </p>
+                    <div class="bg-slate-800 p-2.5 rounded-lg border border-slate-700 text-xs font-mono text-bmyellow flex items-center justify-between">
+                        <span>src.hs@baktimulya400cibubur.sch.id</span>
+                        <i class="fa-solid fa-lock text-bmgreen"></i>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="pt-6 flex flex-col sm:flex-row justify-between items-center text-xs text-slate-500">
+                <p>&copy; 2026 Student Representative Council - SMA Bakti Mulya 400 Cibubur. All rights reserved.</p>
+                <p class="mt-2 sm:mt-0">Designed with <span class="text-bmyellow">🟢 Green (#30B457)</span> & <span class="text-bmyellow">🟡 Yellow (#FFF200)</span> Theme</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Authentication / Admin Login Modal -->
+    <div id="auth-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl border-2 border-bmyellow relative animate-fade-in">
+            <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-2">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-bmgreen-light border-2 border-bmyellow text-bmgreen rounded-2xl flex items-center justify-center mx-auto mb-3 shadow">
+                    <i class="fa-brands fa-google text-2xl text-bmgreen"></i>
+                </div>
+                <h3 class="text-xl font-extrabold text-slate-900">SRC Portal Authentication</h3>
+                <p class="text-xs text-slate-500 mt-1">Sign in using Google or official SRC account credentials</p>
+            </div>
+
+            <!-- Login Form / Google Flow -->
+            <div class="space-y-4">
+                
+                <!-- Google Direct OAuth Simulation Button -->
+                <button onclick="simulatedGoogleLogin('src.hs@baktimulya400cibubur.sch.id')" class="w-full bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-bold py-3 px-4 rounded-xl shadow-sm flex items-center justify-center gap-3 transition-all">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                    </svg>
+                    <span>Sign in as Admin (src.hs@...)</span>
+                </button>
+
+                <div class="relative flex py-2 items-center">
+                    <div class="flex-grow border-t border-slate-200"></div>
+                    <span class="flex-shrink mx-3 text-slate-400 text-xs">Or custom email login</span>
+                    <div class="flex-grow border-t border-slate-200"></div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Email Address</label>
+                    <input type="email" id="custom-email-input" placeholder="src.hs@baktimulya400cibubur.sch.id" value="src.hs@baktimulya400cibubur.sch.id" class="w-full border border-slate-300 rounded-xl p-3 text-sm focus:outline-none focus:border-bmgreen">
+                </div>
+
+                <button onclick="handleCustomEmailLogin()" class="w-full bg-bmgreen hover:bg-bmgreen-hover text-white font-bold py-3 rounded-xl shadow transition-all border border-green-600">
+                    Sign In
+                </button>
+
+                <div class="bg-yellow-50 border border-yellow-300 rounded-xl p-3 text-xs text-slate-700 space-y-1">
+                    <p class="font-bold text-slate-900 flex items-center gap-1">
+                        <i class="fa-solid fa-key text-bmyellow-text"></i> Admin Privilege Rule:
+                    </p>
+                    <p>
+                        Only user logging in with email <code class="bg-white px-1 py-0.5 rounded border font-mono">src.hs@baktimulya400cibubur.sch.id</code> will be granted full Admin rights to edit money management rows & department reports!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit/Add Financial Entry Modal -->
+    <div id="financial-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border-2 border-bmgreen relative">
+            <button onclick="closeFinancialModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-2">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+
+            <h3 id="fin-modal-title" class="text-xl font-extrabold text-slate-900 mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-file-invoice-dollar text-bmgreen"></i>
+                <span>Add Financial Entry</span>
+            </h3>
+
+            <form id="financial-form" onsubmit="saveFinancialRecord(event)" class="space-y-4">
+                <input type="hidden" id="fin-record-index" value="-1">
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Tanggal (Date)</label>
+                    <input type="text" id="fin-date" required placeholder="e.g. 22 Sep 2026" class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:outline-none focus:border-bmgreen">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Pemasukan (Rp)</label>
+                        <input type="number" id="fin-income" min="0" value="0" class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:outline-none focus:border-bmgreen">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Pengeluaran (Rp)</label>
+                        <input type="number" id="fin-expense" min="0" value="0" class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:outline-none focus:border-bmgreen">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Keterangan (Description)</label>
+                    <textarea id="fin-remarks" required rows="3" placeholder="Explain the source of income or purpose of expense..." class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:outline-none focus:border-bmgreen"></textarea>
+                </div>
+
+                <div class="flex justify-end space-x-3 pt-2">
+                    <button type="button" onclick="closeFinancialModal()" class="px-4 py-2.5 rounded-xl border border-slate-300 text-slate-700 text-sm font-semibold hover:bg-slate-100">
+                        Cancel
+                    </button>
+                    <button type="submit" class="px-5 py-2.5 rounded-xl bg-bmgreen text-white text-sm font-bold shadow hover:bg-bmgreen-hover">
+                        Save Entry
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Department Report Edit Modal -->
+    <div id="dept-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl border-2 border-bmyellow relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeDeptModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-2">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+
+            <h3 id="dept-modal-title" class="text-xl font-extrabold text-slate-900 mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-pen-to-square text-bmgreen"></i>
+                <span>Edit Department Work Report</span>
+            </h3>
+
+            <form id="dept-form" onsubmit="saveDeptReport(event)" class="space-y-4">
+                <input type="hidden" id="dept-index" value="-1">
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Department Lead / Head</label>
+                    <input type="text" id="dept-head" required class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:outline-none focus:border-bmgreen">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Progress Status</label>
+                    <select id="dept-status" class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:outline-none focus:border-bmgreen">
+                        <option value="Active & Completed">Active & Completed</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Upcoming Phase">Upcoming Phase</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Department Key Work Report Summary</label>
+                    <textarea id="dept-summary" required rows="3" class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:outline-none focus:border-bmgreen"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Completed / Ongoing Work Programs (Separate with comma)</label>
+                    <input type="text" id="dept-programs" placeholder="Program A, Program B, Program C" class="w-full border border-slate-300 rounded-xl p-2.5 text-sm focus:outline-none focus:border-bmgreen">
+                </div>
+
+                <div class="flex justify-end space-x-3 pt-2">
+                    <button type="button" onclick="closeDeptModal()" class="px-4 py-2.5 rounded-xl border border-slate-300 text-slate-700 text-sm font-semibold hover:bg-slate-100">
+                        Cancel
+                    </button>
+                    <button type="submit" class="px-5 py-2.5 rounded-xl bg-bmgreen text-white text-sm font-bold shadow hover:bg-bmgreen-hover">
+                        Update Department Report
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center space-x-3 border-2 border-bmyellow pointer-events-none">
+        <i id="toast-icon" class="fa-solid fa-circle-check text-bmyellow text-xl"></i>
+        <span id="toast-message" class="text-sm font-bold">Action successful</span>
+    </div>
+
+    <script>
+        // Official Admin Constant Email
+        const ADMIN_EMAIL = "src.hs@baktimulya400cibubur.sch.id";
+
+        // Current Application State
+        let currentUser = null; // { email: string, isAdmin: boolean }
+        
+        // Initial Financial Records Data (5 Default Rows Required)
+        const defaultFinancialRecords = [
+            {
+                date: "02 Sep 2026",
+                income: 2500000,
+                expense: 0,
+                remarks: "Dana Awal Kas SRC Semester Ganjil 2026/2027 Dari Sekolah"
+            },
+            {
+                date: "08 Sep 2026",
+                income: 0,
+                expense: 450000,
+                remarks: "Pembelian Peralatan Kebersihan & Tempat Sampah Organik (Env Dept)"
+            },
+            {
+                date: "12 Sep 2026",
+                income: 1200000,
+                expense: 0,
+                remarks: "Dana Sponsor Bazaar & Stand Entrepreneurship Day"
+            },
+            {
+                date: "15 Sep 2026",
+                income: 0,
+                expense: 800000,
+                remarks: "Cetak Spanduk & Banner Kampanye Bulan Literasi Sekolah"
+            },
+            {
+                date: "20 Sep 2026",
+                income: 500000,
+                expense: 150000,
+                remarks: "Penerimaan Iuran Kegiatan Donor Darah & Konsumsi Rapat Anggota"
+            }
+        ];
+
+        // 8 Official Required Departments Data
+        const defaultDepartmentsData = [
+            {
+                id: 1,
+                name: "(1) Academic, Languages, and Literacy Department",
+                icon: "fa-book-open-reader",
+                head: "Alya Zahra (XI-1)",
+                status: "Active & Completed",
+                summary: "Fostering academic excellence, English debating, national literacy week, and student peer-tutoring programs.",
+                programs: ["BM 400 Literacy Wall", "Peer Tutoring Squad", "Annual Public Speaking Contest"]
+            },
+            {
+                id: 2,
+                name: "(2) Health & Safety Department",
+                icon: "fa-heart-pulse",
+                head: "Farhan Rizky (XI-3)",
+                status: "Active & Completed",
+                summary: "Overseeing PMR (Youth Red Cross), mental health awareness workshops, and school emergency first-aid readiness.",
+                programs: ["Blood Donation Drive", "Mental Health Care Corner", "First Aid Kit Refresh"]
+            },
+            {
+                id: 3,
+                name: "(3) Talent & Achievement Department",
+                icon: "fa-trophy",
+                head: "Nabila Putri (XI-2)",
+                status: "In Progress",
+                summary: "Scouting and facilitating student talents in arts, sports tournaments, and national cup competitions.",
+                programs: ["BM 400 Cup 2026", "Talent Search Auditions", "Student Hall of Fame"]
+            },
+            {
+                id: 4,
+                name: "(4) Public Relations, Technology, and Information Department",
+                icon: "fa-bullhorn",
+                head: "Davin Pratama (XI-4)",
+                status: "Active & Completed",
+                summary: "Managing official SRC website, social media broadcast, photographic archives, and IT support for council activities.",
+                programs: ["SRC Web Portal Launch", "Monthly E-Magazine", "Creative Media Podcast"]
+            },
+            {
+                id: 5,
+                name: "(5) Environment & Cleanliness Department",
+                icon: "fa-leaf",
+                head: "Siti Rahma (XI-1)",
+                status: "Active & Completed",
+                summary: "Spearheading eco-school initiatives, waste sorting campaigns, and campus greenery maintenance.",
+                programs: ["Zero-Plastic Campaign", "Eco-Brick Workshop", "Hydroponic Garden Care"]
+            },
+            {
+                id: 6,
+                name: "(6) Religion & Social Department",
+                icon: "fa-hand-holding-heart",
+                head: "Muhammad Haikal (XI-5)",
+                status: "In Progress",
+                summary: "Organizing Islamic religious commemorations, charity drives, orphan care outreach, and daily congregational prayer duties.",
+                programs: ["Maulid Nabi Celebration", "Friday Charity Box", "Community Social Service"]
+            },
+            {
+                id: 7,
+                name: "(7) Entrepreneurship Department",
+                icon: "fa-store",
+                head: "Keisha Anindya (XI-3)",
+                status: "Active & Completed",
+                summary: "Cultivating business mindset among students through official SRC merchandise sales and food bazaar management.",
+                programs: ["SRC Hoodie & Merch Line", "Entrepreneurship Day Bazaar", "School Coop Partnership"]
+            },
+            {
+                id: 8,
+                name: "(8) Security & Discipline Department",
+                icon: "fa-shield-halved",
+                head: "Rizky Ramadhan (XI-2)",
+                status: "In Progress",
+                summary: "Ensuring student dress code compliance, campus safety enforcement, and event crowd management.",
+                programs: ["Morning Uniform Checklist", "Student Council Safety Patrol", "Anti-Bullying Campaign"]
+            }
+        ];
+
+        let financialRecords = [];
+        let departmentsData = [];
+
+        // Load Initial State from LocalStorage or Defaults
+        function initState() {
+            const savedFin = localStorage.getItem('bm400_financial_records');
+            if (savedFin) {
+                financialRecords = JSON.parse(savedFin);
+            } else {
+                financialRecords = [...defaultFinancialRecords];
+                saveFinancialToStorage();
+            }
+
+            const savedDepts = localStorage.getItem('bm400_depts_data');
+            if (savedDepts) {
+                departmentsData = JSON.parse(savedDepts);
+            } else {
+                departmentsData = [...defaultDepartmentsData];
+                saveDeptsToStorage();
+            }
+
+            const savedUser = localStorage.getItem('bm400_user');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+            }
+
+            updateAuthUI();
+            renderFinancialTable();
+            renderDepartments();
+        }
+
+        function saveFinancialToStorage() {
+            localStorage.setItem('bm400_financial_records', JSON.stringify(financialRecords));
+        }
+
+        function saveDeptsToStorage() {
+            localStorage.setItem('bm400_depts_data', JSON.stringify(departmentsData));
+        }
+
+        // Authentication Handlers
+        function openAuthModal() {
+            document.getElementById('auth-modal').classList.remove('hidden');
+        }
+
+        function closeAuthModal() {
+            document.getElementById('auth-modal').classList.add('hidden');
+        }
+
+        function simulatedGoogleLogin(email) {
+            currentUser = {
+                email: email,
+                isAdmin: email.toLowerCase() === ADMIN_EMAIL.toLowerCase()
+            };
+            localStorage.setItem('bm400_user', JSON.stringify(currentUser));
+            closeAuthModal();
+            updateAuthUI();
+            renderFinancialTable();
+            renderDepartments();
+            
+            if (currentUser.isAdmin) {
+                showToast(`Welcome Admin (${ADMIN_EMAIL})! Edit privileges granted.`, 'success');
+            } else {
+                showToast(`Signed in as ${email}`, 'info');
+            }
+        }
+
+        function handleCustomEmailLogin() {
+            const emailInput = document.getElementById('custom-email-input').value.trim();
+            if (!emailInput) {
+                showToast('Please enter a valid email address.', 'error');
+                return;
+            }
+            simulatedGoogleLogin(emailInput);
+        }
+
+        function logoutAdmin() {
+            currentUser = null;
+            localStorage.removeItem('bm400_user');
+            updateAuthUI();
+            renderFinancialTable();
+            renderDepartments();
+            showToast('You have signed out.', 'info');
+        }
+
+        function updateAuthUI() {
+            const adminNoticeBar = document.getElementById('admin-notice-bar');
+            const userStatusBadge = document.getElementById('user-status-badge');
+            const userEmailDisplay = document.getElementById('user-email-display');
+            const userRoleDot = document.getElementById('user-role-dot');
+            const authBtnText = document.getElementById('auth-btn-text');
+
+            if (currentUser) {
+                userStatusBadge.classList.remove('hidden');
+                userEmailDisplay.innerText = currentUser.email;
+
+                if (currentUser.isAdmin) {
+                    adminNoticeBar.classList.remove('hidden');
+                    userRoleDot.className = "w-2 h-2 rounded-full bg-bmgreen animate-pulse";
+                    authBtnText.innerText = "Admin Account";
+                } else {
+                    adminNoticeBar.classList.add('hidden');
+                    userRoleDot.className = "w-2 h-2 rounded-full bg-slate-400";
+                    authBtnText.innerText = "Signed In";
+                }
+            } else {
+                adminNoticeBar.classList.add('hidden');
+                userStatusBadge.classList.add('hidden');
+                authBtnText.innerText = "Sign In / Admin";
+            }
+        }
+
+        // Financial Money Management Table Logic
+        function renderFinancialTable() {
+            const tbody = document.getElementById('financial-table-body');
+            tbody.innerHTML = '';
+
+            let currentTotal = 0;
+            let sumIncome = 0;
+            let sumExpense = 0;
+
+            financialRecords.forEach((record, index) => {
+                sumIncome += Number(record.income || 0);
+                sumExpense += Number(record.expense || 0);
+                currentTotal += (Number(record.income || 0) - Number(record.expense || 0));
+
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50 transition-colors border-b border-slate-100";
+
+                const isAdmin = currentUser && currentUser.isAdmin;
+
+                tr.innerHTML = `
+                    <td class="py-3.5 px-4 text-center font-bold text-slate-400 text-xs">${index + 1}</td>
+                    <td class="py-3.5 px-6 font-semibold text-slate-800">${escapeHtml(record.date)}</td>
+                    <td class="py-3.5 px-6 font-bold text-emerald-600">
+                        ${record.income > 0 ? '+ Rp ' + formatNumber(record.income) : '-'}
+                    </td>
+                    <td class="py-3.5 px-6 font-bold text-red-500">
+                        ${record.expense > 0 ? '- Rp ' + formatNumber(record.expense) : '-'}
+                    </td>
+                    <td class="py-3.5 px-6 font-extrabold text-slate-900 bg-slate-50/50">
+                        Rp ${formatNumber(currentTotal)}
+                    </td>
+                    <td class="py-3.5 px-6 text-xs text-slate-600 max-w-xs leading-normal">
+                        ${escapeHtml(record.remarks)}
+                    </td>
+                    <td class="py-3.5 px-4 text-center">
+                        ${isAdmin ? `
+                            <div class="flex items-center justify-center space-x-1">
+                                <button onclick="editFinancialRecord(${index})" class="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="Edit row">
+                                    <i class="fa-solid fa-pen"></i>
+                                </button>
+                                <button onclick="deleteFinancialRecord(${index})" class="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="Delete row">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+                        ` : `
+                            <span class="text-xs text-slate-300 italic"><i class="fa-solid fa-lock text-[10px]"></i> View Only</span>
+                        `}
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            // Update Summary Stats
+            document.getElementById('stat-income').innerText = `Rp ${formatNumber(sumIncome)}`;
+            document.getElementById('stat-expense').innerText = `Rp ${formatNumber(sumExpense)}`;
+            document.getElementById('stat-total').innerText = `Rp ${formatNumber(currentTotal)}`;
+        }
+
+        function handleAddNewRow() {
+            if (!currentUser || !currentUser.isAdmin) {
+                openAuthModal();
+                showToast('Admin login required (src.hs@...) to add/edit records!', 'error');
+                return;
+            }
+            
+            document.getElementById('fin-modal-title').innerText = "Add New Financial Entry";
+            document.getElementById('fin-record-index').value = "-1";
+            document.getElementById('fin-date').value = new Date().toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
+            document.getElementById('fin-income').value = "0";
+            document.getElementById('fin-expense').value = "0";
+            document.getElementById('fin-remarks').value = "";
+            document.getElementById('financial-modal').classList.remove('hidden');
+        }
+
+        function editFinancialRecord(index) {
+            if (!currentUser || !currentUser.isAdmin) return;
+            const rec = financialRecords[index];
+            document.getElementById('fin-modal-title').innerText = "Edit Financial Entry #" + (index + 1);
+            document.getElementById('fin-record-index').value = index;
+            document.getElementById('fin-date').value = rec.date;
+            document.getElementById('fin-income').value = rec.income;
+            document.getElementById('fin-expense').value = rec.expense;
+            document.getElementById('fin-remarks').value = rec.remarks;
+            document.getElementById('financial-modal').classList.remove('hidden');
+        }
+
+        function deleteFinancialRecord(index) {
+            if (!currentUser || !currentUser.isAdmin) return;
+            financialRecords.splice(index, 1);
+            saveFinancialToStorage();
+            renderFinancialTable();
+            showToast('Financial entry deleted', 'info');
+        }
+
+        function saveFinancialRecord(e) {
+            e.preventDefault();
+            const idx = parseInt(document.getElementById('fin-record-index').value);
+            const date = document.getElementById('fin-date').value.trim();
+            const income = parseFloat(document.getElementById('fin-income').value) || 0;
+            const expense = parseFloat(document.getElementById('fin-expense').value) || 0;
+            const remarks = document.getElementById('fin-remarks').value.trim();
+
+            const recordObj = { date, income, expense, remarks };
+
+            if (idx >= 0) {
+                financialRecords[idx] = recordObj;
+                showToast('Financial entry updated!', 'success');
+            } else {
+                financialRecords.push(recordObj);
+                showToast('New entry added to financial report!', 'success');
+            }
+
+            saveFinancialToStorage();
+            renderFinancialTable();
+            closeFinancialModal();
+        }
+
+        function closeFinancialModal() {
+            document.getElementById('financial-modal').classList.add('hidden');
+        }
+
+        function resetFinancialData() {
+            financialRecords = [...defaultFinancialRecords];
+            saveFinancialToStorage();
+            renderFinancialTable();
+            showToast('Reset financial table to default 5 rows.', 'info');
+        }
+
+        // Departments Work Report Logic
+        function renderDepartments() {
+            const grid = document.getElementById('departments-grid');
+            grid.innerHTML = '';
+
+            const isAdmin = currentUser && currentUser.isAdmin;
+
+            departmentsData.forEach((dept, index) => {
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-2xl p-6 border-2 border-slate-200 hover:border-bmgreen shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between relative group";
+
+                const badgeBg = dept.status === 'Active & Completed' 
+                    ? 'bg-bmgreen-light text-bmgreen border-green-300' 
+                    : 'bg-yellow-50 text-bmyellow-text border-yellow-300';
+
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-start justify-between gap-3 mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-bmgreen text-white flex items-center justify-center shrink-0 border-2 border-bmyellow shadow">
+                                <i class="fa-solid ${dept.icon} text-lg"></i>
+                            </div>
+                            <span class="text-[10px] font-extrabold px-2.5 py-1 rounded-full border ${badgeBg}">
+                                ${dept.status}
+                            </span>
+                        </div>
+
+                        <h3 class="font-extrabold text-slate-900 text-base leading-snug mb-2 group-hover:text-bmgreen transition-colors">
+                            ${escapeHtml(dept.name)}
+                        </h3>
+
+                        <div class="text-xs text-slate-500 font-medium mb-3 flex items-center gap-1.5">
+                            <i class="fa-solid fa-user-tie text-bmgreen"></i>
+                            <span>Lead: <strong>${escapeHtml(dept.head)}</strong></span>
+                        </div>
+
+                        <p class="text-xs text-slate-600 leading-relaxed mb-4 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                            ${escapeHtml(dept.summary)}
+                        </p>
+
+                        <!-- Key Programs List -->
+                        <div class="space-y-1.5 mb-4">
+                            <span class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider">Key Initiatives:</span>
+                            ${dept.programs.map(p => `
+                                <div class="flex items-center text-xs text-slate-700 space-x-2">
+                                    <i class="fa-solid fa-circle-check text-bmgreen text-[10px]"></i>
+                                    <span class="font-medium">${escapeHtml(p)}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
+                        <span class="text-[11px] font-mono text-slate-400">Dept ID: #0${dept.id}</span>
+                        ${isAdmin ? `
+                            <button onclick="openEditDeptModal(${index})" class="text-xs font-bold text-bmgreen hover:bg-bmgreen-light px-3 py-1.5 rounded-lg border border-green-300 transition-colors flex items-center gap-1">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                                <span>Edit Report</span>
+                            </button>
+                        ` : `
+                            <span class="text-[11px] text-slate-400 font-medium">Verified Report</span>
+                        `}
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function openEditDeptModal(index) {
+            if (!currentUser || !currentUser.isAdmin) return;
+            const dept = departmentsData[index];
+            document.getElementById('dept-index').value = index;
+            document.getElementById('dept-modal-title').innerText = "Edit Work Report: Dept #" + dept.id;
+            document.getElementById('dept-head').value = dept.head;
+            document.getElementById('dept-status').value = dept.status;
+            document.getElementById('dept-summary').value = dept.summary;
+            document.getElementById('dept-programs').value = dept.programs.join(', ');
+            document.getElementById('dept-modal').classList.remove('hidden');
+        }
+
+        function closeDeptModal() {
+            document.getElementById('dept-modal').classList.add('hidden');
+        }
+
+        function saveDeptReport(e) {
+            e.preventDefault();
+            const idx = parseInt(document.getElementById('dept-index').value);
+            if (idx >= 0 && idx < departmentsData.length) {
+                departmentsData[idx].head = document.getElementById('dept-head').value.trim();
+                departmentsData[idx].status = document.getElementById('dept-status').value;
+                departmentsData[idx].summary = document.getElementById('dept-summary').value.trim();
+                
+                const progStr = document.getElementById('dept-programs').value;
+                departmentsData[idx].programs = progStr.split(',').map(s => s.trim()).filter(s => s.length > 0);
+
+                saveDeptsToStorage();
+                renderDepartments();
+                closeDeptModal();
+                showToast(`Updated ${departmentsData[idx].name} report!`, 'success');
+            }
+        }
+
+        function submitFeedback(e) {
+            e.preventDefault();
+            const name = document.getElementById('fb-name').value;
+            const dept = document.getElementById('fb-dept').value;
+            showToast(`Thank you ${name}! Your feedback for ${dept} has been submitted to SRC.`, 'success');
+            document.getElementById('feedback-form').reset();
+        }
+
+        // Helpers & Utilities
+        function formatNumber(num) {
+            return new Intl.NumberFormat('id-ID').format(num);
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-message');
+            const toastIcon = document.getElementById('toast-icon');
+
+            toastMsg.innerText = message;
+
+            if (type === 'error') {
+                toastIcon.className = "fa-solid fa-circle-exclamation text-red-400 text-xl";
+            } else if (type === 'info') {
+                toastIcon.className = "fa-solid fa-circle-info text-blue-400 text-xl";
+            } else {
+                toastIcon.className = "fa-solid fa-circle-check text-bmyellow text-xl";
+            }
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3500);
+        }
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', initState);
+    </script>
+</body>
+</html>

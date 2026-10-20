@@ -57,7 +57,8 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body class="text-slate-800 font-sans antialiased selection:bg-bmyellow selection:text-slate-900 relative">
+<body
+    class="text-slate-800 font-sans antialiased selection:bg-bmyellow selection:text-slate-900 relative overflow-x-hidden min-h-screen flex flex-col">
 
     <!-- Background Gradient Jade Sky (Fixed) -->
     <div aria-hidden="true"
@@ -69,17 +70,19 @@
 
     <!-- Header / Navbar Melayang (Fixed Sticky Capsule Glossy) -->
     <header
-        class="fixed top-0 left-0 w-full z-40 pt-4 px-4 flex justify-center pointer-events-none transition-all duration-300">
+        class="fixed top-0 left-0 w-full z-40 pt-2.5 sm:pt-4 px-2 sm:px-4 flex justify-center pointer-events-none transition-all duration-300">
         <nav
-            class="max-w-6xl w-full mx-auto glossy-navbar rounded-full px-6 py-2.5 flex items-center justify-between pointer-events-auto">
+            class="max-w-6xl w-full mx-auto glossy-navbar rounded-full px-3 sm:px-5 md:px-6 py-1.5 sm:py-2.5 flex items-center justify-between pointer-events-auto">
             <!-- Brand Logo / Banner SRC -->
-            <div class="flex items-center cursor-pointer relative z-10 select-none py-0.5" onclick="scrollToSection('hero')" role="button" tabindex="0" aria-label="SRC BM 400 Cibubur - Beranda" onkeydown="if(event.key==='Enter'||event.key===' '){scrollToSection('hero');event.preventDefault();}">
+            <div class="flex items-center cursor-pointer relative z-10 select-none py-0.5"
+                onclick="scrollToSection('hero')" role="button" tabindex="0" aria-label="SRC BM 400 Cibubur - Beranda"
+                onkeydown="if(event.key==='Enter'||event.key===' '){scrollToSection('hero');event.preventDefault();}">
                 <img src="src-banner.jpg" alt="Student Representative Council BM 400 Cibubur"
-                    class="h-8 sm:h-9 md:h-10 w-auto object-contain rounded-md shadow-xs transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]">
+                    class="h-7 sm:h-8 md:h-9 lg:h-10 w-auto object-contain rounded-md shadow-xs transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]">
             </div>
 
             <!-- Menu Desktop -->
-            <ul class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-700 relative z-10">
+            <ul class="hidden lg:flex items-center gap-5 xl:gap-8 text-sm font-medium text-slate-700 relative z-10">
                 <li><a href="#hero" data-nav-link="hero" data-i18n="nav.home"
                         class="nav-desktop-link text-brand-green font-semibold border-b-2 border-brand-green pb-0.5 transition-all">Home</a>
                 </li>
@@ -104,38 +107,39 @@
             </ul>
 
             <!-- Aksi Kanan (Status Pengguna & Auth) -->
-            <div class="flex items-center gap-3 relative z-10">
-
+            <div class="flex items-center gap-1.5 sm:gap-2.5 md:gap-3 relative z-10">
 
                 <div id="user-status-badge"
-                    class="hidden items-center gap-2 px-3 py-1 rounded-full bg-white/80 border border-slate-200 text-xs font-semibold text-slate-700">
+                    class="hidden items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 rounded-full bg-white/80 border border-slate-200 text-xs font-semibold text-slate-700">
                     <span id="user-role-dot" class="w-2 h-2 rounded-full bg-brand-green"></span>
-                    <span id="user-email-display" class="max-w-[120px] truncate text-[11px]"></span>
-                    <button type="button" onclick="window.handleLogout()" class="text-slate-400 hover:text-red-500 ml-1"
-                        title="Logout">
+                    <span id="user-email-display"
+                        class="max-w-[70px] sm:max-w-[120px] truncate text-[10px] sm:text-[11px]"></span>
+                    <button type="button" onclick="window.handleLogout()"
+                        class="text-slate-400 hover:text-red-500 ml-0.5 sm:ml-1" title="Logout">
                         <i class="fa-solid fa-arrow-right-from-bracket text-[10px]"></i>
                     </button>
                 </div>
 
                 <!-- Language Switcher Button (ID / EN) -->
                 <button type="button" id="lang-switch-btn" onclick="window.toggleLanguage()"
-                    class="h-8 px-2.5 rounded-full bg-white/90 hover:bg-white text-slate-700 flex items-center gap-1.5 text-xs font-bold transition-all shadow-xs border border-white group"
+                    class="h-7 sm:h-8 px-2 sm:px-2.5 rounded-full bg-white/90 hover:bg-white text-slate-700 flex items-center gap-1 sm:gap-1.5 text-xs font-bold transition-all shadow-xs border border-white group"
                     title="Change Language / Ganti Bahasa" aria-label="Ganti Bahasa">
                     <i
                         class="fa-solid fa-globe text-brand-green text-xs group-hover:rotate-12 transition-transform"></i>
-                    <span id="lang-indicator" class="tracking-wider">EN</span>
+                    <span id="lang-indicator" class="tracking-wider text-[11px] sm:text-xs">EN</span>
                 </button>
 
                 <button type="button" id="auth-btn-trigger" onclick="openAuthModal()"
-                    class="h-8 px-3 rounded-full bg-white/90 hover:bg-white text-slate-700 flex items-center gap-1.5 text-xs font-bold transition-all shadow-xs border border-white"
+                    class="h-7 sm:h-8 px-2.5 sm:px-3 rounded-full bg-white/90 hover:bg-white text-slate-700 flex items-center gap-1.5 text-xs font-bold transition-all shadow-xs border border-white"
                     title="User Account">
                     <i class="fa-solid fa-user text-xs"></i>
-                    <span id="auth-btn-text" data-i18n="nav.signIn">Sign In</span>
+                    <span id="auth-btn-text" data-i18n="nav.signIn" class="hidden sm:inline">Sign In</span>
                 </button>
 
                 <button onclick="toggleMobileMenu()"
-                    class="md:hidden p-2 text-slate-700 hover:bg-white/80 rounded-full">
-                    <i class="fa-solid fa-bars text-lg"></i>
+                    class="lg:hidden p-1.5 sm:p-2 text-slate-700 hover:bg-white/80 rounded-full transition-colors flex items-center justify-center"
+                    aria-label="Toggle navigation menu">
+                    <i class="fa-solid fa-bars text-base sm:text-lg"></i>
                 </button>
             </div>
         </nav>
@@ -143,19 +147,19 @@
 
     <!-- Mobile Menu (Smooth Drawer Transitions) -->
     <div id="mobile-menu"
-        class="menu-hidden fixed top-24 left-4 right-4 z-40 glass-panel rounded-2xl p-4 space-y-2 shadow-2xl">
+        class="menu-hidden fixed top-16 sm:top-20 left-3 right-3 sm:left-4 sm:right-4 z-40 max-h-[calc(100vh-5rem)] overflow-y-auto glass-panel rounded-2xl p-3 sm:p-4 space-y-1 sm:space-y-2 shadow-2xl transition-all duration-300">
         <a href="#hero" data-nav-link="hero" data-i18n="nav.home" onclick="toggleMobileMenu()"
             class="nav-mobile-link block px-4 py-3 rounded-xl bg-emerald-50 text-brand-green font-bold transition-colors">Home</a>
         <a href="#about" data-nav-link="about" data-i18n="nav.aboutUs" onclick="toggleMobileMenu()"
             class="nav-mobile-link block px-4 py-3 rounded-xl hover:bg-white/50 font-medium text-slate-800 transition-colors">About
             Us</a>
-        <a href="#activity" data-nav-link="activity" data-i18n="nav.activity" onclick="toggleMobileMenu()"
-            class="nav-mobile-link block px-4 py-3 rounded-xl hover:bg-white/50 font-medium text-slate-800 transition-colors">Activity</a>
         <a href="#financial" data-nav-link="financial" data-i18n="nav.financialReport" onclick="toggleMobileMenu()"
             class="nav-mobile-link block px-4 py-3 rounded-xl hover:bg-white/50 font-medium text-slate-800 transition-colors">Financial
             Report</a>
         <a href="#departments" data-nav-link="departments" data-i18n="nav.departments" onclick="toggleMobileMenu()"
             class="nav-mobile-link block px-4 py-3 rounded-xl hover:bg-white/50 font-medium text-slate-800 transition-colors">Departments</a>
+        <a href="#activity" data-nav-link="activity" data-i18n="nav.activity" onclick="toggleMobileMenu()"
+            class="nav-mobile-link block px-4 py-3 rounded-xl hover:bg-white/50 font-medium text-slate-800 transition-colors">Activity</a>
         <a href="#blog" data-nav-link="blog" data-i18n="nav.blogJournal" onclick="toggleMobileMenu()"
             class="nav-mobile-link block px-4 py-3 rounded-xl hover:bg-white/50 font-medium text-slate-800 transition-colors">Blog
             Journal</a>
@@ -166,27 +170,28 @@
     <main class="flex-grow relative z-10">
         <!-- HERO SECTION -->
         <section id="hero"
-            class="min-h-screen w-full relative pt-36 pb-20 flex items-center bg-cover bg-center overflow-hidden">
+            class="min-h-screen w-full relative pt-24 min-[400px]:pt-28 sm:pt-32 lg:pt-36 pb-12 sm:pb-16 lg:pb-20 flex items-center bg-cover bg-center overflow-hidden">
 
             <div aria-hidden="true"
-                class="absolute -top-20 -left-20 w-96 h-96 rounded-full bg-emerald-200/40 filter blur-3xl pointer-events-none animate-mesh-slow">
+                class="absolute -top-20 -left-20 w-72 sm:w-96 h-72 sm:h-96 rounded-full bg-emerald-200/40 filter blur-3xl pointer-events-none animate-mesh-slow">
             </div>
             <div aria-hidden="true"
-                class="absolute top-1/3 -right-20 w-96 h-96 rounded-full bg-amber-200/35 filter blur-3xl pointer-events-none animate-mesh-slow"
+                class="absolute top-1/3 -right-20 w-72 sm:w-96 h-72 sm:h-96 rounded-full bg-amber-200/35 filter blur-3xl pointer-events-none animate-mesh-slow"
                 style="animation-delay: -5s;"></div>
 
-            <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full grid lg:grid-cols-12 gap-12 items-center">
+            <div
+                class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-12 w-full grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
                 <!-- Sisi Kiri: Teks & Navigasi Hero -->
-                <div class="lg:col-span-7 space-y-6">
+                <div class="lg:col-span-7 space-y-4 sm:space-y-6">
                     <!-- Eyebrow Badge -->
                     <div data-i18n="hero.eyebrow"
-                        class="motion-fade-left inline-flex items-center gap-2 bg-white/85 backdrop-blur-md px-4 py-1.5 rounded-full border border-white text-xs font-bold text-[#1f4834] tracking-widest uppercase shadow-sm animate-float">
+                        class="motion-fade-left inline-flex items-center gap-2 bg-white/85 backdrop-blur-md px-3 sm:px-4 py-1 sm:py-1.5 rounded-full border border-white text-[11px] sm:text-xs font-bold text-[#1f4834] tracking-wider sm:tracking-widest uppercase shadow-xs animate-float">
                         A Brighter Tomorrow Awaits
                     </div>
 
                     <!-- Headline -->
                     <h1
-                        class="cinematic-mask-reveal text-5xl sm:text-6xl lg:text-7xl font-serif text-[#163826] leading-[1.12] tracking-tight">
+                        class="cinematic-mask-reveal text-3xl min-[400px]:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif text-[#163826] leading-[1.15] sm:leading-[1.12] tracking-tight break-words">
                         <span
                             class="text-[#059669] font-bold inline-block hover:scale-105 transition-transform">S</span>tudent<br>
                         <span
@@ -198,27 +203,27 @@
                     <!-- Pill Badge -->
                     <div class="motion-fade-up flex items-center gap-2.5">
                         <span data-i18n="hero.schoolBadge"
-                            class="text-xs font-bold uppercase tracking-wider text-[#1e4633] bg-emerald-50/90 px-3 py-1.5 rounded-full border border-emerald-200/70 shadow-xs">
+                            class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#1e4633] bg-emerald-50/90 px-3 py-1.5 rounded-full border border-emerald-200/70 shadow-xs leading-normal">
                             SMA Bakti Mulya 400 Cibubur &middot; Cambridge International
                         </span>
                     </div>
 
                     <!-- Subtitle -->
                     <p data-i18n="hero.subtitle"
-                        class="motion-fade-up text-base sm:text-lg text-slate-800 max-w-xl leading-relaxed font-normal bg-white/55 backdrop-blur-sm p-4 rounded-2xl border border-white/70 shadow-xs">
+                        class="motion-fade-up text-sm sm:text-base lg:text-lg text-slate-800 max-w-xl leading-relaxed font-normal bg-white/55 backdrop-blur-sm p-3.5 sm:p-4 rounded-2xl border border-white/70 shadow-xs">
                         Discover leadership opportunities, meaningful campus experiences, and a kinder, brighter way to
                         grow together at SMA Bakti Mulya 400.
                     </p>
 
                     <!-- CTAs -->
-                    <div class="motion-fade-up flex flex-wrap gap-4 pt-2">
+                    <div class="motion-fade-up flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 pt-1 sm:pt-2">
                         <button onclick="scrollToSection('departments')"
-                            class="interactive-hover-lift bg-[#24523d] hover:bg-[#1a3d2d] text-white font-semibold px-8 py-4 rounded-full shadow-lg flex items-center gap-2.5 transition-all text-sm active:scale-95">
+                            class="interactive-hover-lift w-full sm:w-auto justify-center bg-[#24523d] hover:bg-[#1a3d2d] text-white font-semibold px-6 sm:px-8 py-3.5 sm:py-4 rounded-full shadow-lg flex items-center gap-2.5 transition-all text-sm active:scale-95">
                             <span data-i18n="hero.ctaExplore">Explore Divisions</span>
                             <i class="fa-solid fa-arrow-right text-xs"></i>
                         </button>
                         <button onclick="scrollToSection('financial')"
-                            class="interactive-hover-lift bg-white/90 hover:bg-white text-slate-900 font-semibold px-7 py-4 rounded-full shadow-md border border-white flex items-center gap-3 transition-all text-sm active:scale-95">
+                            class="interactive-hover-lift w-full sm:w-auto justify-center bg-white/90 hover:bg-white text-slate-900 font-semibold px-6 sm:px-7 py-3.5 sm:py-4 rounded-full shadow-md border border-white flex items-center gap-3 transition-all text-sm active:scale-95">
                             <div
                                 class="w-7 h-7 rounded-full bg-[#1b3d2b] text-white flex items-center justify-center text-[10px]">
                                 <i class="fa-solid fa-play ml-0.5"></i>
@@ -228,17 +233,34 @@
                     </div>
                 </div>
 
-                <!-- Sisi Kanan: Card Kotak Glossy Transparan (Kosong) -->
+                <!-- Sisi Kanan: Showcase Card Kampus -->
                 <div class="lg:col-span-5 w-full motion-fade-right">
                     <div
-                        class="glossy-card rounded-3xl min-h-[380px] md:min-h-[460px] w-full relative transition-all duration-300 hover:shadow-2xl">
+                        class="glossy-card rounded-3xl min-h-[240px] sm:min-h-[340px] lg:min-h-[460px] w-full relative transition-all duration-300 hover:shadow-2xl overflow-hidden p-6 sm:p-8 flex flex-col justify-end">
+                        <div class="absolute inset-0 z-0">
+                            <img src="bm400-building.jpg" alt="SMA Bakti Mulya 400 Cibubur Campus"
+                                class="w-full h-full object-cover object-center opacity-85 hover:scale-105 transition-transform duration-700"
+                                onerror="this.style.display='none'">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-slate-900/85 via-slate-900/35 to-transparent">
+                            </div>
+                        </div>
+                        <div class="relative z-10 text-white">
+                            <div
+                                class="inline-flex items-center gap-1.5 bg-brand-green/90 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider mb-2">
+                                <i class="fa-solid fa-school text-xs"></i> Campus Hub
+                            </div>
+                            <h3 class="font-serif font-bold text-lg sm:text-xl text-white">SMA Bakti Mulya 400</h3>
+                            <p class="text-xs text-slate-200 mt-1 line-clamp-2">Cambridge International School &middot;
+                                Cibubur, Jakarta</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- ABOUT US SECTION (Visi & Misi Periode 2026/2027) -->
-        <section id="about" class="py-24 relative overflow-hidden">
+        <section id="about" class="py-16 sm:py-24 relative overflow-hidden">
             <div aria-hidden="true"
                 class="absolute -top-24 -left-20 w-80 h-80 rounded-full bg-emerald-200/30 filter blur-3xl pointer-events-none animate-mesh-slow">
             </div>
@@ -248,32 +270,33 @@
 
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <!-- Section Header -->
-                <div class="text-center max-w-3xl mx-auto mb-16">
+                <div class="text-center max-w-3xl mx-auto mb-10 sm:mb-16">
                     <div
                         class="inline-flex items-center space-x-2 text-brand-green font-bold text-xs uppercase tracking-widest mb-3">
                         <i class="fa-solid fa-compass"></i>
                         <span data-i18n="about.eyebrow">About Our Council</span>
                     </div>
-                    <h2 data-i18n="about.title" class="text-3xl sm:text-4xl lg:text-5xl font-serif text-brand-dark">
+                    <h2 data-i18n="about.title" class="text-2xl sm:text-4xl lg:text-5xl font-serif text-brand-dark">
                         Visi &amp; Misi SRC BM400 Cibubur
                     </h2>
                 </div>
 
                 <!-- Bento Grid: Visi & Misi (Balanced 2-Column Grid) -->
-                <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+                <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 items-stretch">
                     <!-- Kartu Visi -->
                     <div
-                        class="flex flex-col justify-between glossy-card rounded-3xl p-8 md:p-10 border border-white/80 shadow-lg relative overflow-hidden bg-gradient-to-br from-white/90 via-emerald-50/40 to-white/80 interactive-hover-lift">
+                        class="flex flex-col justify-between glossy-card rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 border border-white/80 shadow-lg relative overflow-hidden bg-gradient-to-br from-white/90 via-emerald-50/40 to-white/80 interactive-hover-lift">
                         <div aria-hidden="true"
                             class="absolute -top-12 -right-12 w-40 h-40 bg-emerald-400/15 rounded-full blur-2xl pointer-events-none">
                         </div>
 
                         <div class="relative z-10 space-y-4">
                             <div class="space-y-3">
-                                <h3 data-i18n="about.visiTitle" class="text-2xl sm:text-3xl font-serif font-bold text-slate-900 leading-snug">
+                                <h3 data-i18n="about.visiTitle"
+                                    class="text-xl sm:text-2xl md:text-3xl font-serif font-bold text-slate-900 leading-snug">
                                     Visi
                                 </h3>
-                                <p data-i18n="about.visiDesc" class="text-slate-600 text-sm leading-relaxed">
+                                <p data-i18n="about.visiDesc" class="text-slate-600 text-xs sm:text-sm leading-relaxed">
                                     Mewujudkan Generasi Pemimpin Berwawasan Global, Berkarakter Islami, dan Berdampak
                                     Nyata
                                 </p>
@@ -283,17 +306,18 @@
 
                     <!-- Kartu Misi -->
                     <div
-                        class="flex flex-col justify-between glossy-card rounded-3xl p-8 md:p-10 border border-white/80 shadow-lg relative overflow-hidden bg-gradient-to-br from-white/90 via-emerald-50/40 to-white/80 interactive-hover-lift">
+                        class="flex flex-col justify-between glossy-card rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 border border-white/80 shadow-lg relative overflow-hidden bg-gradient-to-br from-white/90 via-emerald-50/40 to-white/80 interactive-hover-lift">
                         <div aria-hidden="true"
                             class="absolute -top-12 -right-12 w-40 h-40 bg-emerald-400/15 rounded-full blur-2xl pointer-events-none">
                         </div>
 
                         <div class="relative z-10 space-y-4">
                             <div class="space-y-3">
-                                <h3 data-i18n="about.misiTitle" class="text-2xl sm:text-3xl font-serif font-bold text-slate-900 leading-snug">
+                                <h3 data-i18n="about.misiTitle"
+                                    class="text-xl sm:text-2xl md:text-3xl font-serif font-bold text-slate-900 leading-snug">
                                     Misi
                                 </h3>
-                                <p data-i18n="about.misiDesc" class="text-slate-600 text-sm leading-relaxed">
+                                <p data-i18n="about.misiDesc" class="text-slate-600 text-xs sm:text-sm leading-relaxed">
                                     Menyuarakan Aspirasi Siswa secara Inklusif, Mengembangkan Potensi Kepemimpinan
                                     Berdaya Saing Global, Memperkuat Sinergi Sivitas Akademika Bakti Mulya 400, dan
                                     Menjadi Katalisator Perubahan Positif.
@@ -306,7 +330,7 @@
         </section>
 
         <!-- FINANCIAL REPORT SECTION -->
-        <section id="financial" class="py-24 relative overflow-hidden border-y border-emerald-100/60">
+        <section id="financial" class="py-16 sm:py-24 relative overflow-hidden border-y border-emerald-100/60">
             <div aria-hidden="true"
                 class="absolute -top-32 right-10 w-96 h-96 rounded-full bg-emerald-200/30 filter blur-3xl pointer-events-none animate-mesh-slow">
             </div>
@@ -325,10 +349,12 @@
                             <i class="fa-solid fa-chart-pie"></i>
                             <span data-i18n="financial.eyebrow">Transparency & Accountability</span>
                         </div>
-                        <h2 data-i18n="financial.title" class="text-3xl sm:text-4xl font-serif text-brand-dark">
+                        <h2 data-i18n="financial.title"
+                            class="text-2xl sm:text-3xl md:text-4xl font-serif text-brand-dark">
                             Monthly Financial Report
                         </h2>
-                        <p data-i18n="financial.subtitle" class="text-slate-600 text-sm mt-1">Transparansi arus kas, laporan berkala, dan rekapitulasi dana program SRC.</p>
+                        <p data-i18n="financial.subtitle" class="text-slate-600 text-xs sm:text-sm mt-1">Transparansi
+                            arus kas, laporan berkala, dan rekapitulasi dana program SRC.</p>
                     </div>
 
                     <!-- Kartu Statistik Gaya Bento -->
@@ -338,7 +364,9 @@
                         <div class="spotlight-card spotlight-border bg-white/95 border border-slate-200/90 rounded-2xl p-4 sm:p-5 shadow-sm min-w-[160px] sm:min-w-[170px] transition-all duration-300 hover:shadow-md hover:-translate-y-0.5"
                             style="--spotlight-color: rgba(48, 180, 87, 0.22); --spotlight-border-color: rgba(48, 180, 87, 0.45);">
                             <div class="flex items-center justify-between mb-2.5 relative z-10">
-                                <span data-i18n="financial.totalIncome" class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Total Income</span>
+                                <span data-i18n="financial.totalIncome"
+                                    class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Total
+                                    Income</span>
                                 <div
                                     class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-emerald-50 text-brand-green flex items-center justify-center border border-emerald-100">
                                     <i class="fa-solid fa-arrow-trend-up text-xs"></i>
@@ -349,7 +377,8 @@
                                 0</span>
                             <div
                                 class="mt-1.5 text-[10px] text-slate-500 font-medium flex items-center gap-1.5 relative z-10">
-                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> <span data-i18n="financial.verifiedIncome">Pemasukan Terverifikasi</span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> <span
+                                    data-i18n="financial.verifiedIncome">Pemasukan Terverifikasi</span>
                             </div>
                         </div>
 
@@ -357,7 +386,9 @@
                         <div class="spotlight-card spotlight-border bg-white/95 border border-slate-200/90 rounded-2xl p-4 sm:p-5 shadow-sm min-w-[160px] sm:min-w-[170px] transition-all duration-300 hover:shadow-md hover:-translate-y-0.5"
                             style="--spotlight-color: rgba(239, 68, 68, 0.18); --spotlight-border-color: rgba(239, 68, 68, 0.4);">
                             <div class="flex items-center justify-between mb-2.5 relative z-10">
-                                <span data-i18n="financial.totalExpense" class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Total Expense</span>
+                                <span data-i18n="financial.totalExpense"
+                                    class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Total
+                                    Expense</span>
                                 <div
                                     class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-rose-50 text-red-500 flex items-center justify-center border border-rose-100">
                                     <i class="fa-solid fa-arrow-trend-down text-xs"></i>
@@ -368,7 +399,8 @@
                                 0</span>
                             <div
                                 class="mt-1.5 text-[10px] text-slate-500 font-medium flex items-center gap-1.5 relative z-10">
-                                <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> <span data-i18n="financial.operationalExpense">Pengeluaran Operasional</span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> <span
+                                    data-i18n="financial.operationalExpense">Pengeluaran Operasional</span>
                             </div>
                         </div>
 
@@ -376,7 +408,9 @@
                         <div class="spotlight-card spotlight-border bg-white/95 border border-slate-200/90 rounded-2xl p-4 sm:p-5 shadow-sm min-w-[160px] sm:min-w-[170px] transition-all duration-300 hover:shadow-md hover:-translate-y-0.5"
                             style="--spotlight-color: rgba(30, 41, 59, 0.15); --spotlight-border-color: rgba(48, 180, 87, 0.4);">
                             <div class="flex items-center justify-between mb-2.5 relative z-10">
-                                <span data-i18n="financial.netBalance" class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Net Balance</span>
+                                <span data-i18n="financial.netBalance"
+                                    class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Net
+                                    Balance</span>
                                 <div
                                     class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-slate-100 text-slate-800 flex items-center justify-center border border-slate-200">
                                     <i class="fa-solid fa-wallet text-xs"></i>
@@ -387,18 +421,18 @@
                                 0</span>
                             <div
                                 class="mt-1.5 text-[10px] text-slate-500 font-medium flex items-center gap-1.5 relative z-10">
-                                <span class="w-1.5 h-1.5 rounded-full bg-brand-green"></span> <span data-i18n="financial.currentBalance">Saldo Kas SRC Terkini</span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-brand-green"></span> <span
+                                    data-i18n="financial.currentBalance">Saldo Kas SRC Terkini</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Kontrol Filter & Tambah Data -->
-                <div
-                    class="mb-4 flex flex-wrap justify-between items-center gap-3 glass-panel p-3 rounded-2xl border border-white/60 shadow-sm">
+                <div class="mb-5 flex flex-col sm:flex-row justify-between items-center gap-3">
                     <!-- Sliding Tabs -->
-                    <div id="financial-sliding-tabs" class="ruixen-sliding-tabs-container" role="tablist"
-                        aria-label="Financial Filter">
+                    <div id="financial-sliding-tabs" class="ruixen-sliding-tabs-container mx-auto sm:mx-0 shadow-md"
+                        role="tablist" aria-label="Financial Filter">
                         <div id="financial-sliding-pill" class="ruixen-sliding-pill"></div>
                         <button type="button" role="tab" aria-selected="true"
                             onclick="window.filterFinancialType('all')" id="fin-tab-all" class="ruixen-tab-btn active">
@@ -419,25 +453,47 @@
 
                     <div class="flex items-center gap-2">
                         <button id="add-trans-btn" onclick="handleAddNewRow()"
-                            class="hidden bg-brand-green hover:bg-brand-hover text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-sm flex items-center gap-1.5">
-                            <i class="fa-solid fa-plus text-xs"></i> <span data-i18n="financial.addTransaction">Tambah Transaksi</span>
+                            class="hidden w-full sm:w-auto justify-center bg-brand-green hover:bg-brand-hover text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-sm flex items-center gap-1.5">
+                            <i class="fa-solid fa-plus text-xs"></i> <span data-i18n="financial.addTransaction">Tambah
+                                Transaksi</span>
                         </button>
                     </div>
                 </div>
 
-                <!-- Tabel Keuangan -->
-                <div class="overflow-x-auto rounded-3xl border border-white/60 shadow-xl bg-white">
+                <!-- Petunjuk Geser Tabel (Mobile) -->
+                <div id="financial-scroll-hint" class="hidden flex items-center justify-between text-[11px] text-slate-500 mb-2 px-1 sm:hidden">
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-arrows-left-right text-[10px] text-brand-green"></i> Geser tabel untuk rincian</span>
+                    <span class="text-[10px] text-slate-400 font-semibold">IDR (Rp)</span>
+                </div>
+
+                <!-- Empty State Keuangan (Ketika Belum Ada Data) -->
+                <div id="financial-empty-state"
+                    class="glass-panel bg-white/90 rounded-2xl sm:rounded-3xl border border-white/80 p-8 sm:p-12 text-center shadow-lg transition-all">
+                    <div
+                        class="w-16 h-16 rounded-full bg-emerald-50 text-brand-green flex items-center justify-center mx-auto mb-4 text-2xl shadow-xs">
+                        <i class="fa-solid fa-receipt"></i>
+                    </div>
+                    <h3 id="financial-empty-title" class="text-base sm:text-lg font-serif font-bold text-slate-800">Belum Ada Transaksi Kas</h3>
+                    <p id="financial-empty-desc" class="text-xs text-slate-500 max-w-md mx-auto mt-1 leading-relaxed">
+                        Catatan pemasukan & pengeluaran kas SRC yang diposting melalui Member Dashboard akan langsung tampil di sini secara transparan.
+                    </p>
+                </div>
+
+                <!-- Tabel Keuangan (Tampil Jika Ada Data) -->
+                <div id="financial-table-wrapper"
+                    class="hidden table-responsive-wrapper rounded-2xl sm:rounded-3xl border border-white/60 shadow-xl bg-white max-w-full">
                     <table class="w-full text-left border-collapse">
                         <thead>
                             <tr
                                 class="bg-slate-50 text-slate-500 text-[11px] font-bold uppercase tracking-widest border-b border-slate-200">
-                                <th class="py-4 px-4 w-12 text-center">#</th>
-                                <th data-i18n="table.date" class="py-4 px-6 min-w-[140px]">Date</th>
-                                <th data-i18n="table.income" class="py-4 px-6 min-w-[170px]">Income</th>
-                                <th data-i18n="table.expense" class="py-4 px-6 min-w-[170px]">Expense</th>
-                                <th data-i18n="table.balance" class="py-4 px-6 min-w-[170px]">Balance</th>
-                                <th data-i18n="table.description" class="py-4 px-6 min-w-[250px]">Description</th>
-                                <th id="th-action-col" data-i18n="table.action" class="py-4 px-4 w-16 text-center">Aksi</th>
+                                <th class="py-3 px-3 w-10 text-center">#</th>
+                                <th data-i18n="table.date" class="py-3 px-4 min-w-[110px]">Date</th>
+                                <th data-i18n="table.income" class="py-3 px-4 min-w-[130px]">Income</th>
+                                <th data-i18n="table.expense" class="py-3 px-4 min-w-[130px]">Expense</th>
+                                <th data-i18n="table.balance" class="py-3 px-4 min-w-[130px]">Balance</th>
+                                <th data-i18n="table.description" class="py-3 px-4 min-w-[200px]">Description</th>
+                                <th id="th-action-col" data-i18n="table.action" class="py-3 px-3 w-14 text-center">Aksi
+                                </th>
                             </tr>
                         </thead>
                         <tbody id="financial-table-body" class="divide-y divide-slate-100 text-sm font-medium">
@@ -449,22 +505,24 @@
         </section>
 
         <!-- DEPARTMENTS SECTION -->
-        <section id="departments" class="py-20 relative">
+        <section id="departments" class="py-16 sm:py-20 relative overflow-hidden">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center max-w-2xl mx-auto mb-10">
+                <div class="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
                     <div
                         class="inline-flex items-center space-x-2 text-brand-green font-bold text-xs uppercase tracking-widest mb-3">
                         <i class="fa-solid fa-sitemap"></i>
                         <span data-i18n="departments.eyebrow">Our Divisions</span>
                     </div>
-                    <h2 data-i18n="departments.title" class="text-3xl sm:text-4xl font-serif text-brand-dark">
+                    <h2 data-i18n="departments.title"
+                        class="text-2xl sm:text-3xl md:text-4xl font-serif text-brand-dark">
                         SRC Departments Work Report
                     </h2>
-                    <p data-i18n="departments.subtitle" class="text-slate-600 mt-4 text-sm">Dedicated teams working together to create a brighter, kinder school environment.</p>
+                    <p data-i18n="departments.subtitle" class="text-slate-600 mt-2 sm:mt-4 text-xs sm:text-sm">Dedicated
+                        teams working together to create a brighter, kinder school environment.</p>
                 </div>
 
                 <!-- Tabs Filter Divisi dengan Badge Counter -->
-                <div class="flex justify-center mb-10">
+                <div class="flex justify-center mb-8 sm:mb-10 w-full px-2">
                     <div class="coss-tabs-list" role="tablist" aria-label="Department Divisions">
                         <button type="button" role="tab" aria-selected="true" onclick="window.filterDepartments('all')"
                             id="dept-tab-all" class="coss-tab-trigger active">
@@ -496,13 +554,13 @@
                 </div>
 
                 <!-- Grid Kartu Divisi -->
-                <div id="departments-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div id="departments-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
                 </div>
             </div>
         </section>
 
         <!-- ACTIVITY SECTION (Polaroid Line Carousel) -->
-        <section id="activity" class="py-24 relative overflow-hidden border-y border-amber-200/50">
+        <section id="activity" class="py-16 sm:py-24 relative overflow-hidden border-y border-amber-200/50">
             <div aria-hidden="true"
                 class="absolute -top-24 left-1/4 w-96 h-96 rounded-full bg-yellow-200/40 filter blur-3xl pointer-events-none animate-mesh-slow">
             </div>
@@ -518,14 +576,15 @@
                             <i class="fa-solid fa-camera-retro"></i>
                             <span data-i18n="activity.eyebrow">SRC Life &amp; Moments</span>
                         </div>
-                        <h2 data-i18n="activity.title" class="text-3xl sm:text-4xl font-serif text-brand-dark">
+                        <h2 data-i18n="activity.title"
+                            class="text-2xl sm:text-3xl md:text-4xl font-serif text-brand-dark">
                             SRC Student Activity Moments
                         </h2>
-                        <p data-i18n="activity.subtitle" class="text-slate-600 text-sm mt-2 max-w-xl">
-                            Moments of leadership, friendship, creativity, and service captured during SMA Bakti Mulya 400 events.
+                        <p data-i18n="activity.subtitle" class="text-slate-600 text-xs sm:text-sm mt-2 max-w-xl">
+                            Moments of leadership, friendship, creativity, and service captured during SMA Bakti Mulya
+                            400 events.
                         </p>
                     </div>
-
                 </div>
 
                 <!-- Hanging Polaroid Line Carousel Container -->
@@ -541,12 +600,13 @@
                         <!-- Empty placeholder until member uploads via dashboard / spreadsheet -->
                         <div class="polaroid-card opacity-80" style="transform: rotate(0deg);">
                             <div class="polaroid-peg"></div>
-                            <div class="polaroid-photo-container flex items-center justify-center bg-slate-100 text-slate-400">
-                                <i class="fa-solid fa-camera text-4xl"></i>
+                            <div
+                                class="polaroid-photo-container flex items-center justify-center bg-slate-100 text-slate-400">
+                                <i class="fa-solid fa-camera text-3xl sm:text-4xl"></i>
                             </div>
                             <div class="polaroid-caption">
-                                <h4 class="font-bold text-slate-800 text-sm">SRC Moments</h4>
-                                <p class="text-[11px] text-slate-500 mt-0.5">Upload via Dashboard</p>
+                                <h4 class="font-bold text-slate-800 text-xs sm:text-sm">SRC Moments</h4>
+                                <p class="text-[10px] sm:text-[11px] text-slate-500 mt-0.5">Upload via Dashboard</p>
                             </div>
                         </div>
                     </div>
@@ -556,20 +616,21 @@
         </section>
 
         <!-- BLOG SECTION -->
-        <section id="blog" class="py-20 relative">
+        <section id="blog" class="py-16 sm:py-20 relative overflow-hidden">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 sm:mb-12 gap-6">
                     <div>
                         <div
                             class="inline-flex items-center space-x-2 text-brand-green font-bold text-xs uppercase tracking-widest mb-2.5">
                             <i class="fa-solid fa-newspaper"></i>
                             <span data-i18n="blog.eyebrow">Stories, Press & Insights</span>
                         </div>
-                        <h2 data-i18n="blog.title" class="text-3xl sm:text-4xl font-serif text-brand-dark">
+                        <h2 data-i18n="blog.title" class="text-2xl sm:text-3xl md:text-4xl font-serif text-brand-dark">
                             SRC Journal & Campus News
                         </h2>
-                        <p data-i18n="blog.subtitle" class="text-slate-600 text-sm mt-2 max-w-xl">
-                            Stay up to date with the latest initiatives, inspiring student stories, and event coverage from SMA Bakti Mulya 400.
+                        <p data-i18n="blog.subtitle" class="text-slate-600 text-xs sm:text-sm mt-2 max-w-xl">
+                            Stay up to date with the latest initiatives, inspiring student stories, and event coverage
+                            from SMA Bakti Mulya 400.
                         </p>
                     </div>
 
@@ -584,43 +645,49 @@
                 </div>
 
                 <!-- Articles Grid -->
-                <div id="index-blog-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div id="index-blog-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
                     <!-- Clean state: menunggu postingan dari dashboard / spreadsheet -->
-                    <div class="col-span-1 md:col-span-3 py-16 text-center glass-panel rounded-3xl border border-white/80 p-8 shadow-xs">
-                        <div class="w-16 h-16 rounded-full bg-emerald-50 text-brand-green flex items-center justify-center mx-auto mb-4 text-2xl shadow-xs">
+                    <div
+                        class="col-span-1 md:col-span-3 py-12 sm:py-16 text-center glass-panel rounded-3xl border border-white/80 p-6 sm:p-8 shadow-xs">
+                        <div
+                            class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-emerald-50 text-brand-green flex items-center justify-center mx-auto mb-4 text-xl sm:text-2xl shadow-xs">
                             <i class="fa-solid fa-newspaper"></i>
                         </div>
-                        <h3 class="text-lg font-serif font-bold text-slate-800">Belum Ada Artikel Dipublikasikan</h3>
+                        <h3 class="text-base sm:text-lg font-serif font-bold text-slate-800">Belum Ada Artikel
+                            Dipublikasikan</h3>
                         <p class="text-xs text-slate-500 max-w-md mx-auto mt-1 leading-relaxed">
-                            Artikel dan liputan kegiatan dewan siswa yang diposting melalui Member Dashboard akan langsung tampil di sini secara real-time.
+                            Artikel dan liputan kegiatan dewan siswa yang diposting melalui Member Dashboard akan
+                            langsung tampil di sini secara real-time.
                         </p>
-                        <div class="mt-5">
-                            <a href="dashboard.html" class="btn-shimmer inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-brand-green hover:bg-brand-hover text-white text-xs font-bold shadow-sm transition-all">
-                                <i class="fa-solid fa-pen-nib"></i>
-                                <span>Tulis Artikel Baru di Dashboard</span>
-                            </a>
-                        </div>
                     </div>
+                </div>
+
+                <!-- Mobile View More Link -->
+                <div class="mt-6 text-center sm:hidden">
+                    <a href="blog.html"
+                        class="btn-shimmer inline-flex items-center justify-center w-full gap-2 px-6 py-3 rounded-full bg-[#24523d] hover:bg-[#1a3d2d] text-white text-xs font-bold shadow-md transition-all">
+                        <span data-i18n="blog.viewMore">Lihat Seluruh Artikel</span>
+                        <i class="fa-solid fa-arrow-right text-[11px]"></i>
+                    </a>
                 </div>
 
             </div>
         </section>
 
-            </div>
-        </section>
-
         <!-- FEEDBACK SECTION -->
-        <section id="suggestion" class="py-20 relative overflow-hidden">
+        <section id="suggestion" class="py-16 sm:py-20 relative overflow-hidden">
             <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div
-                    class="spotlight-card spotlight-border glass-panel bg-white/95 rounded-3xl p-8 sm:p-12 shadow-2xl border border-white transition-all duration-300">
-                    <div class="text-center mb-8 relative z-10">
+                    class="spotlight-card spotlight-border glass-panel bg-white/95 rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-12 shadow-2xl border border-white transition-all duration-300">
+                    <div class="text-center mb-6 sm:mb-8 relative z-10">
                         <div
                             class="inline-flex items-center gap-2 bg-emerald-50 text-brand-green border border-emerald-200 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-3">
                             <i class="fa-solid fa-comments"></i> <span data-i18n="feedback.eyebrow">Student Voice</span>
                         </div>
-                        <h3 data-i18n="feedback.title" class="text-2xl sm:text-3xl font-serif text-brand-dark">Have a Suggestion?</h3>
-                        <p data-i18n="feedback.subtitle" class="text-slate-600 text-sm mt-2">Share your ideas to help us build a brighter school environment.</p>
+                        <h3 data-i18n="feedback.title" class="text-2xl sm:text-3xl font-serif text-brand-dark">Have a
+                            Suggestion?</h3>
+                        <p data-i18n="feedback.subtitle" class="text-slate-600 text-sm mt-2">Share your ideas to help us
+                            build a brighter school environment.</p>
                     </div>
 
 
@@ -628,12 +695,14 @@
                     <form id="feedback-form" onsubmit="submitFeedback(event)" class="space-y-5 relative z-10">
                         <div class="grid sm:grid-cols-2 gap-5">
                             <div>
-                                <label data-i18n="feedback.labelName" class="block text-xs font-bold text-slate-700 mb-1 ml-1">Student Name</label>
+                                <label data-i18n="feedback.labelName"
+                                    class="block text-xs font-bold text-slate-700 mb-1 ml-1">Student Name</label>
                                 <input type="text" id="fb-name" required placeholder="Your name"
                                     class="w-full bg-white border border-slate-300 text-slate-800 rounded-xl p-3.5 text-sm focus:outline-none focus:border-brand-green focus:ring-2 focus:ring-brand-green/20 transition-all">
                             </div>
                             <div>
-                                <label data-i18n="feedback.labelDept" class="block text-xs font-bold text-slate-700 mb-1 ml-1">Target Department</label>
+                                <label data-i18n="feedback.labelDept"
+                                    class="block text-xs font-bold text-slate-700 mb-1 ml-1">Target Department</label>
                                 <select id="fb-dept"
                                     class="w-full bg-white border border-slate-300 text-slate-800 rounded-xl p-3.5 text-sm focus:outline-none focus:border-brand-green focus:ring-2 focus:ring-brand-green/20 transition-all">
                                     <option value="General SRC">General SRC Council</option>
@@ -649,7 +718,8 @@
                             </div>
                         </div>
                         <div>
-                            <label data-i18n="feedback.labelMessage" class="block text-xs font-bold text-slate-700 mb-1 ml-1">Message</label>
+                            <label data-i18n="feedback.labelMessage"
+                                class="block text-xs font-bold text-slate-700 mb-1 ml-1">Message</label>
                             <textarea id="fb-msg" rows="4" required placeholder="Write your idea here..."
                                 class="w-full bg-white border border-slate-300 text-slate-800 rounded-xl p-3.5 text-sm focus:outline-none focus:border-brand-green focus:ring-2 focus:ring-brand-green/20 transition-all"></textarea>
                         </div>
@@ -667,7 +737,8 @@
     <footer
         class="bg-brand-dark/95 backdrop-blur-md text-slate-400 text-sm py-10 text-center border-t-4 border-bmyellow relative z-10">
         <div class="max-w-7xl mx-auto px-4">
-            <p data-i18n="footer.copyright">&copy; 2026 Student Representative Council &middot; SMA Bakti Mulya 400 Cibubur</p>
+            <p data-i18n="footer.copyright">&copy; 2026 Student Representative Council &middot; SMA Bakti Mulya 400
+                Cibubur</p>
             <p data-i18n="footer.developer" class="text-xs text-slate-500 mt-2">Developed By RaditNex</p>
         </div>
     </footer>
@@ -678,11 +749,12 @@
 
     <!-- Auth Modal -->
     <div id="auth-modal"
-        class="modal-backdrop-anim fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[70] hidden flex items-center justify-center p-4">
+        class="modal-backdrop-anim fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[70] hidden flex items-center justify-center p-3 sm:p-4">
         <div
-            class="modal-dialog-anim bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl border border-slate-200 relative">
+            class="modal-dialog-anim bg-white rounded-2xl sm:rounded-3xl max-w-md w-full p-5 sm:p-8 shadow-2xl border border-slate-200 relative max-h-[90vh] overflow-y-auto">
             <button onclick="closeAuthModal()"
-                class="absolute top-6 right-6 text-slate-400 hover:text-slate-600 bg-slate-100 p-2 rounded-full">
+                class="absolute top-4 right-4 sm:top-6 sm:right-6 text-slate-400 hover:text-slate-600 bg-slate-100 p-2 rounded-full"
+                aria-label="Tutup Modal Login">
                 <i class="fa-solid fa-xmark text-lg"></i>
             </button>
 
@@ -745,12 +817,14 @@
 
     <!-- Financial Modal -->
     <div id="financial-modal"
-        class="modal-backdrop-anim fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[70] hidden flex items-center justify-center p-4">
-        <div class="modal-dialog-anim bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative">
+        class="modal-backdrop-anim fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[70] hidden flex items-center justify-center p-3 sm:p-4">
+        <div
+            class="modal-dialog-anim bg-white rounded-2xl sm:rounded-3xl max-w-lg w-full p-5 sm:p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto">
             <button onclick="closeFinancialModal()"
-                class="absolute top-4 right-4 text-slate-400 bg-slate-100 p-2 rounded-full hover:text-slate-600"><i
-                    class="fa-solid fa-xmark"></i></button>
-            <h3 id="fin-modal-title" class="text-xl font-serif font-bold mb-6">Tambah Transaksi Kas</h3>
+                class="absolute top-4 right-4 text-slate-400 bg-slate-100 p-2 rounded-full hover:text-slate-600"
+                aria-label="Tutup Modal Keuangan"><i class="fa-solid fa-xmark"></i></button>
+            <h3 id="fin-modal-title" class="text-lg sm:text-xl font-serif font-bold mb-4 sm:mb-6">Tambah Transaksi Kas
+            </h3>
             <form id="financial-form" onsubmit="saveFinancialRecord(event)" class="space-y-4">
                 <input type="hidden" id="fin-record-index" value="-1">
                 <div>
@@ -758,7 +832,7 @@
                     <input type="text" id="fin-date" required placeholder="e.g. 09 Oct 2026"
                         class="w-full border border-slate-300 rounded-xl p-3 text-sm focus:outline-none focus:border-brand-green">
                 </div>
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1">Income (Rp)</label>
                         <input type="number" id="fin-income" min="0" value="0"
@@ -784,13 +858,13 @@
 
     <!-- Department Modal -->
     <div id="dept-modal"
-        class="modal-backdrop-anim fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[70] hidden flex items-center justify-center p-4">
+        class="modal-backdrop-anim fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[70] hidden flex items-center justify-center p-3 sm:p-4">
         <div
-            class="modal-dialog-anim bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            class="modal-dialog-anim bg-white rounded-2xl sm:rounded-3xl max-w-xl w-full p-5 sm:p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto">
             <button onclick="closeDeptModal()"
-                class="absolute top-4 right-4 text-slate-400 bg-slate-100 p-2 rounded-full hover:text-slate-600"><i
-                    class="fa-solid fa-xmark"></i></button>
-            <h3 class="text-xl font-serif font-bold text-slate-900 mb-6">Edit Laporan Divisi</h3>
+                class="absolute top-4 right-4 text-slate-400 bg-slate-100 p-2 rounded-full hover:text-slate-600"
+                aria-label="Tutup Modal Divisi"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-lg sm:text-xl font-serif font-bold text-slate-900 mb-4 sm:mb-6">Edit Laporan Divisi</h3>
             <form id="dept-form" onsubmit="saveDeptReport(event)" class="space-y-4">
                 <input type="hidden" id="dept-index" value="-1">
                 <div>
@@ -817,7 +891,7 @@
 
     <!-- Toast Notification -->
     <div id="toast"
-        class="fixed bottom-6 right-6 z-[80] transform translate-y-24 opacity-0 transition-all duration-300 bg-brand-dark text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center space-x-3 border border-slate-700 pointer-events-none">
+        class="fixed bottom-4 sm:bottom-6 right-4 sm:right-6 left-4 sm:left-auto z-[80] transform translate-y-24 opacity-0 transition-all duration-300 bg-brand-dark text-white px-5 sm:px-6 py-3.5 sm:py-4 rounded-2xl shadow-2xl flex items-center justify-center sm:justify-start space-x-3 border border-slate-700 pointer-events-none max-w-sm sm:max-w-md mx-auto sm:mx-0">
         <i id="toast-icon" class="fa-solid fa-circle-check text-bmyellow text-xl"></i>
         <span id="toast-message" class="text-sm font-bold">Action successful</span>
     </div>

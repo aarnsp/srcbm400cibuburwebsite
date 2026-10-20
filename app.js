@@ -314,12 +314,8 @@ window.currentUser = null;
             const targetBtn = document.getElementById(`fin-tab-${type}`);
             if (!container || !pill || !targetBtn) return;
 
-            const containerRect = container.getBoundingClientRect();
-            const btnRect = targetBtn.getBoundingClientRect();
-            const leftOffset = btnRect.left - containerRect.left;
-
-            pill.style.width = `${btnRect.width}px`;
-            pill.style.transform = `translateX(${leftOffset}px)`;
+            pill.style.width = `${targetBtn.offsetWidth}px`;
+            pill.style.transform = `translateX(${targetBtn.offsetLeft}px)`;
         };
 
         window.filterFinancialType = function (type) {
@@ -360,34 +356,56 @@ window.currentUser = null;
 
         window.renderFinancialTable = function () {
             const tbody = document.getElementById('financial-table-body');
+            const emptyState = document.getElementById('financial-empty-state');
+            const tableWrapper = document.getElementById('financial-table-wrapper');
+            const scrollHint = document.getElementById('financial-scroll-hint');
             if (!tbody) return;
             tbody.innerHTML = '';
             let currentTotal = 0, sumIncome = 0, sumExpense = 0;
             const isAdmin = Boolean(window.currentUser && window.currentUser.isAdmin);
             const isEn = window.currentLang === 'en';
 
-            if (window.financialRecords.length === 0) {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td colspan="7" class="py-12 px-6 text-center text-slate-400">
-                        <div class="flex flex-col items-center justify-center space-y-2">
-                            <i class="fa-solid fa-receipt text-3xl text-slate-300"></i>
-                            <span class="text-sm font-semibold">${isEn ? 'No financial records yet. Add records from the SRC Member Dashboard.' : 'Belum ada catatan transaksi kas. Tambahkan melalui Dashboard Member SRC.'}</span>
-                        </div>
-                    </td>
-                `;
-                tbody.appendChild(tr);
+            const filteredRecords = window.financialRecords.filter(record => {
+                const income = Number(record.income || 0);
+                const expense = Number(record.expense || 0);
+                if (window.currentFinFilter === 'income' && income <= 0) return false;
+                if (window.currentFinFilter === 'expense' && expense <= 0) return false;
+                return true;
+            });
+
+            // Hitung total keseluruhan
+            window.financialRecords.forEach(record => {
+                const income = Number(record.income || 0);
+                const expense = Number(record.expense || 0);
+                sumIncome += income;
+                sumExpense += expense;
+                currentTotal += (income - expense);
+            });
+
+            if (filteredRecords.length === 0) {
+                if (emptyState) {
+                    emptyState.classList.remove('hidden');
+                    const emptyTitle = document.getElementById('financial-empty-title');
+                    const emptyDesc = document.getElementById('financial-empty-desc');
+                    if (emptyTitle) {
+                        emptyTitle.innerText = isEn ? 'No Financial Records Yet' : 'Belum Ada Transaksi Kas';
+                    }
+                    if (emptyDesc) {
+                        emptyDesc.innerText = isEn
+                            ? 'SRC cash flow, income, and expense records posted from the Member Dashboard will appear transparently here.'
+                            : 'Catatan pemasukan & pengeluaran kas SRC yang diposting melalui Member Dashboard akan langsung tampil di sini secara transparan.';
+                    }
+                }
+                if (tableWrapper) tableWrapper.classList.add('hidden');
+                if (scrollHint) scrollHint.classList.add('hidden');
             } else {
-                window.financialRecords.forEach((record, index) => {
+                if (emptyState) emptyState.classList.add('hidden');
+                if (tableWrapper) tableWrapper.classList.remove('hidden');
+                if (scrollHint) scrollHint.classList.remove('hidden');
+
+                filteredRecords.forEach((record, index) => {
                     const income = Number(record.income || 0);
                     const expense = Number(record.expense || 0);
-                    sumIncome += income;
-                    sumExpense += expense;
-                    currentTotal += (income - expense);
-
-                    if (window.currentFinFilter === 'income' && income <= 0) return;
-                    if (window.currentFinFilter === 'expense' && expense <= 0) return;
-
                     const dateStr = isEn ? (record.date_en || record.date || record.date_id) : (record.date_id || record.date || record.date_en);
                     const remarksStr = isEn ? (record.remarks_en || record.remarks || record.remarks_id) : (record.remarks_id || record.remarks || record.remarks_en);
                     const deleteTitle = isEn ? "Delete" : "Hapus";
@@ -396,13 +414,13 @@ window.currentUser = null;
                     tr.className = "motion-fade-up hover:bg-slate-50 transition-colors border-b border-slate-100";
                     tr.style.transitionDelay = `${(index % 6) * 50}ms`;
                     tr.innerHTML = `
-                        <td class="py-4 px-4 text-center font-bold text-slate-400 text-xs">${index + 1}</td>
-                        <td class="py-4 px-6 font-semibold text-slate-800">${escapeHtml(dateStr)}</td>
-                        <td class="py-4 px-6 font-bold text-brand-green">+ Rp ${formatNumber(income)}</td>
-                        <td class="py-4 px-6 font-bold text-red-500">- Rp ${formatNumber(expense)}</td>
-                        <td class="py-4 px-6 font-extrabold text-slate-900">Rp ${formatNumber(currentTotal)}</td>
-                        <td class="py-4 px-6 text-xs text-slate-600">${escapeHtml(remarksStr)}</td>
-                        <td class="py-4 px-4 text-center">
+                        <td class="py-3 px-3 text-center font-bold text-slate-400 text-xs">${index + 1}</td>
+                        <td class="py-3 px-4 font-semibold text-slate-800 text-xs sm:text-sm whitespace-nowrap">${escapeHtml(dateStr)}</td>
+                        <td class="py-3 px-4 font-bold text-brand-green text-xs sm:text-sm whitespace-nowrap">+ Rp ${formatNumber(income)}</td>
+                        <td class="py-3 px-4 font-bold text-red-500 text-xs sm:text-sm whitespace-nowrap">- Rp ${formatNumber(expense)}</td>
+                        <td class="py-3 px-4 font-extrabold text-slate-900 text-xs sm:text-sm whitespace-nowrap">Rp ${formatNumber(currentTotal)}</td>
+                        <td class="py-3 px-4 text-xs text-slate-600 max-w-xs break-words">${escapeHtml(remarksStr)}</td>
+                        <td class="py-3 px-3 text-center">
                             ${isAdmin ? `<button onclick="deleteFinancialRecord(${index})" class="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="${deleteTitle}"><i class="fa-solid fa-trash"></i></button>` : `<span class="text-xs text-slate-300">-</span>`}
                         </td>
                     `;
@@ -1227,4 +1245,11 @@ window.currentUser = null;
         window.addEventListener('resize', () => {
             window.updateSlidingPill(window.currentFinFilter || 'all');
             updatePolaroidTransform(0);
+            if (window.innerWidth >= 1024) {
+                const mobileMenu = document.getElementById('mobile-menu');
+                if (mobileMenu && mobileMenu.classList.contains('menu-visible')) {
+                    mobileMenu.classList.remove('menu-visible');
+                    mobileMenu.classList.add('menu-hidden');
+                }
+            }
         });

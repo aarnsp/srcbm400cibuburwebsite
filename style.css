@@ -369,6 +369,7 @@ html.lenis, html.lenis-smooth {
             position: absolute;
             top: 4px;
             bottom: 4px;
+            left: 0;
             border-radius: 9999px;
             background: linear-gradient(135deg, #1b3d2b 0%, #24523d 50%, #30B457 100%);
             box-shadow: 0 4px 14px -2px rgba(48, 180, 87, 0.45), 0 0 10px rgba(255, 242, 0, 0.2);
@@ -411,6 +412,7 @@ html.lenis, html.lenis-smooth {
         .coss-tabs-list {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             flex-wrap: wrap;
             gap: 6px;
             padding: 6px;
@@ -420,10 +422,13 @@ html.lenis, html.lenis-smooth {
             border-radius: 18px;
             border: 1px solid rgba(255, 255, 255, 0.75);
             box-shadow: 0 10px 30px -8px rgba(15, 23, 42, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.9);
+            margin: 0 auto;
+            text-align: center;
         }
         .coss-tab-trigger {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
             padding: 8px 16px;
             border-radius: 12px;
@@ -435,6 +440,7 @@ html.lenis, html.lenis-smooth {
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
             user-select: none;
+            text-align: center;
         }
         .coss-tab-trigger:hover:not(.active) {
             color: #1e293b;
@@ -559,4 +565,98 @@ html.lenis, html.lenis-smooth {
             margin-top: 14px;
             text-align: center;
             font-family: 'Playfair Display', serif;
+        }
+
+        /* Responsive Utility & Device Optimization */
+        .table-responsive-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+        }
+
+        /* Responsive Media Queries */
+        @media (max-width: 768px) {
+            .polaroid-track {
+                padding: 16px 20px 30px;
+                gap: 20px;
+            }
+            .polaroid-card {
+                width: 220px;
+            }
+            .polaroid-photo-container {
+                height: 190px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .ruixen-sliding-tabs-container {
+                padding: 3px;
+                max-width: 100%;
+                margin-left: auto;
+                margin-right: auto;
+                display: inline-flex;
+                justify-content: center;
+                align-items: center;
+                overflow: visible;
+            }
+            .ruixen-sliding-pill {
+                top: 3px;
+                bottom: 3px;
+                left: 0;
+            }
+            .ruixen-tab-btn {
+                padding: 6px 12px;
+                font-size: 0.725rem;
+                gap: 4px;
+                justify-content: center;
+            }
+            .coss-tabs-list {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                max-width: 440px;
+                gap: 6px;
+                padding: 6px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .coss-tab-trigger {
+                justify-content: center;
+                flex: 1 1 calc(50% - 8px);
+                min-width: 130px;
+                text-align: center;
+                padding: 7px 10px;
+                font-size: 0.725rem;
+                gap: 5px;
+            }
+            .coss-tab-badge {
+                font-size: 9px;
+                padding: 1px 5px;
+            }
+            .polaroid-card {
+                width: 200px;
+                padding: 10px 10px 16px;
+            }
+            .polaroid-photo-container {
+                height: 170px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .ruixen-tab-btn {
+                padding: 5px 8px;
+                font-size: 0.68rem;
+                gap: 3px;
+            }
+            .coss-tabs-list {
+                gap: 4px;
+                padding: 4px;
+            }
+            .coss-tab-trigger {
+                padding: 6px 6px;
+                font-size: 0.7rem;
+                min-width: 120px;
+                gap: 4px;
+            }
         }

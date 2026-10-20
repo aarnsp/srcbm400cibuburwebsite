@@ -72,17 +72,10 @@
         class="fixed top-0 left-0 w-full z-40 pt-4 px-4 flex justify-center pointer-events-none transition-all duration-300">
         <nav
             class="max-w-6xl w-full mx-auto glossy-navbar rounded-full px-6 py-2.5 flex items-center justify-between pointer-events-auto">
-            <!-- Brand Logo -->
-            <div class="flex items-center gap-2.5 cursor-pointer relative z-10" onclick="scrollToSection('hero')">
-                <div
-                    class="w-8 h-8 rounded-full bg-emerald-100/90 flex items-center justify-center text-brand-green shadow-xs">
-                    <i class="fa-solid fa-leaf text-sm"></i>
-                </div>
-                <div class="flex items-center gap-2">
-                    <span class="font-serif text-xl font-bold">SRC BM 400</span>
-                    <span
-                        class="bg-bmyellow text-slate-900 text-[10px] font-extrabold px-2 py-0.5 rounded-full border border-yellow-400">Cibubur</span>
-                </div>
+            <!-- Brand Logo / Banner SRC -->
+            <div class="flex items-center cursor-pointer relative z-10 select-none py-0.5" onclick="scrollToSection('hero')" role="button" tabindex="0" aria-label="SRC BM 400 Cibubur - Beranda" onkeydown="if(event.key==='Enter'||event.key===' '){scrollToSection('hero');event.preventDefault();}">
+                <img src="src-banner.jpg" alt="Student Representative Council BM 400 Cibubur"
+                    class="h-8 sm:h-9 md:h-10 w-auto object-contain rounded-md shadow-xs transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]">
             </div>
 
             <!-- Menu Desktop -->

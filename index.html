@@ -89,6 +89,9 @@
                 <li><a href="#about" data-nav-link="about" data-i18n="nav.about"
                         class="nav-desktop-link text-slate-700 hover:text-brand-green transition-colors pb-0.5 border-b-2 border-transparent">About</a>
                 </li>
+                <li><a href="#structure" data-nav-link="structure" data-i18n="nav.structure"
+                        class="nav-desktop-link text-slate-700 hover:text-brand-green transition-colors pb-0.5 border-b-2 border-transparent">Structure</a>
+                </li>
                 <li><a href="#financial" data-nav-link="financial" data-i18n="nav.financial"
                         class="nav-desktop-link text-slate-700 hover:text-brand-green transition-colors pb-0.5 border-b-2 border-transparent">Financial</a>
                 </li>
@@ -153,6 +156,8 @@
         <a href="#about" data-nav-link="about" data-i18n="nav.aboutUs" onclick="toggleMobileMenu()"
             class="nav-mobile-link block px-4 py-3 rounded-xl hover:bg-white/50 font-medium text-slate-800 transition-colors">About
             Us</a>
+        <a href="#structure" data-nav-link="structure" data-i18n="nav.structure" onclick="toggleMobileMenu()"
+            class="nav-mobile-link block px-4 py-3 rounded-xl hover:bg-white/50 font-medium text-slate-800 transition-colors">Structure</a>
         <a href="#financial" data-nav-link="financial" data-i18n="nav.financialReport" onclick="toggleMobileMenu()"
             class="nav-mobile-link block px-4 py-3 rounded-xl hover:bg-white/50 font-medium text-slate-800 transition-colors">Financial
             Report</a>
@@ -325,6 +330,57 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- ORGANIZATIONAL STRUCTURE (SCROLL-DRIVEN PRESENTATION) -->
+        <!-- ========================================== -->
+        <section id="structure" class="relative overflow-visible">
+            <!-- Pinned Sticky Fullscreen Viewport -->
+            <div id="structure-sticky-wrapper" class="flex flex-col justify-between py-4 sm:py-6 px-4 sm:px-6 lg:px-8">
+                <!-- Ambient Lighting Accents blending into website Jade Sky background -->
+                <div aria-hidden="true"
+                    class="absolute -top-24 left-1/2 -translate-x-1/2 w-[750px] h-80 bg-gradient-to-r from-emerald-200/20 via-yellow-100/25 to-teal-200/20 rounded-full blur-3xl pointer-events-none animate-mesh-slow">
+                </div>
+
+                
+
+                <!-- MAIN STAGE: 11 SLIDES STACK (EXACT FLOWCHART FROM USER DIAGRAM) -->
+                <div id="structure-stage" class="relative w-full max-w-7xl mx-auto flex-1 flex items-center justify-center my-auto overflow-hidden">
+                    
+                    <!-- SLIDE 0: SRC ADVISOR -->
+                    <div id="struct-slide-0" class="structure-slide active px-2 sm:px-4">
+                        <div id="advisor-card-container" class="w-full flex justify-center">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 1: PRESIDIUM -->
+                    <div id="struct-slide-1" class="structure-slide px-2 sm:px-4">
+                        <div id="presidium-cards-grid" class="w-full flex justify-center">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- SLIDES 2 to 9: 8 SEPARATE DEPARTMENT SLIDES -->
+                    <div id="struct-slide-2" class="structure-slide px-2 sm:px-4"><div id="dept-slide-container-2" class="w-full flex justify-center"></div></div>
+                    <div id="struct-slide-3" class="structure-slide px-2 sm:px-4"><div id="dept-slide-container-3" class="w-full flex justify-center"></div></div>
+                    <div id="struct-slide-4" class="structure-slide px-2 sm:px-4"><div id="dept-slide-container-4" class="w-full flex justify-center"></div></div>
+                    <div id="struct-slide-5" class="structure-slide px-2 sm:px-4"><div id="dept-slide-container-5" class="w-full flex justify-center"></div></div>
+                    <div id="struct-slide-6" class="structure-slide px-2 sm:px-4"><div id="dept-slide-container-6" class="w-full flex justify-center"></div></div>
+                    <div id="struct-slide-7" class="structure-slide px-2 sm:px-4"><div id="dept-slide-container-7" class="w-full flex justify-center"></div></div>
+                    <div id="struct-slide-8" class="structure-slide px-2 sm:px-4"><div id="dept-slide-container-8" class="w-full flex justify-center"></div></div>
+                    <div id="struct-slide-9" class="structure-slide px-2 sm:px-4"><div id="dept-slide-container-9" class="w-full flex justify-center"></div></div>
+
+                    <!-- SLIDE 10: MEMBER OF SRC DIRECTORY -->
+                    <div id="struct-slide-10" class="structure-slide px-2 sm:px-4">
+                        <div id="member-of-src-container" class="w-full flex justify-center">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </section>
@@ -886,6 +942,16 @@
                     class="w-full bg-brand-dark text-white font-bold py-3.5 rounded-xl mt-2 hover:bg-black transition-colors">Perbarui
                     Laporan</button>
             </form>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- INTERACTIVE MEMBER DETAIL MODAL (POPOUT)   -->
+    <!-- ========================================== -->
+    <div id="member-detail-modal"
+        class="fixed inset-0 bg-slate-950/65 backdrop-blur-md z-[75] hidden flex items-center justify-center p-3 sm:p-6 transition-all duration-300">
+        <div id="member-modal-content" class="w-full flex items-center justify-center">
+            <!-- Dynamically rendered popup card -->
         </div>
     </div>
 

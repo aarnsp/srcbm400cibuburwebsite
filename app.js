@@ -10,6 +10,7 @@ window.currentUser = null;
                 "nav.home": "Home",
                 "nav.about": "About",
                 "nav.aboutUs": "About Us",
+                "nav.structure": "Struktur",
                 "nav.financial": "Financial",
                 "nav.financialReport": "Financial Report",
                 "nav.departments": "Departments",
@@ -29,6 +30,16 @@ window.currentUser = null;
                 "about.visiDesc": "Mewujudkan Generasi Pemimpin Berwawasan Global, Berkarakter Islami, dan Berdampak Nyata",
                 "about.misiTitle": "Misi",
                 "about.misiDesc": "Menyuarakan Aspirasi Siswa secara Inklusif, Mengembangkan Potensi Kepemimpinan Berdaya Saing Global, Memperkuat Sinergi Sivitas Akademika Bakti Mulya 400, dan Menjadi Katalisator Perubahan Positif.",
+                "structure.eyebrow": "Hierarki Kepengurusan",
+                "structure.title": "Struktur Organisasi SRC BM 400",
+                "structure.subtitle": "Bagan kepemimpinan terintegrasi dari Pembina, Presidium, 8 Divisi strategis, hingga seluruh perwakilan anggota dewan siswa.",
+                "structure.clickHint": "Klik pada kartu anggota untuk melihat profil & rincian tugas",
+                "structure.tierAdvisor": "Dewan Pembina",
+                "structure.tierPresidium": "Presidium & Pimpinan Utama",
+                "structure.tierDivisions": "8 Divisi & Departemen Strategis",
+                "structure.tierMembers": "Direktori Anggota SRC (Member of SRC)",
+                "structure.searchPlaceholder": "Cari nama atau divisi anggota...",
+                "structure.filterAll": "Semua",
                 "financial.eyebrow": "Transparansi & Akuntabilitas",
                 "financial.title": "Laporan Keuangan Bulanan",
                 "financial.subtitle": "Transparansi arus kas, laporan berkala, dan rekapitulasi dana program SRC.",
@@ -83,6 +94,7 @@ window.currentUser = null;
                 "nav.home": "Home",
                 "nav.about": "About",
                 "nav.aboutUs": "About Us",
+                "nav.structure": "Structure",
                 "nav.financial": "Financial",
                 "nav.financialReport": "Financial Report",
                 "nav.departments": "Departments",
@@ -102,6 +114,16 @@ window.currentUser = null;
                 "about.visiDesc": "Cultivating Global-Minded Leaders with Islamic Character and Real-World Impact.",
                 "about.misiTitle": "Mission",
                 "about.misiDesc": "Championing Student Voices Inclusively, Empowering Globally Competitive Leadership, Strengthening Bakti Mulya 400 Synergies, and Acting as Catalysts for Positive Change.",
+                "structure.eyebrow": "Leadership Hierarchy",
+                "structure.title": "SRC BM 400 Organizational Chart",
+                "structure.subtitle": "Integrated governance hierarchy from Principal Advisor, Presidium executive board, 8 strategic divisions, to all active student council members.",
+                "structure.clickHint": "Click any member card to view detailed profile & duties",
+                "structure.tierAdvisor": "Advisory Board",
+                "structure.tierPresidium": "Executive Presidium",
+                "structure.tierDivisions": "8 Strategic Divisions",
+                "structure.tierMembers": "SRC Member Directory",
+                "structure.searchPlaceholder": "Search member name or division...",
+                "structure.filterAll": "All",
                 "financial.eyebrow": "Transparency & Accountability",
                 "financial.title": "Monthly Financial Report",
                 "financial.subtitle": "Cash flow transparency, periodic statements, and program budget tracking.",
@@ -181,6 +203,22 @@ window.currentUser = null;
             const msgInput = document.getElementById('fb-msg');
             if (msgInput) {
                 msgInput.placeholder = lang === 'en' ? 'Write your idea here...' : 'Tuliskan ide atau saran Anda di sini...';
+            }
+            const memberSearchInput = document.getElementById('member-search-input');
+            if (memberSearchInput) {
+                memberSearchInput.placeholder = lang === 'en' ? 'Search member name or division...' : 'Cari nama atau divisi anggota...';
+            }
+
+            // Re-render structure hierarchy & members
+            if (typeof window.renderStructureHierarchy === 'function') {
+                window.renderStructureHierarchy();
+            if (typeof window.initStructureWheelController === "function") window.initStructureWheelController();
+            }
+            if (typeof window.renderStructureFilterPills === 'function') {
+                window.renderStructureFilterPills();
+            }
+            if (typeof window.filterStructureMembers === 'function') {
+                window.filterStructureMembers();
             }
 
             // Re-render departments with language-adjusted summaries if needed
@@ -303,6 +341,1685 @@ window.currentUser = null;
                 programs_en: ["Safety Patrol", "Anti-Bullying"] 
             }
         ];
+
+        // ==========================================
+        // ORGANIZATIONAL STRUCTURE DATA & HIERARCHY
+        // ==========================================
+        window.activeStructureDeptFilter = 'all';
+
+        window.srcStructureData = {
+            "advisor": {
+                "id": "adv-1",
+                "name": "<nama>",
+                "role_id": "Pembina Utama SRC",
+                "role_en": "Principal Advisor of SRC",
+                "division_id": "Dewan Pembina",
+                "division_en": "Advisory Board",
+                "grade_id": "Kepala SMA Bakti Mulya 400",
+                "grade_en": "Principal of SMA BM 400",
+                "photo": "default-avatar.png",
+                "bio_id": "Menuntun dan mengayomi regenerasi pemimpin dewan siswa dengan keteladanan akhlak mulia, integritas akademik, dan wawasan global berdaya saing.",
+                "bio_en": "Guiding and mentoring the student council leadership with moral excellence, high integrity, and global competitiveness.",
+                "responsibilities_id": [
+                    "Pengarah dan pengawas utama kebijakan organisasi dewan siswa",
+                    "Penyelarasan program kerja dewan dengan kalender kurikulum sekolah",
+                    "Pembimbing etika kepemimpinan dan suksesi perwakilan murid"
+                ],
+                "responsibilities_en": [
+                    "Principal advisor & overseer of SRC policies",
+                    "Aligning council programs with the school curriculum calendar",
+                    "Mentoring student leaders in integrity and leadership ethics"
+                ],
+                "contact": "pembina@srcbm400.sch.id",
+                "badge": "Advisor"
+            },
+            "presidium": [
+                {
+                    "id": "pres-1",
+                    "name": "<nama>",
+                    "role_id": "Ketua Umum SRC",
+                    "role_en": "President of SRC",
+                    "division_id": "Presidium",
+                    "division_en": "Presidium",
+                    "grade_id": "Kelas XII MIPA 1",
+                    "grade_en": "Grade 12 Natural Science",
+                    "photo": "default-avatar.png",
+                    "bio_id": "Memimpin SRC dengan semangat kolaborasi nyata, empati, dan menjadikan dewan wadah aspirasi inklusif bagi seluruh siswa SMA BM 400.",
+                    "bio_en": "Leading the SRC through authentic collaboration, empathy, and providing an inclusive voice for all students.",
+                    "responsibilities_id": [
+                        "Penanggung jawab tertinggi seluruh operasional dan arah gerak dewan",
+                        "Mengoordinasikan sinergi 8 divisi serta audiensi resmi dengan sekolah",
+                        "Memimpin sidang umum, rapat pleno, dan evaluasi program berkala"
+                    ],
+                    "responsibilities_en": [
+                        "Chief executive of SRC operations and strategic direction",
+                        "Coordinating 8 divisions and institutional hearings with faculty",
+                        "Leading general assemblies and periodic performance audits"
+                    ],
+                    "contact": "@azkafabian_",
+                    "badge": "President"
+                },
+                {
+                    "id": "pres-2",
+                    "name": "<nama>",
+                    "role_id": "Wakil Ketua Umum SRC",
+                    "role_en": "Vice President of SRC",
+                    "division_id": "Presidium",
+                    "division_en": "Presidium",
+                    "grade_id": "Kelas XI IPS 1",
+                    "grade_en": "Grade 11 Social Studies",
+                    "photo": "default-avatar.png",
+                    "bio_id": "Mendampingi ketua umum dalam memantau efektivitas program kerja serta menjaga solidaritas dan sinergi internal dewan.",
+                    "bio_en": "Supporting the President in program execution and fostering strong internal council camaraderie.",
+                    "responsibilities_id": [
+                        "Pengawasan internal kinerja dan keaktifan 8 departemen",
+                        "Manajemen operasional harian dan kepanitiaan gabungan",
+                        "Harmonisasi relasi antar-koordinator divisi dan anggota"
+                    ],
+                    "responsibilities_en": [
+                        "Internal monitoring of divisional performance",
+                        "Daily operational oversight and joint committee management",
+                        "Fostering team harmony across all divisions"
+                    ],
+                    "contact": "@amandacheryl",
+                    "badge": "Vice President"
+                },
+                {
+                    "id": "pres-3",
+                    "name": "<nama>",
+                    "role_id": "Sekretaris Umum",
+                    "role_en": "Secretary General",
+                    "division_id": "Presidium",
+                    "division_en": "Presidium",
+                    "grade_id": "Kelas XI MIPA 2",
+                    "grade_en": "Grade 11 Natural Science",
+                    "photo": "default-avatar.png",
+                    "bio_id": "Tata kelola administrasi yang rapi, transparan, dan terarsip digital adalah fondasi profesionalitas dan kredibilitas dewan.",
+                    "bio_en": "Structured administration, digital archives, and official transparency form the core of council credibility.",
+                    "responsibilities_id": [
+                        "Penyusunan notula rapat, arsip digital, dan korespondensi resmi",
+                        "Pengelolaan kalender master kegiatan dan audiensi siswa",
+                        "Verifikasi administratif proposal kegiatan seluruh divisi"
+                    ],
+                    "responsibilities_en": [
+                        "Drafting meeting minutes, digital archives, and official correspondence",
+                        "Managing master calendar of activities and student hearings",
+                        "Administrative vetting of activity proposals from divisions"
+                    ],
+                    "contact": "@clarissaaurelia",
+                    "badge": "Secretary"
+                },
+                {
+                    "id": "pres-4",
+                    "name": "<nama>",
+                    "role_id": "Bendahara Umum",
+                    "role_en": "Treasurer General",
+                    "division_id": "Presidium",
+                    "division_en": "Presidium",
+                    "grade_id": "Kelas XII IPS 2",
+                    "grade_en": "Grade 12 Social Studies",
+                    "photo": "default-avatar.png",
+                    "bio_id": "Mewujudkan tata kelola perbendaharaan dewan yang transparan, akurat, dan dapat dipertanggungjawabkan kepada seluruh siswa.",
+                    "bio_en": "Safeguarding SRC financial transparency, digital ledger accuracy, and publicly verifiable budgeting.",
+                    "responsibilities_id": [
+                        "Pengelolaan arus kas dewan dan sinkronisasi laporan keuangan online",
+                        "Verifikasi RAB (Rencana Anggaran Biaya) seluruh kegiatan divisi",
+                        "Penyusunan audit berkala bersama dewan pembina dan presidium"
+                    ],
+                    "responsibilities_en": [
+                        "Managing council treasury and real-time ledger sync",
+                        "Budget verification and auditing across all division proposals",
+                        "Periodic financial reports and compliance audits"
+                    ],
+                    "contact": "@fakhriradit",
+                    "badge": "Treasurer"
+                }
+            ],
+            "departments": [
+                {
+                    "id": 1,
+                    "name_id": "<departemens>",
+                    "name_en": "<departemens>",
+                    "icon": "fa-book-open-reader",
+                    "coordinator": {
+                        "id": "d1-head",
+                        "name": "<nama>",
+                        "role_id": "Koordinator Divisi",
+                        "role_en": "Head Coordinator",
+                        "division_id": "<departemens>",
+                        "division_en": "<departemens>",
+                        "grade_id": "Kelas XII MIPA 1",
+                        "grade_en": "Grade 12 Natural Science",
+                        "photo": "default-avatar.png",
+                        "bio_id": "Menggairahkan budaya riset ilmiah, kelancaran berbahasa internasional, serta tutor sebaya bagi siswa.",
+                        "bio_en": "Fostering academic inquiry, bilingual fluency, and peer tutoring among students.",
+                        "responsibilities_id": [
+                            "Koordinator Squad Tutor Sebaya",
+                            "Pengembangan Mading & E-Literasi",
+                            "Simulasi Ujian Sekolah"
+                        ],
+                        "responsibilities_en": [
+                            "Peer Tutoring Coordinator",
+                            "Literacy Wall & Digital Publication",
+                            "Exam Prep Sessions"
+                        ],
+                        "contact": "@alyazahra_"
+                    },
+                    "coCoordinator": {
+                        "id": "d1-cohead",
+                        "name": "<nama>",
+                        "role_id": "Wakil Koordinator",
+                        "role_en": "Vice Coordinator",
+                        "division_id": "<departemens>",
+                        "division_en": "<departemens>",
+                        "grade_id": "Kelas XI MIPA 3",
+                        "grade_en": "Grade 11 Natural Science",
+                        "photo": "default-avatar.png",
+                        "bio_id": "Berdedikasi menghubungkan siswa dengan kompetisi olimpiade sains dan forum debat internasional.",
+                        "bio_en": "Connecting students to science olympiads and international debate symposiums.",
+                        "responsibilities_id": [
+                            "Bimbingan Lomba Sains & Bahasa",
+                            "Manajemen Jadwal Workshop",
+                            "Koordinasi Klub Bahasa"
+                        ],
+                        "responsibilities_en": [
+                            "Olympiad Coaching",
+                            "Academic Workshop Schedules",
+                            "Language Club Lead"
+                        ],
+                        "contact": "@kevinalvaro"
+                    },
+                    "members": [
+                        {
+                            "id": "d1-m1",
+                            "name": "<nama>",
+                            "grade_id": "Kelas XI MIPA 1",
+                            "grade_en": "Grade 11 Natural Science",
+                            "photo": "default-avatar.png"
+                        },
+                        {
+                            "id": "d1-m2",
+                            "name": "<nama>",
+                            "grade_id": "Kelas X-A",
+                            "grade_en": "Grade 10-A",
+                            "photo": "default-avatar.png"
+                        },
+                        {
+                            "id": "d1-m3",
+                            "name": "<nama>",
+                            "grade_id": "Kelas XI MIPA 2",
+                            "grade_en": "Grade 11 Natural Science",
+                            "photo": "default-avatar.png"
+                        },
+                        {
+                            "id": "d1-m4",
+                            "name": "<nama>",
+                            "grade_id": "Kelas X-C",
+                            "grade_en": "Grade 10-C",
+                            "photo": "default-avatar.png"
+                        },
+                        {
+                            "id": "d1-m5",
+                            "name": "<nama>",
+                            "grade_id": "Kelas XI IPS 2",
+                            "grade_en": "Grade 11 Social Studies",
+                            "photo": "default-avatar.png"
+                        }
+                    ]
+                },
+                {
+                    "id": 2,
+                    "name_id": "<departemens>",
+                    "name_en": "<departemens>",
+                    "icon": "fa-heart-pulse",
+                    "coordinator": {
+                        "id": "d2-head",
+                        "name": "<nama>",
+                        "role_id": "Koordinator Divisi",
+                        "role_en": "Head Coordinator",
+                        "division_id": "<departemens>",
+                        "division_en": "<departemens>",
+                        "grade_id": "Kelas XII IPS 1",
+                        "grade_en": "Grade 12 Social Studies",
+                        "photo": "default-avatar.png",
+                        "bio_id": "Mengedepankan kesiapsiagaan medis sekolah dan pola hidup sehat bagi seluruh sivitas kampus.",
+                        "bio_en": "Promoting campus medical emergency readiness and holistic healthy lifestyles.",
+                        "responsibilities_id": [
+                            "Penanggung Jawab UKS & PMR",
+                            "Kampanye Kesehatan Mental & Fisik",
+                            "Donor Darah Tahunan"
+                        ],
+                        "responsibilities_en": [
+                            "School Clinic & Red Cross Lead",
+                            "Mental & Physical Health Campaigns",
+                            "Annual Blood Drive"
+                        ],
+                        "contact": "@farhanrizky"
+                    },
+                    "coCoordinator": {
+                        "id": "d2-cohead",
+                        "name": "<nama>",
+                        "role_id": "Wakil Koordinator",
+                        "role_en": "Vice Coordinator",
+                        "division_id": "<departemens>",
+                        "division_en": "<departemens>",
+                        "grade_id": "Kelas XI MIPA 1",
+                        "grade_en": "Grade 11 Natural Science",
+                        "photo": "default-avatar.png",
+                        "bio_id": "Memastikan ketersediaan perlengkapan P3K cepat tanggap di setiap sudut sekolah.",
+                        "bio_en": "Ensuring high availability of rapid first aid equipment in every school sector.",
+                        "responsibilities_id": [
+                            "Pengawasan P3K Lapangan",
+                            "Penyuluhan Gizi Remaja",
+                            "Mitigasi Kesehatan Lingkungan"
+                        ],
+                        "responsibilities_en": [
+                            "First Aid Field Monitoring",
+                            "Adolescent Nutrition Guidance",
+                            "Environmental Health"
+                        ],
+                        "contact": "@syifaandini"
+                    },
+                    "members": [
+                        {
+                            "id": "d2-m1",
+                            "name": "<nama>",
+                            "grade_id": "Kelas X-B",
+                            "grade_en": "Grade 10-B",
+                            "photo": "default-avatar.png"
+                        },
+                        {
+                            "id": "d2-m2",
+                            "name": "<nama>",
+                            "grade_id": "Kelas XI MIPA 3",
+                            "grade_en": "Grade 11 Natural Science",
+                            "photo": "default-avatar.png"
+                        },
+                        {
+                            "id": "d2-m3",
+                            "name": "<nama>",
+                            "grade_id": "Kelas XI IPS 1",
+                            "grade_en": "Grade 11 Social Studies",
+                            "photo": "default-avatar.png"
+                        },
+                        {
+                            "id": "d2-m4",
+                            "name": "<nama>",
+                            "grade_id": "Kelas X-D",
+                            "grade_en": "Grade 10-D",
+                            "photo": "default-avatar.png"
+                        },
+                        {
+                            "id": "d2-m5",
+                            "name": "<nama>",
+                            "grade_id": "Kelas XII IPS 2",
+                            "grade_en": "Grade 12 Social Studies",
+                            "photo": "default-avatar.png"
+                        }
+                    ]
+                },
+                {
+                    "id": 3,
+                    "name_id": "<departemens>",
+                    "name_en": "<departemens>",
+                    "icon": "fa-trophy",
+                    "coordinator": {
+                        "id": "d3-head",
+                        "name": "<nama>",
+                        "role_id": "Koordinator Divisi",
+                        "role_en": "Head Coordinator",
+                        "division_id": "<departemens>",
+                        "division_en": "<departemens>",
+                        "grade_id": "Kelas XII IPS 2",
+                        "grade_en": "Grade 12 Social Studies",
+                        "photo": "default-avatar.png",
+                        "bio_id": "Menjadi wadah eksplorasi potensi seni, musik panggung, dan olahraga kompetitif berprestasi nasional.",
+                        "bio_en": "Providing an empowering launchpad for performing arts, sports championships, and cultural stages.",
+                        "responsibilities_id": [
+                            "Ketua Pelaksana BM 400 Cup",
+                            "Pentas Seni Tahunan",
+                            "Kurasi Delegasi Lomba Eksternal"
+                        ],
+                        "responsibilities_en": [
+                            "Lead BM 400 Cup Organizer",
+                            "Annual Cultural Showcase",
+                            "External Competition Delegation"
+                        ],
+                        "contact": "@nabilaputri"
+                    },
+                    "coCoordinator": {
+                        "id": "d3-cohead",
+                        "name": "<nama>",
+                        "role_id": "Wakil Koordinator",
+                        "role_en": "Vice Coordinator",
+                        "division_id": "<departemens>",
+                        "division_en": "<departemens>",
+                        "grade_id": "Kelas XI IPS 2",
+                        "grade_en": "Grade 11 Social Studies",
+                        "photo": "default-avatar.png",
+                        "bio_id": "Membangun atmosfer sportivitas tinggi dalam kompetisi basket, futsal, dan atletik antar-sekolah.",
+                        "bio_en": "Championing high sportsmanship in basketball, futsal, and inter-school tournaments.",
+                        "responsibilities_id": [
+                            "Koordinator Turnamen Olahraga",
+                            "Manajemen Ekstrakurikuler Seni",
+                            "Apresiasi Prestasi Siswa"
+                        ],
+                        "responsibilities_en": [
+                            "Sports Tournament Lead",
+                            "Arts Club Coordinator",
+                            "Student Merit Recognitions"
+                        ],
+                        "contact": "@rayhanmalik"
+                    },
+                    "members": [
+                        {
+                            "id": "d3-m1",
+                            "name": "<nama>",
+                            "grade_id": "Kelas XI MIPA 2",
+                            "grade_en": "Grade 11 Natural Science",
+                            "photo": "default-avatar.png"
+                        },
+                        {
+                            "id": "d3-m2",
+                            "name": "<nama>",
+                            "grade_id": "Kelas X-B",
+                            "grade_en": "Grade 10-B",
+                            "photo": "default-avatar.png"
+                        },
+                        {
+                            "id": "d3-m3",
+                            "name": "<nama>",
+                            "grade_id": "Kelas X-A",
+                            "grade_en": "Grade 10-A",
+                            "photo": "default-avatar.png"
+                        },
+                        {
+                            "id": "d3-m4",
+                            "name": "<nama>",
+                            "grade_id": "Kelas XI IPS 1",
+                            "grade_en": "Grade 11 Social Studies",
+                            "photo": "default-avatar.png"
+                        },
+                        {
+                            "id": "d3-m5",
+                            "name": "<nama>",
+                            "grade_id": "Kelas XI MIPA 1",
+                            "grade_en": "Grade 11 Natural Science",
+                            "photo": "default-avatar.png"
+                        }
+                    ]
+                },
+                {
+                    "id": 4,
+                    "name_id": "<departemens>",
+                    "name_en": "<departemens>",
+                    "icon": "fa-bullhorn",
+                    "coordinator": {
+                        "id": "d4-head",
+                        "name": "<nama>",
+                        "role_id": "Koordinator Divisi",
+                        "role_en": "Head Coordinator",
+                        "division_id": "<departemens>",
+                        "division_en": "<departemens>",
+                        "grade_id": "Kelas XII MIPA 2",
+                        "grade_en": "Grade 12 Natural Science",
+                        "photo": "default-avatar.png",
+                        "bio_id": "Mengelola ekosistem digital resmi SRC, website responsif, dan komunikasi publik modern.",
+                        "bio_en": "Overseeing SRC official digital ecosystem, responsive portals, and modern public communications.",
+                        "responsibilities_id": [
+                            "Pengembangan Portal Website SRC",
+                            "Branding & Media Komunikasi",
+                            "Siaran Live Event & Dokumentasi"
+                        ],
+                        "responsibilities_en": [
+                            "SRC Web Portal Development",
+                            "Branding & Public Relations",
+                            "Live Broadcasts & Media"
+                        ],
+                        "contact": "@davinpratama"
+                    },
+                    "coCoordinator": {
+                        "id": "d4-cohead",
+                        "name": "<nama>",
+                        "role_id": "Wakil Koordinator",
+                        "role_en": "Vice Coordinator",
+                        "division_id": "<departemens>",
+                        "division_en": "<departemens>",
+                        "grade_id": "Kelas XI MIPA 2",
+                        "grade_en": "Grade 11 Natural Science",
+                        "photo": "default-avatar.png",
+                        "bio_id": "Kreativitas konten visual dan publikasi interaktif untuk memperluas jangkauan aspirasi murid.",
+                        "bio_en": "Visual storytelling and engaging social broadcasts to elevate council transparency.",
+                        "responsibilities_id": [
+                            "Manajemen Konten Instagram & TikTok",
+                            "Desain Grafis Publikasi",
+                            "Kanal Interaksi Suara Siswa"
+                        ],
+                        "responsibilities_en": [
+                            "Social Media Content Management",
+                            "Graphic Design & Publishing",
+                            "Student Interaction Channel"
+                        ],
+                        "contact": "@aurelherm"
+                    },
+                    "members": [
+                        {
+                            "id": "d4-m1",
+                            "name": "<nama>",
+                            "grade_id": "Kelas XI MIPA 3",
+                            "grade_en": "Grade 11 Natural Science",
+                            "photo": "default-avatar.png"
+                        },
+                        {
+                            "id": "d4-m2",
+                            "name": "<nama>",
+                            "grade_id": "Kelas X-C",
+                            "grade_en": "Grade 10-C",
+                            "photo": "default-avatar.png"
+                        },
+                        {
+                            "id": "d4-m3",
+                            "name": "<nama>",
+                            "grade_id": "Kelas X-B",
+                            "grade_en": "Grade 10-B",
+                            "photo": "default-avatar.png"
+                        },
+                        {
+                            "id": "d4-m4",
+                            "name": "<nama>",
+                            "grade_id": "Kelas XI IPS 2",
+                            "grade_en": "Grade 11 Social Studies",
+                            "photo": "default-avatar.png"
+                        },
+                        {
+                            "id": "d4-m5",
+                            "name": "<nama>",
+                            "grade_id": "Kelas X-A",
+                            "grade_en": "Grade 10-A",
+                            "photo": "default-avatar.png"
+                        }
+                    ]
+                },
+                {
+                    "id": 5,
+                    "name_id": "<departemens>",
+                    "name_en": "<departemens>",
+                    "icon": "fa-leaf",
+                    "coordinator": {
+                        "id": "d5-head",
+                        "name": "<nama>",
+                        "role_id": "Koordinator Divisi",
+                        "role_en": "Head Coordinator",
+                        "division_id": "<departemens>",
+                        "division_en": "<departemens>",
+                        "grade_id": "Kelas XII MIPA 1",
+                        "grade_en": "Grade 12 Natural Science",
+                        "photo": "default-avatar.png",
+                        "bio_id": "Mewujudkan kampus hijau ramah lingkungan melalui pengurangan sampah plastik dan daur ulang kreatif.",
+                        "bio_en": "Pioneering eco-campus initiatives through zero-plastic policies and creative upcycling.",
+                        "responsibilities_id": [
+                            "Gerakan Zero-Plastic Refill Station",
+                            "Kampanye Eco-Brick & Kompos",
+                            "Audit Kebersihan Kelas Berkala"
+                        ],
+                        "responsibilities_en": [
+                            "Zero-Plastic Refill Station Lead",
+                            "Eco-Brick & Compost Campaigns",
+                            "Periodic Class Cleanliness Audits"
+                        ],
+                        "contact": "@sitirahma_"
+                    },
+                    "coCoordinator": {
+                        "id": "d5-cohead",
+                        "name": "<nama>",
+                        "role_id": "Wakil Koordinator",
+                        "role_en": "Vice Coordinator",
+                        "division_id": "<departemens>",
+                        "division_en": "<departemens>",
+                        "grade_id": "Kelas XI IPS 1",
+                        "grade_en": "Grade 11 Social Studies",
+                        "photo": "default-avatar.png",
+                        "bio_id": "Menggerakkan partisipasi aktif siswa dalam menjaga taman sekolah dan pengolahan sampah mandiri.",
+                        "bio_en": "Mobilizing student engagement for school garden stewardship and waste separation.",
+                        "responsibilities_id": [
+                            "Pemilahan Sampah Organik/Anorganik",
+                            "Aksi Jumat Bersih",
+                            "Penghijauan Koridor Sekolah"
+                        ],
+                        "responsibilities_en": [
+                            "Waste Sorting Oversight",
+                            "Campus Clean Fridays",
+                            "Corridor Greening Projects"
+                        ],
+                        "contact": "@bagasdwi"
+                    },
+                    "members": [
+                        {
+                            "id": "d5-m1",
+                            "name": "<nama>",
+                            "grade_id": "Kelas XI MIPA 2",
+                            "grade_en": "Grade 11 Natural Science",
+                            "photo": "default-avatar.png"
+                        },
+                        {
+                            "id": "d5-m2",
+                            "name": "<nama>",
+                            "grade_id": "Kelas X-D",
+                            "grade_en": "Grade 10-D",
+                            "photo": "default-avatar.png"
+                        },
+                        {
+                            "id": "d5-m3",
+                            "name": "<nama>",
+                            "grade_id": "Kelas X-B",
+                            "grade_en": "Grade 10-B",
+                            "photo": "default-avatar.png"
+                        },
+                        {
+                            "id": "d5-m4",
+                            "name": "<nama>",
+                            "grade_id": "Kelas XI IPS 2",
+                            "grade_en": "Grade 11 Social Studies",
+                            "photo": "default-avatar.png"
+                        },
+                        {
+                            "id": "d5-m5",
+                            "name": "<nama>",
+                            "grade_id": "Kelas XI MIPA 3",
+                            "grade_en": "Grade 11 Natural Science",
+                            "photo": "default-avatar.png"
+                        }
+                    ]
+                },
+                {
+                    "id": 6,
+                    "name_id": "<departemens>",
+                    "name_en": "<departemens>",
+                    "icon": "fa-hand-holding-heart",
+                    "coordinator": {
+                        "id": "d6-head",
+                        "name": "<nama>",
+                        "role_id": "Koordinator Divisi",
+                        "role_en": "Head Coordinator",
+                        "division_id": "<departemens>",
+                        "division_en": "<departemens>",
+                        "grade_id": "Kelas XII IPS 1",
+                        "grade_en": "Grade 12 Social Studies",
+                        "photo": "default-avatar.png",
+                        "bio_id": "Menumbuhkan akhlakul karimah, keteladanan ibadah, dan empati sosial tinggi di kalangan pelajar.",
+                        "bio_en": "Cultivating Islamic character, prayer leadership, and profound social empathy across student bodies.",
+                        "responsibilities_id": [
+                            "Peringatan Hari Besar Islam (PHBI)",
+                            "Pengelolaan Kotak Infaq & Zakat",
+                            "Bakti Sosial Peduli Sesama"
+                        ],
+                        "responsibilities_en": [
+                            "Islamic Religious Commemorations",
+                            "Charity & Infaq Management",
+                            "Community Outreach & Care"
+                        ],
+                        "contact": "@mhaikal_"
+                    },
+                    "coCoordinator": {
+                        "id": "d6-cohead",
+                        "name": "<nama>",
+                        "role_id": "Wakil Koordinator",
+                        "role_en": "Vice Coordinator",
+                        "division_id": "<departemens>",
+                        "division_en": "<departemens>",
+                        "grade_id": "Kelas XI MIPA 1",
+                        "grade_en": "Grade 11 Natural Science",
+                        "photo": "default-avatar.png",
+                        "bio_id": "Menguatkan tali ukhuwah islamiyah dan toleransi harmonis di lingkungan sekolah Bakti Mulya 400.",
+                        "bio_en": "Strengthening spiritual bonds and harmonic empathy within the Bakti Mulya 400 family.",
+                        "responsibilities_id": [
+                            "Kajian Rohani Remaja Berkala",
+                            "Santunan Anak Yatim Kampus",
+                            "Tadarus & Literasi Al-Qur'an"
+                        ],
+                        "responsibilities_en": [
+                            "Youth Spiritual Seminars",
+                            "Orphan Care Initiative",
+                            "Quran Recitation & Study"
+                        ],
+                        "contact": "@fatimahazz"
+                    },
+                    "members": [
+                        {
+                            "id": "d6-m1",
+                            "name": "<nama>",
+                            "grade_id": "Kelas XI IPS 2",
+                            "grade_en": "Grade 11 Social Studies",
+                            "photo": "default-avatar.png"
+                        },
+                        {
+                            "id": "d6-m2",
+                            "name": "<nama>",
+                            "grade_id": "Kelas X-A",
+                            "grade_en": "Grade 10-A",
+                            "photo": "default-avatar.png"
+                        },
+                        {
+                            "id": "d6-m3",
+                            "name": "<nama>",
+                            "grade_id": "Kelas X-C",
+                            "grade_en": "Grade 10-C",
+                            "photo": "default-avatar.png"
+                        },
+                        {
+                            "id": "d6-m4",
+                            "name": "<nama>",
+                            "grade_id": "Kelas XI MIPA 2",
+                            "grade_en": "Grade 11 Natural Science",
+                            "photo": "default-avatar.png"
+                        },
+                        {
+                            "id": "d6-m5",
+                            "name": "<nama>",
+                            "grade_id": "Kelas XII MIPA 2",
+                            "grade_en": "Grade 12 Natural Science",
+                            "photo": "default-avatar.png"
+                        }
+                    ]
+                },
+                {
+                    "id": 7,
+                    "name_id": "<departemens>",
+                    "name_en": "<departemens>",
+                    "icon": "fa-store",
+                    "coordinator": {
+                        "id": "d7-head",
+                        "name": "<nama>",
+                        "role_id": "Koordinator Divisi",
+                        "role_en": "Head Coordinator",
+                        "division_id": "<departemens>",
+                        "division_en": "<departemens>",
+                        "grade_id": "Kelas XII IPS 2",
+                        "grade_en": "Grade 12 Social Studies",
+                        "photo": "default-avatar.png",
+                        "bio_id": "Membangun jiwa entrepreneurship siswa lewat lini merchandise resmi dewan dan festival kreatif.",
+                        "bio_en": "Cultivating entrepreneurial mindsets via official SRC merch lines and creative bazaars.",
+                        "responsibilities_id": [
+                            "Pengembangan Lini Official Merch SRC",
+                            "Bazaar Kreatif Entrepreneur Pelajar",
+                            "Manajemen Kas Kemitraan Usaha"
+                        ],
+                        "responsibilities_en": [
+                            "Official SRC Merch Line",
+                            "Student Creative Bazaar Festival",
+                            "Venture Partner Treasury"
+                        ],
+                        "contact": "@keishaanin"
+                    },
+                    "coCoordinator": {
+                        "id": "d7-cohead",
+                        "name": "<nama>",
+                        "role_id": "Wakil Koordinator",
+                        "role_en": "Vice Coordinator",
+                        "division_id": "<departemens>",
+                        "division_en": "<departemens>",
+                        "grade_id": "Kelas XI IPS 2",
+                        "grade_en": "Grade 11 Social Studies",
+                        "photo": "default-avatar.png",
+                        "bio_id": "Mendorong inkubasi startup mini dan lokakarya bisnis praktis bagi siswa BM 400.",
+                        "bio_en": "Inspiring mini startup incubations and hands-on business workshops for BM 400 youth.",
+                        "responsibilities_id": [
+                            "Workshop Literasi Finansial Pelajar",
+                            "Riset Pasar Produk Merchandise",
+                            "Logistik Stand Usaha Siswa"
+                        ],
+                        "responsibilities_en": [
+                            "Student Financial Literacy Seminars",
+                            "Merch Market Research",
+                            "Vendor & Booth Logistics"
+                        ],
+                        "contact": "@jonathanb"
+                    },
+                    "members": [
+                        {
+                            "id": "d7-m1",
+                            "name": "<nama>",
+                            "grade_id": "Kelas XI MIPA 1",
+                            "grade_en": "Grade 11 Natural Science",
+                            "photo": "default-avatar.png"
+                        },
+                        {
+                            "id": "d7-m2",
+                            "name": "<nama>",
+                            "grade_id": "Kelas X-B",
+                            "grade_en": "Grade 10-B",
+                            "photo": "default-avatar.png"
+                        },
+                        {
+                            "id": "d7-m3",
+                            "name": "<nama>",
+                            "grade_id": "Kelas X-A",
+                            "grade_en": "Grade 10-A",
+                            "photo": "default-avatar.png"
+                        },
+                        {
+                            "id": "d7-m4",
+                            "name": "<nama>",
+                            "grade_id": "Kelas XII IPS 1",
+                            "grade_en": "Grade 12 Social Studies",
+                            "photo": "default-avatar.png"
+                        },
+                        {
+                            "id": "d7-m5",
+                            "name": "<nama>",
+                            "grade_id": "Kelas XI MIPA 3",
+                            "grade_en": "Grade 11 Natural Science",
+                            "photo": "default-avatar.png"
+                        }
+                    ]
+                },
+                {
+                    "id": 8,
+                    "name_id": "<departemens>",
+                    "name_en": "<departemens>",
+                    "icon": "fa-shield-halved",
+                    "coordinator": {
+                        "id": "d8-head",
+                        "name": "<nama>",
+                        "role_id": "Koordinator Divisi",
+                        "role_en": "Head Coordinator",
+                        "division_id": "<departemens>",
+                        "division_en": "<departemens>",
+                        "grade_id": "Kelas XII MIPA 2",
+                        "grade_en": "Grade 12 Natural Science",
+                        "photo": "default-avatar.png",
+                        "bio_id": "Menegakkan ketertiban kampus yang kondusif, nyaman, dan mengawal komitmen anti-perundungan.",
+                        "bio_en": "Ensuring an orderly, safe, and supportive school environment while upholding anti-bullying.",
+                        "responsibilities_id": [
+                            "Patroli Ketertiban Kampus",
+                            "Satgas Anti-Bullying Ramah Siswa",
+                            "Pengawalan Acara & Tamu Sekolah"
+                        ],
+                        "responsibilities_en": [
+                            "Campus Discipline Patrol",
+                            "Friendly Anti-Bullying Task Force",
+                            "Event Safety & Guest Escorts"
+                        ],
+                        "contact": "@rizkyramadhan"
+                    },
+                    "coCoordinator": {
+                        "id": "d8-cohead",
+                        "name": "<nama>",
+                        "role_id": "Wakil Koordinator",
+                        "role_en": "Vice Coordinator",
+                        "division_id": "<departemens>",
+                        "division_en": "<departemens>",
+                        "grade_id": "Kelas XI MIPA 3",
+                        "grade_en": "Grade 11 Natural Science",
+                        "photo": "default-avatar.png",
+                        "bio_id": "Menciptakan ruang sekolah yang aman, saling menghargai, dan responsif terhadap pengaduan siswa.",
+                        "bio_en": "Fostering an inclusive safe space with responsive student grievance handling.",
+                        "responsibilities_id": [
+                            "Pos Pengaduan & Perlindungan Teman Sebaya",
+                            "Disiplin Ketepatan Waktu",
+                            "Edukasi Keselamatan Siswa"
+                        ],
+                        "responsibilities_en": [
+                            "Peer Safe-Reporting Desk",
+                            "Punctuality & Discipline Coaching",
+                            "Student Safety Education"
+                        ],
+                        "contact": "@taniamhr"
+                    },
+                    "members": [
+                        {
+                            "id": "d8-m1",
+                            "name": "<nama>",
+                            "grade_id": "Kelas XI IPS 1",
+                            "grade_en": "Grade 11 Social Studies",
+                            "photo": "default-avatar.png"
+                        },
+                        {
+                            "id": "d8-m2",
+                            "name": "<nama>",
+                            "grade_id": "Kelas X-C",
+                            "grade_en": "Grade 10-C",
+                            "photo": "default-avatar.png"
+                        },
+                        {
+                            "id": "d8-m3",
+                            "name": "<nama>",
+                            "grade_id": "Kelas X-A",
+                            "grade_en": "Grade 10-A",
+                            "photo": "default-avatar.png"
+                        },
+                        {
+                            "id": "d8-m4",
+                            "name": "<nama>",
+                            "grade_id": "Kelas XI MIPA 1",
+                            "grade_en": "Grade 11 Natural Science",
+                            "photo": "default-avatar.png"
+                        },
+                        {
+                            "id": "d8-m5",
+                            "name": "<nama>",
+                            "grade_id": "Kelas XII IPS 2",
+                            "grade_en": "Grade 12 Social Studies",
+                            "photo": "default-avatar.png"
+                        }
+                    ]
+                }
+            ]
+        };
+
+        window.getAllStructureMembers = function () {
+            const isEn = window.currentLang === 'en';
+            const data = window.srcStructureData;
+            if (!data) return [];
+
+            const list = [];
+
+            // 1. Advisor
+            if (data.advisor) {
+                list.push({
+                    id: data.advisor.id,
+                    name: data.advisor.name,
+                    role: isEn ? data.advisor.role_en : data.advisor.role_id,
+                    division: isEn ? data.advisor.division_en : data.advisor.division_id,
+                    divisionKey: 'advisor',
+                    grade: isEn ? data.advisor.grade_en : data.advisor.grade_id,
+                    photo: data.advisor.photo,
+                    bio: isEn ? data.advisor.bio_en : data.advisor.bio_id,
+                    responsibilities: isEn ? data.advisor.responsibilities_en : data.advisor.responsibilities_id,
+                    contact: data.advisor.contact,
+                    badge: data.advisor.badge || 'Advisor'
+                });
+            }
+
+            // 2. Presidium
+            (data.presidium || []).forEach(p => {
+                list.push({
+                    id: p.id,
+                    name: p.name,
+                    role: isEn ? p.role_en : p.role_id,
+                    division: isEn ? p.division_en : p.division_id,
+                    divisionKey: 'presidium',
+                    grade: isEn ? p.grade_en : p.grade_id,
+                    photo: p.photo,
+                    bio: isEn ? p.bio_en : p.bio_id,
+                    responsibilities: isEn ? p.responsibilities_en : p.responsibilities_id,
+                    contact: p.contact,
+                    badge: p.badge || 'Presidium'
+                });
+            });
+
+            // 3. Departments Coordinators & Staff
+            (data.departments || []).forEach(dept => {
+                const deptName = isEn ? dept.name_en : dept.name_id;
+                const deptKey = String(dept.id);
+
+                // Coordinator
+                if (dept.coordinator) {
+                    list.push({
+                        id: dept.coordinator.id,
+                        name: dept.coordinator.name,
+                        role: isEn ? dept.coordinator.role_en : dept.coordinator.role_id,
+                        division: deptName,
+                        divisionKey: deptKey,
+                        grade: isEn ? dept.coordinator.grade_en : dept.coordinator.grade_id,
+                        photo: dept.coordinator.photo,
+                        bio: isEn ? dept.coordinator.bio_en : dept.coordinator.bio_id,
+                        responsibilities: isEn ? dept.coordinator.responsibilities_en : dept.coordinator.responsibilities_id,
+                        contact: dept.coordinator.contact,
+                        badge: 'Coordinator'
+                    });
+                }
+
+                // Co-Coordinator
+                if (dept.coCoordinator) {
+                    list.push({
+                        id: dept.coCoordinator.id,
+                        name: dept.coCoordinator.name,
+                        role: isEn ? dept.coCoordinator.role_en : dept.coCoordinator.role_id,
+                        division: deptName,
+                        divisionKey: deptKey,
+                        grade: isEn ? dept.coCoordinator.grade_en : dept.coCoordinator.grade_id,
+                        photo: dept.coCoordinator.photo,
+                        bio: isEn ? dept.coCoordinator.bio_en : dept.coCoordinator.bio_id,
+                        responsibilities: isEn ? dept.coCoordinator.responsibilities_en : dept.coCoordinator.responsibilities_id,
+                        contact: dept.coCoordinator.contact,
+                        badge: 'Vice Coordinator'
+                    });
+                }
+
+                // Staff
+                (dept.members || []).forEach((m, idx) => {
+                    list.push({
+                        id: m.id,
+                        name: m.name,
+                        role: isEn ? 'Divisional Staff' : 'Staff Divisi',
+                        division: deptName,
+                        divisionKey: deptKey,
+                        grade: isEn ? (m.grade_en || m.grade_id) : (m.grade_id || m.grade_en),
+                        photo: m.photo,
+                        bio: isEn ? `Dedicated member supporting ${deptName} initiatives with high enthusiasm and teamwork.` : `Anggota aktif yang berdedikasi mendukung seluruh program kerja ${deptName} secara solid dan bertanggung jawab.`,
+                        responsibilities: isEn ? [
+                            `Executing divisional action items for ${deptName}`,
+                            "Student mobilization and on-site event logistics",
+                            "Active contribution to council assemblies"
+                        ] : [
+                            `Pelaksana teknis agenda kerja divisi ${deptName}`,
+                            "Mobilisasi siswa dan logistik kegiatan di lapangan",
+                            "Kontribusi aktif dalam sidang dan evaluasi rutin"
+                        ],
+                        contact: `@${m.name.toLowerCase().replace(/[^a-z0-9]/g, '')}`,
+                        badge: 'Staff'
+                    });
+                });
+            });
+
+            return list;
+        };
+
+        // ==========================================
+        // SCROLL-DRIVEN PRESENTATION ENGINE (11 SEPARATE SLIDES)
+        // ==========================================
+        window.currentStructureSlide = 0;
+        window.structureSlideTitles = [
+            { id: "01 · Dewan Pembina SRC", en: "01 · SRC Advisory Board" },
+            { id: "02 · Presidium & Pimpinan Utama", en: "02 · Executive Presidium" },
+            { id: "03 · <departemens>", en: "03 · <departemens>" },
+            { id: "04 · <departemens>", en: "04 · <departemens>" },
+            { id: "05 · <departemens>", en: "05 · <departemens>" },
+            { id: "06 · <departemens>", en: "06 · <departemens>" },
+            { id: "07 · <departemens>", en: "07 · <departemens>" },
+            { id: "08 · <departemens>", en: "08 · <departemens>" },
+            { id: "09 · <departemens>", en: "09 · <departemens>" },
+            { id: "10 · <departemens>", en: "10 · <departemens>" },
+            { id: "11 · Member of SRC", en: "11 · Member of SRC" }
+        ];
+
+        window.renderStructureDotsBar = function () {
+            const dotsBar = document.getElementById('struct-dots-bar');
+            if (!dotsBar) return;
+            const isEn = window.currentLang === 'en';
+
+            dotsBar.innerHTML = window.structureSlideTitles.map((titleObj, idx) => {
+                const title = isEn ? titleObj.en : titleObj.id;
+                const isActive = (idx === window.currentStructureSlide);
+                return `
+                    <button type="button" onclick="window.goToStructureSlide(${idx})"
+                        class="struct-step-dot w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-slate-300 transition-all duration-300 flex-shrink-0 ${isActive ? 'active' : ''}"
+                        title="${escapeHtml(title)}" aria-label="${escapeHtml(title)}">
+                    </button>
+                `;
+            }).join('');
+        };
+
+        window.setStructureActiveSlide = function (targetIdx) {
+            if (targetIdx < 0) targetIdx = 0;
+            if (targetIdx > 10) targetIdx = 10;
+
+            window.currentStructureSlide = targetIdx;
+
+            // Update slide visibility classes for all 11 slides
+            for (let i = 0; i < 11; i++) {
+                const slide = document.getElementById(`struct-slide-${i}`);
+                if (!slide) continue;
+                slide.classList.remove('active', 'passed');
+                if (i === targetIdx) {
+                    slide.classList.add('active');
+                } else if (i < targetIdx) {
+                    slide.classList.add('passed');
+                }
+            }
+
+            // Update dots
+            const dots = document.querySelectorAll('.struct-step-dot');
+            dots.forEach((dot, idx) => {
+                dot.classList.toggle('active', idx === targetIdx);
+            });
+
+            // Update title text
+            const titleEl = document.getElementById('structure-slide-title');
+            if (titleEl) {
+                const isEn = window.currentLang === 'en';
+                const info = window.structureSlideTitles[targetIdx] || window.structureSlideTitles[0];
+                titleEl.innerText = isEn ? info.en : info.id;
+            }
+
+            // Update bottom page counter
+            const counterEl = document.getElementById('struct-page-counter');
+            if (counterEl) {
+                const isEn = window.currentLang === 'en';
+                counterEl.innerText = isEn ? `Slide ${targetIdx + 1} of 11` : `Halaman ${targetIdx + 1} dari 11`;
+            }
+        };
+
+        // Scroll to specific structure slide by calculating scroll progress inside #structure
+        window.goToStructureSlide = function (targetIdx) {
+            if (targetIdx < 0) targetIdx = 0;
+            if (targetIdx > 10) targetIdx = 10;
+
+            const sec = document.getElementById('structure');
+            if (!sec) {
+                window.setStructureActiveSlide(targetIdx);
+                return;
+            }
+
+            const totalDist = sec.offsetHeight - window.innerHeight;
+            if (totalDist <= 0) {
+                window.setStructureActiveSlide(targetIdx);
+                return;
+            }
+
+            const secTop = sec.getBoundingClientRect().top + (window.scrollY || window.pageYOffset || 0);
+            const s10Threshold = 0.62;
+            let targetProgress = 0;
+
+            if (targetIdx < 10) {
+                targetProgress = ((targetIdx + 0.5) / 10) * s10Threshold;
+            } else {
+                targetProgress = s10Threshold + 0.18;
+            }
+
+            const targetScrollY = secTop + targetProgress * totalDist;
+
+            if (window.lenis) {
+                window.lenis.scrollTo(targetScrollY, { duration: 0.8 });
+            } else {
+                window.scrollTo({ top: targetScrollY, behavior: 'smooth' });
+            }
+        };
+
+        window.goToPrevStructureSlide = function () {
+            if (window.currentStructureSlide <= 0) {
+                const aboutEl = document.getElementById('about');
+                if (aboutEl) {
+                    if (window.lenis) {
+                        window.lenis.scrollTo(aboutEl, { offset: -70, duration: 1.0 });
+                    } else {
+                        aboutEl.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+                return;
+            }
+            window.goToStructureSlide(window.currentStructureSlide - 1);
+        };
+
+        window.goToNextStructureSlide = function () {
+            if (window.currentStructureSlide >= 10) {
+                const finEl = document.getElementById('financial');
+                if (finEl) {
+                    if (window.lenis) {
+                        window.lenis.scrollTo(finEl, { offset: -70, duration: 1.0 });
+                    } else {
+                        finEl.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+                return;
+            }
+            window.goToStructureSlide(window.currentStructureSlide + 1);
+        };
+
+        // Synchronize slide reveal with natural page scroll position
+        window.syncStructureScroll = function () {
+            const sec = document.getElementById('structure');
+            if (!sec) return;
+
+            const rect = sec.getBoundingClientRect();
+            const totalDist = sec.offsetHeight - window.innerHeight;
+            if (totalDist <= 0) return;
+
+            const memberContainer = document.getElementById('member-of-src-container');
+            const stageEl = document.getElementById('structure-stage');
+
+            // Above section: show Slide 0
+            if (rect.top > 0) {
+                if (window.currentStructureSlide !== 0) {
+                    window.setStructureActiveSlide(0);
+                }
+                if (memberContainer) memberContainer.style.transform = 'translate3d(0, 0, 0)';
+                return;
+            }
+
+            // Below section: show Slide 10 at bottom of scroll
+            if (rect.bottom <= window.innerHeight) {
+                if (window.currentStructureSlide !== 10) {
+                    window.setStructureActiveSlide(10);
+                }
+                if (memberContainer && stageEl) {
+                    const maxScrollY = Math.max(0, memberContainer.offsetHeight - stageEl.offsetHeight + 32);
+                    memberContainer.style.transform = `translate3d(0, -${maxScrollY.toFixed(1)}px, 0)`;
+                }
+                return;
+            }
+
+            // Pinned inside section: map scroll progress 0..1
+            const scrolledDist = -rect.top;
+            const progress = Math.max(0, Math.min(0.9999, scrolledDist / totalDist));
+
+            // Section is lengthened specifically for Slide 10 (Member of SRC):
+            // Slides 0 to 9 take the first 62% of scroll distance. Slide 10 takes the remaining 38%.
+            const s10Threshold = 0.62;
+            let targetSlide = 0;
+
+            if (progress < s10Threshold) {
+                targetSlide = Math.min(9, Math.floor((progress / s10Threshold) * 10));
+                if (memberContainer) {
+                    memberContainer.style.transform = 'translate3d(0, 0, 0)';
+                }
+            } else {
+                targetSlide = 10;
+                if (memberContainer && stageEl) {
+                    const s10Progress = (progress - s10Threshold) / (1 - s10Threshold);
+                    const maxScrollY = Math.max(0, memberContainer.offsetHeight - stageEl.offsetHeight + 32);
+                    const currentY = -s10Progress * maxScrollY;
+                    memberContainer.style.transform = `translate3d(0, ${currentY.toFixed(1)}px, 0)`;
+                }
+            }
+
+            if (targetSlide !== window.currentStructureSlide) {
+                window.setStructureActiveSlide(targetSlide);
+            }
+        };
+
+        window.initStructureWheelController = function () {
+            // Disabled wheel trapping - natural page scroll with Lenis powers the presentation reveal
+        };
+
+        // Render Structure Hierarchy (Advisor, Presidium & 8 Separate Department Slides)
+        window.renderStructureHierarchy = function () {
+            const isEn = window.currentLang === 'en';
+            const data = window.srcStructureData;
+            if (!data) return;
+
+            // Verified Badge Icon (Matching User Brief)
+            const verifiedBadgeSvg = `
+                <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-600 fill-current inline-block flex-shrink-0" viewBox="0 0 24 24" aria-label="Verified">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C10.6 2 9.4 2.7 8.7 3.8C7.5 3.7 6.3 4.3 5.6 5.3C4.9 6.3 4.8 7.6 5.3 8.7C4.4 9.6 4 10.9 4.2 12.2C4.4 13.5 5.2 14.6 6.4 15.1C6.3 16.4 7 17.6 8.1 18.2C9.2 18.8 10.5 18.6 11.4 17.8C12.3 18.6 13.6 18.8 14.7 18.2C15.8 17.6 16.5 16.4 16.4 15.1C17.6 14.6 18.4 13.5 18.6 12.2C18.8 10.9 18.4 9.6 17.5 8.7C18 7.6 17.9 6.3 17.2 5.3C16.5 4.3 15.3 3.7 14.1 3.8C13.4 2.7 12.2 2 12 2ZM10.5 14.3L7.7 11.5L8.8 10.4L10.5 12.1L15.2 7.4L16.3 8.5L10.5 14.3Z"/>
+                </svg>
+            `;
+            const verifiedBadgeSvgSm = `
+                <svg class="w-2.5 h-2.5 sm:w-3 sm:h-3 text-emerald-600 fill-current inline-block flex-shrink-0" viewBox="0 0 24 24" aria-label="Verified">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C10.6 2 9.4 2.7 8.7 3.8C7.5 3.7 6.3 4.3 5.6 5.3C4.9 6.3 4.8 7.6 5.3 8.7C4.4 9.6 4 10.9 4.2 12.2C4.4 13.5 5.2 14.6 6.4 15.1C6.3 16.4 7 17.6 8.1 18.2C9.2 18.8 10.5 18.6 11.4 17.8C12.3 18.6 13.6 18.8 14.7 18.2C15.8 17.6 16.5 16.4 16.4 15.1C17.6 14.6 18.4 13.5 18.6 12.2C18.8 10.9 18.4 9.6 17.5 8.7C18 7.6 17.9 6.3 17.2 5.3C16.5 4.3 15.3 3.7 14.1 3.8C13.4 2.7 12.2 2 12 2ZM10.5 14.3L7.7 11.5L8.8 10.4L10.5 12.1L15.2 7.4L16.3 8.5L10.5 14.3Z"/>
+                </svg>
+            `;
+
+            // Tier 1: Advisor (Matching Slide 0 in User Diagram: Left Card, Right Pills)
+            const advContainer = document.getElementById('advisor-card-container');
+            if (advContainer && data.advisor) {
+                const adv = data.advisor;
+                const role = isEn ? adv.role_en : adv.role_id;
+                const grade = isEn ? adv.grade_en : adv.grade_id;
+                const bio = isEn ? adv.bio_en : adv.bio_id;
+
+                advContainer.innerHTML = `
+                    <div class="chart-tree-canvas max-w-xl mx-auto">
+                        <div class="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10">
+                            <!-- Left: Advisor Card with Modern Double-Bezel Design & Verified Badge -->
+                            <div onclick="window.openMemberModal('${adv.id}')" class="chart-card w-48 sm:w-56 flex-shrink-0 cursor-pointer" style="animation-delay: 90ms;">
+                                <div class="chart-card-inner">
+                                    <div class="chart-card-photo-box">
+                                        <img src="${adv.photo}" alt="${escapeHtml(adv.name)}" class="chart-card-img">
+                                    </div>
+                                    <div class="chart-card-body">
+                                        <div class="chart-card-name-row">
+                                            <span class="chart-card-name-text">${escapeHtml(adv.name)}</span>
+                                            ${verifiedBadgeSvg}
+                                        </div>
+                                        <p class="chart-card-desc-text">${role} · ${escapeHtml(grade)}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Right: SRC Advisor Pill & Name Pill Stack -->
+                            <div class="flex flex-col items-center sm:items-start text-center sm:text-left space-y-3">
+                                <div class="chart-header-pill !text-base sm:!text-lg !py-2.5 !px-8 shadow-sm">
+                                    <span>SRC Advisor</span>
+                                </div>
+                                <div class="chart-header-pill !text-sm sm:!text-base !py-2 !px-7 shadow-sm !bg-slate-50">
+                                    <span>${escapeHtml(adv.name)}</span>
+                                </div>
+                                <div class="p-4 rounded-2xl bg-white/85 backdrop-blur-md border border-slate-200/90 text-xs text-slate-600 italic max-w-xs mt-2 shadow-xs leading-relaxed">
+                                    "${escapeHtml(bio)}"
+                                </div>
+                                <span class="text-xs font-semibold text-brand-green">${escapeHtml(grade)}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Tier 2: Presidium (Matching Slide 1 in User Diagram: 4 cards with dashed connector tree & arrows)
+            const presGrid = document.getElementById('presidium-cards-grid');
+            if (presGrid && data.presidium) {
+                const cardsHtml = data.presidium.map((p, pIdx) => {
+                    const role = isEn ? p.role_en : p.role_id;
+                    const cardDelay = 80 + (pIdx * 75);
+                    return `
+                        <div onclick="window.openMemberModal('${p.id}')" class="chart-card group min-w-0" style="animation-delay: ${cardDelay}ms;">
+                            <div class="chart-card-inner">
+                                <div class="chart-card-photo-box">
+                                    <img src="${p.photo}" alt="${escapeHtml(p.name)}" class="chart-card-img">
+                                </div>
+                                <div class="chart-card-body">
+                                    <div class="chart-card-name-row">
+                                        <span class="chart-card-name-text">${escapeHtml(p.name)}</span>
+                                        ${verifiedBadgeSvg}
+                                    </div>
+                                    <p class="chart-card-desc-text">${role}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                presGrid.innerHTML = `
+                    <div class="chart-tree-canvas max-w-4xl mx-auto">
+                        <div class="text-center">
+                            <div class="chart-header-pill">Presidium</div>
+                        </div>
+
+                        <!-- Dashed Connector lines with arrows (Clean Slate tone, no harsh black lines) -->
+                        <svg class="w-full max-w-[640px] h-9 mx-auto fill-none my-1" stroke-width="2">
+                            <defs>
+                                <marker id="arrow-down-pres" viewBox="0 0 6 6" refX="3" refY="3" markerWidth="6" markerHeight="6" orient="auto">
+                                    <polygon points="0,0 6,3 0,6" fill="#64748b" />
+                                </marker>
+                            </defs>
+                            <!-- 1 Central dashed stem down from pill -->
+                            <line x1="50%" y1="0" x2="50%" y2="16" stroke="#94a3b8" stroke-dasharray="4,4" />
+                            <!-- Horizontal dashed connector -->
+                            <line x1="12.5%" y1="16" x2="87.5%" y2="16" stroke="#94a3b8" stroke-dasharray="4,4" />
+                            <!-- 4 drops with arrows into cards -->
+                            <line x1="12.5%" y1="16" x2="12.5%" y2="34" stroke="#94a3b8" stroke-dasharray="4,4" marker-end="url(#arrow-down-pres)" />
+                            <line x1="37.5%" y1="16" x2="37.5%" y2="34" stroke="#94a3b8" stroke-dasharray="4,4" marker-end="url(#arrow-down-pres)" />
+                            <line x1="62.5%" y1="16" x2="62.5%" y2="34" stroke="#94a3b8" stroke-dasharray="4,4" marker-end="url(#arrow-down-pres)" />
+                            <line x1="87.5%" y1="16" x2="87.5%" y2="34" stroke="#94a3b8" stroke-dasharray="4,4" marker-end="url(#arrow-down-pres)" />
+                        </svg>
+
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 max-w-[760px] mx-auto">
+                            ${cardsHtml}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Tier 3: 8 Separate Department Slides (Matching Slides 2 to 9 in User Diagram)
+            if (data.departments) {
+                data.departments.forEach((dept, dIdx) => {
+                    const slideIdx = dIdx + 2;
+                    const container = document.getElementById(`dept-slide-container-${slideIdx}`);
+                    if (!container) return;
+
+                    const deptName = isEn ? dept.name_en : dept.name_id;
+                    const coord = dept.coordinator;
+                    const coCoord = dept.coCoordinator;
+                    const coordRole = isEn ? coord.role_en : coord.role_id;
+                    const coCoordRole = isEn ? coCoord.role_en : coCoord.role_id;
+                    const members = dept.members || [];
+
+                    const staffCardsHtml = members.map((m, mIdx) => {
+                        const mDelay = 220 + (mIdx * 65);
+                        return `
+                            <div onclick="window.openMemberModal('${m.id}')" class="chart-card group min-w-0" style="animation-delay: ${mDelay}ms;">
+                                <div class="chart-card-inner">
+                                    <div class="chart-card-photo-box">
+                                        <img src="${m.photo}" alt="${escapeHtml(m.name)}" class="chart-card-img">
+                                    </div>
+                                    <div class="chart-card-body">
+                                        <div class="chart-card-name-row">
+                                            <span class="chart-card-name-text">${escapeHtml(m.name)}</span>
+                                            ${verifiedBadgeSvg}
+                                        </div>
+                                        <p class="chart-card-desc-text">${isEn ? 'Staff Member' : 'Staf Divisi'}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+
+                    container.innerHTML = `
+                        <div class="chart-tree-canvas max-w-4xl mx-auto">
+                            <!-- Top Department Pill -->
+                            <div class="text-center">
+                                <div class="chart-header-pill">
+                                    <i class="fa-solid ${dept.icon} mr-1.5 text-brand-green"></i>
+                                    <span>${escapeHtml(deptName)}</span>
+                                </div>
+                            </div>
+
+                            <!-- Row 1: 2 Coordinator Cards centered side-by-side with staggered reveal -->
+                            <div class="flex justify-center gap-4 sm:gap-6 max-w-md mx-auto mt-2">
+                                <div onclick="window.openMemberModal('${coord.id}')" class="chart-card w-36 sm:w-44 group min-w-0" style="animation-delay: 85ms;">
+                                    <div class="chart-card-inner">
+                                        <div class="chart-card-photo-box">
+                                            <img src="${coord.photo}" alt="${escapeHtml(coord.name)}" class="chart-card-img">
+                                        </div>
+                                        <div class="chart-card-body">
+                                            <div class="chart-card-name-row">
+                                                <span class="chart-card-name-text">${escapeHtml(coord.name)}</span>
+                                                ${verifiedBadgeSvg}
+                                            </div>
+                                            <p class="chart-card-desc-text">${coordRole}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div onclick="window.openMemberModal('${coCoord.id}')" class="chart-card w-36 sm:w-44 group min-w-0" style="animation-delay: 155ms;">
+                                    <div class="chart-card-inner">
+                                        <div class="chart-card-photo-box">
+                                            <img src="${coCoord.photo}" alt="${escapeHtml(coCoord.name)}" class="chart-card-img">
+                                        </div>
+                                        <div class="chart-card-body">
+                                            <div class="chart-card-name-row">
+                                                <span class="chart-card-name-text">${escapeHtml(coCoord.name)}</span>
+                                                ${verifiedBadgeSvg}
+                                            </div>
+                                            <p class="chart-card-desc-text">${coCoordRole}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tree lines from Coordinators to 5 Staff Cards (Clean Slate tone, no harsh black lines) -->
+                            <svg class="w-full max-w-[640px] h-9 mx-auto fill-none my-1" stroke-width="2">
+                                <defs>
+                                    <marker id="arrow-dept-${slideIdx}" viewBox="0 0 6 6" refX="3" refY="3" markerWidth="6" markerHeight="6" orient="auto">
+                                        <polygon points="0,0 6,3 0,6" fill="#64748b" />
+                                    </marker>
+                                </defs>
+                                <line x1="38%" y1="0" x2="38%" y2="15" stroke="#94a3b8" stroke-dasharray="4,4" />
+                                <line x1="62%" y1="0" x2="62%" y2="15" stroke="#94a3b8" stroke-dasharray="4,4" />
+                                <line x1="38%" y1="15" x2="62%" y2="15" stroke="#94a3b8" stroke-dasharray="4,4" />
+                                <line x1="50%" y1="15" x2="50%" y2="33" stroke="#94a3b8" stroke-dasharray="4,4" marker-end="url(#arrow-dept-${slideIdx})" />
+                                <line x1="10%" y1="33" x2="90%" y2="33" stroke="#94a3b8" stroke-dasharray="4,4" />
+                            </svg>
+
+                            <!-- Row 2: 5 Staff Cards in a row with staggered cascade reveal -->
+                            <div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5 sm:gap-3.5 max-w-[760px] mx-auto">
+                                ${staffCardsHtml}
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            // Tier 4: Member Of SRC (Matching Slide 10 in User Diagram: 8 columns x 5 rows = 40 cards, Full Width, Zero Horizontal Scroll)
+            const memberContainer = document.getElementById('member-of-src-container');
+            if (memberContainer && data.departments) {
+                const staffList = [];
+                data.departments.forEach(d => {
+                    const deptTitle = isEn ? d.name_en.split('&')[0].trim() : d.name_id.split('&')[0].trim();
+                    (d.members || []).forEach(m => {
+                        staffList.push({
+                            ...m,
+                            deptLabel: deptTitle
+                        });
+                    });
+                });
+
+                const memberCardsHtml = staffList.map((m, sIdx) => {
+                    const row = Math.floor(sIdx / 8);
+                    const col = sIdx % 8;
+                    const sDelay = 35 + (row * 35) + (col * 20);
+                    return `
+                        <div onclick="window.openMemberModal('${m.id}')" class="chart-card chart-card-member group min-w-0 w-full" style="animation-delay: ${sDelay}ms;">
+                            <div class="chart-card-inner">
+                                <div class="chart-card-photo-box">
+                                    <img src="${m.photo}" alt="${escapeHtml(m.name)}" class="chart-card-img">
+                                </div>
+                                <div class="chart-card-body">
+                                    <div class="chart-card-name-row">
+                                        <span class="chart-card-name-text">${escapeHtml(m.name)}</span>
+                                        ${verifiedBadgeSvgSm}
+                                    </div>
+                                    <p class="chart-card-desc-text">${escapeHtml(m.deptLabel || 'Member')}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                memberContainer.innerHTML = `
+                    <div class="chart-tree-canvas member-grid-full w-full max-w-7xl mx-auto px-1 sm:px-3">
+                        <div class="text-center mb-3">
+                            <div class="chart-header-pill">Member Of SRC</div>
+                        </div>
+                        <div class="grid grid-cols-4 sm:grid-cols-8 gap-2 sm:gap-2.5 lg:gap-3 w-full overflow-hidden p-1">
+                            ${memberCardsHtml}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Re-apply active slide visibility
+            window.setStructureActiveSlide(window.currentStructureSlide || 0);
+        };
+
+        // Render Member Filter Pills (Tier 4)
+        window.renderStructureFilterPills = function () {
+            const container = document.getElementById('member-filter-pills');
+            if (!container) return;
+            const isEn = window.currentLang === 'en';
+
+            const pills = [
+                { id: 'all', label: isEn ? 'All Members' : 'Semua Anggota' },
+                { id: 'presidium', label: 'Presidium' }
+            ];
+
+            (window.srcStructureData.departments || []).forEach(d => {
+                pills.push({
+                    id: String(d.id),
+                    label: isEn ? d.name_en.split('&')[0].trim() : d.name_id.split('&')[0].trim()
+                });
+            });
+
+            container.innerHTML = pills.map(p => {
+                const isActive = (window.activeStructureDeptFilter === p.id);
+                return `
+                    <button type="button" onclick="window.setMemberDivisionFilter('${p.id}')"
+                        class="px-3.5 py-1.5 rounded-full whitespace-nowrap transition-all font-semibold text-xs ${
+                            isActive
+                                ? 'bg-brand-green text-white shadow-xs'
+                                : 'bg-white/80 text-slate-600 hover:bg-white hover:text-slate-900 border border-slate-200/80'
+                        }">
+                        ${escapeHtml(p.label)}
+                    </button>
+                `;
+            }).join('');
+        };
+
+        // Set Division Filter for Tier 4
+        window.setMemberDivisionFilter = function (filterId) {
+            window.activeStructureDeptFilter = filterId;
+            window.renderStructureFilterPills();
+            window.filterStructureMembers();
+        };
+
+        // Filter and Render Members in Tier 4
+        window.filterStructureMembers = function () {
+            const query = (document.getElementById('member-search-input')?.value || '').toLowerCase().trim();
+            const filterKey = window.activeStructureDeptFilter || 'all';
+            const allMembers = window.getAllStructureMembers();
+
+            const filtered = allMembers.filter(m => {
+                // Division filter match
+                if (filterKey !== 'all') {
+                    if (filterKey === 'presidium' && m.divisionKey !== 'presidium') return false;
+                    if (filterKey !== 'presidium' && m.divisionKey !== filterKey) return false;
+                }
+
+                // Query filter match
+                if (query) {
+                    const matchName = m.name.toLowerCase().includes(query);
+                    const matchRole = m.role.toLowerCase().includes(query);
+                    const matchDiv = m.division.toLowerCase().includes(query);
+                    const matchGrade = (m.grade || '').toLowerCase().includes(query);
+                    return matchName || matchRole || matchDiv || matchGrade;
+                }
+
+                return true;
+            });
+
+            const grid = document.getElementById('structure-members-grid');
+            if (!grid) return;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full py-8 text-center text-slate-400">
+                        <i class="fa-solid fa-user-slash text-2xl mb-2"></i>
+                        <p class="text-xs font-semibold">Tidak ditemukan anggota yang sesuai kriteria pencarian.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(m => {
+                return `
+                    <div onclick="window.openMemberModal('${m.id}')"
+                        class="org-mini-card group">
+                        <img src="${m.photo}" alt="${escapeHtml(m.name)}"
+                            class="w-12 h-12 sm:w-14 sm:h-14 rounded-full mx-auto object-cover ring-2 ring-slate-100 group-hover:ring-emerald-400 mb-1.5 transition-all">
+                        <div class="text-[11px] font-bold text-slate-800 group-hover:text-brand-green truncate leading-tight">
+                            ${escapeHtml(m.name)}
+                        </div>
+                        <div class="text-[9px] font-extrabold uppercase text-brand-green truncate mt-0.5">
+                            ${escapeHtml(m.role)}
+                        </div>
+                        <div class="text-[9px] text-slate-400 truncate">
+                            ${escapeHtml(m.grade || '')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        };
+
+        // Open Interactive Member Detail Modal (Popout Card)
+        window.openMemberModal = function (memberId) {
+            const allMembers = window.getAllStructureMembers();
+            const member = allMembers.find(m => m.id === memberId);
+            if (!member) return;
+
+            const modal = document.getElementById('member-detail-modal');
+            const content = document.getElementById('member-modal-content');
+            if (!modal || !content) return;
+
+            const isEn = window.currentLang === 'en';
+            const verifiedBadgeSvg = `
+                <svg class="w-4 h-4 text-emerald-600 fill-current inline-block flex-shrink-0" viewBox="0 0 24 24" aria-label="Verified">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C10.6 2 9.4 2.7 8.7 3.8C7.5 3.7 6.3 4.3 5.6 5.3C4.9 6.3 4.8 7.6 5.3 8.7C4.4 9.6 4 10.9 4.2 12.2C4.4 13.5 5.2 14.6 6.4 15.1C6.3 16.4 7 17.6 8.1 18.2C9.2 18.8 10.5 18.6 11.4 17.8C12.3 18.6 13.6 18.8 14.7 18.2C15.8 17.6 16.5 16.4 16.4 15.1C17.6 14.6 18.4 13.5 18.6 12.2C18.8 10.9 18.4 9.6 17.5 8.7C18 7.6 17.9 6.3 17.2 5.3C16.5 4.3 15.3 3.7 14.1 3.8C13.4 2.7 12.2 2 12 2ZM10.5 14.3L7.7 11.5L8.8 10.4L10.5 12.1L15.2 7.4L16.3 8.5L10.5 14.3Z"/>
+                </svg>
+            `;
+
+            content.innerHTML = `
+                <div class="modal-dialog-anim relative w-full max-w-2xl sm:max-w-3xl bg-white/95 backdrop-blur-2xl rounded-3xl sm:rounded-[32px] p-6 sm:p-8 shadow-2xl border border-white/90 text-left max-h-[90vh] overflow-y-auto">
+                    <!-- Single Clean Close Button at Top-Right -->
+                    <button onclick="window.closeMemberModal()"
+                        class="absolute top-4 right-4 sm:top-5 sm:right-5 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-800 flex items-center justify-center transition-colors shadow-xs z-20"
+                        aria-label="Tutup Profile Modal">
+                        <i class="fa-solid fa-xmark text-sm sm:text-base"></i>
+                    </button>
+
+                    <div class="flex flex-col sm:flex-row items-center sm:items-stretch gap-6 sm:gap-8">
+                        <!-- Left: Avatar Card (Matching Sarah Swift Profile Card) -->
+                        <div class="chart-card w-48 sm:w-56 flex-shrink-0 cursor-default shadow-md self-center sm:self-start">
+                            <div class="chart-card-inner">
+                                <div class="chart-card-photo-box">
+                                    <img src="${member.photo}" alt="${escapeHtml(member.name)}" class="chart-card-img">
+                                </div>
+                                <div class="chart-card-body">
+                                    <div class="chart-card-name-row">
+                                        <span class="chart-card-name-text !text-sm">${escapeHtml(member.name)}</span>
+                                        ${verifiedBadgeSvg}
+                                    </div>
+                                    <p class="chart-card-desc-text">${escapeHtml(member.role)}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right: Details Column (Spacious, Elegant Typography) -->
+                        <div class="min-w-0 flex-1 flex flex-col justify-between space-y-4 text-left w-full">
+                            <!-- Header Info -->
+                            <div class="pr-8">
+                                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-emerald-50 text-brand-green border border-emerald-200/60 mb-2">
+                                    <i class="fa-solid fa-shield-halved text-[10px]"></i>
+                                    <span>${escapeHtml(member.division)}</span>
+                                </div>
+                                <h3 class="text-xl sm:text-2xl md:text-3xl font-serif font-bold text-slate-900 leading-tight">
+                                    ${escapeHtml(member.name)}
+                                </h3>
+                                <div class="flex items-center gap-2 mt-1.5 text-xs sm:text-sm text-slate-500 font-medium">
+                                    <span class="text-brand-green font-semibold">${escapeHtml(member.role)}</span>
+                                    <span>•</span>
+                                    <span>${escapeHtml(member.grade || 'Siswa BM 400')}</span>
+                                </div>
+                            </div>
+
+                            <!-- Description Quote Box -->
+                            <div class="p-4 rounded-2xl bg-slate-50/90 border border-slate-200/80 text-xs sm:text-sm text-slate-600 italic leading-relaxed">
+                                "${escapeHtml(member.bio)}"
+                            </div>
+
+                            <!-- Tasks & Responsibilities -->
+                            <div class="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs space-y-2">
+                                <div class="text-[10px] sm:text-xs font-extrabold uppercase tracking-wider text-slate-400">
+                                    Tugas &amp; Tanggung Jawab
+                                </div>
+                                <ul class="space-y-1.5">
+                                    ${(member.responsibilities || []).map(r => `
+                                        <li class="flex items-start gap-2 text-xs sm:text-sm text-slate-700">
+                                            <span class="text-brand-green font-bold flex-shrink-0">✔</span>
+                                            <span>${escapeHtml(r)}</span>
+                                        </li>
+                                    `).join('')}
+                                </ul>
+                            </div>
+
+                            <!-- WhatsApp Contact Action -->
+                            ${member.whatsapp ? `
+                                <div>
+                                    <a href="https://wa.me/${member.whatsapp}" target="_blank" rel="noopener noreferrer"
+                                        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs transition-colors shadow-sm">
+                                        <i class="fa-brands fa-whatsapp text-sm"></i>
+                                        <span>Hubungi via WhatsApp</span>
+                                    </a>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+
+            // Dismiss with Escape key
+            const escListener = (e) => {
+                if (e.key === 'Escape') {
+                    window.closeMemberModal();
+                    document.removeEventListener('keydown', escListener);
+                }
+            };
+            document.addEventListener('keydown', escListener);
+        };
+
+        // Close Member Detail Modal
+        window.closeMemberModal = function () {
+            const modal = document.getElementById('member-detail-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        };
+
+        // Attach modal backdrop click dismissal
+        document.addEventListener('DOMContentLoaded', () => {
+            const memberModal = document.getElementById('member-detail-modal');
+            if (memberModal) {
+                memberModal.addEventListener('click', (e) => {
+                    if (e.target === memberModal) {
+                        window.closeMemberModal();
+                    }
+                });
+            }
+        });
 
         window.currentFinFilter = 'all';
         window.currentDeptFilter = 'all';
@@ -748,11 +2465,19 @@ window.currentUser = null;
             if (lenis) {
                 lenis.on('scroll', () => {
                     syncActiveNavbarSection();
+                    if (typeof window.syncStructureScroll === 'function') {
+                        window.syncStructureScroll();
+                    }
                 });
             }
+            window.addEventListener('scroll', () => {
+                if (typeof window.syncStructureScroll === 'function') {
+                    window.syncStructureScroll();
+                }
+            }, { passive: true });
         }
 
-        const navSectionIds = ['hero', 'about', 'financial', 'departments', 'blog', 'activity', 'suggestion'];
+        const navSectionIds = ['hero', 'about', 'structure', 'financial', 'departments', 'activity', 'blog', 'suggestion'];
         let activeNavSectionId = 'hero';
 
         function syncActiveNavbarSection() {
@@ -1187,6 +2912,15 @@ window.currentUser = null;
                 }
             });
 
+            // Cascading Top-to-Bottom Structure Hierarchy Reveal
+            document.querySelectorAll('.cascade-reveal-top').forEach((el, index) => {
+                el.style.transitionDelay = `${(index % 6) * 110}ms`;
+                if (!el.dataset.observed) {
+                    el.dataset.observed = 'true';
+                    motionObserver.observe(el);
+                }
+            });
+
             // Immediately reveal all #hero elements
             document.querySelectorAll('#hero .motion-fade-up, #hero .motion-fade-scale, #hero .motion-fade-left, #hero .motion-fade-right, #hero .cinematic-mask-reveal, #hero h1, #hero p').forEach(el => {
                 el.classList.add('in-view');
@@ -1198,6 +2932,7 @@ window.currentUser = null;
             const parallaxElements = [
                 { selector: '#hero [aria-hidden="true"]', speed: 0.12 },
                 { selector: '#about [aria-hidden="true"]', speed: -0.09 },
+                { selector: '#structure [aria-hidden="true"]', speed: 0.08 },
                 { selector: '#financial [aria-hidden="true"]', speed: 0.1 },
                 { selector: '#hero .glossy-card', speed: -0.04 }
             ];
@@ -1231,6 +2966,32 @@ window.currentUser = null;
             initNavbarScrollSpy();
             initMotionScrollAnimations();
             initScrollParallaxDepth();
+            window.renderStructureHierarchy();
+            window.renderStructureFilterPills();
+            window.filterStructureMembers();
+            if (typeof window.syncStructureScroll === 'function') {
+                window.syncStructureScroll();
+            }
+
+            // Keyboard navigation when section is in view
+            document.addEventListener('keydown', (e) => {
+                const structureEl = document.getElementById('structure');
+                if (!structureEl) return;
+                const rect = structureEl.getBoundingClientRect();
+                if (rect.top <= 120 && rect.bottom >= window.innerHeight * 0.4) {
+                    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+                        if (window.currentStructureSlide < 10) {
+                            e.preventDefault();
+                            window.goToNextStructureSlide();
+                        }
+                    } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                        if (window.currentStructureSlide > 0) {
+                            e.preventDefault();
+                            window.goToPrevStructureSlide();
+                        }
+                    }
+                }
+            });
             window.renderFinancialTable();
             window.renderDepartments();
             initJahedSpotlightCards();

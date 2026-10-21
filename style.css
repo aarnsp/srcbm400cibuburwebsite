@@ -660,3 +660,440 @@ html.lenis, html.lenis-smooth {
                 gap: 4px;
             }
         }
+
+        /* ======================================================== */
+        /* ORGANIZATIONAL STRUCTURE & EPIC TRANSITIONS              */
+        /* ======================================================== */
+
+        /* Glowing Tree Hierarchy Connector Lines */
+        .tree-line-v {
+            width: 2px;
+            height: 36px;
+            margin: 0 auto;
+            background: linear-gradient(180deg, rgba(48, 180, 87, 0.8) 0%, rgba(255, 242, 0, 0.7) 50%, rgba(48, 180, 87, 0.8) 100%);
+            position: relative;
+            box-shadow: 0 0 10px rgba(48, 180, 87, 0.4);
+        }
+        .tree-line-v::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -2px;
+            width: 6px;
+            height: 10px;
+            background: #FFF200;
+            border-radius: 9999px;
+            box-shadow: 0 0 8px #FFF200;
+            animation: treePulseDown 2.2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+        }
+
+        @keyframes treePulseDown {
+            0% { top: 0%; opacity: 0; }
+            30% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        /* Structure Glass Cards */
+        .org-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.65) 100%);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 10px 25px -5px rgba(22, 56, 38, 0.08), 0 4px 10px -2px rgba(0, 0, 0, 0.03);
+            transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .org-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 18px 35px -8px rgba(48, 180, 87, 0.22), 0 0 20px rgba(255, 242, 0, 0.15);
+            border-color: rgba(48, 180, 87, 0.6);
+        }
+        .org-card.active-selected {
+            border-color: #30B457;
+            box-shadow: 0 0 0 2px rgba(48, 180, 87, 0.4), 0 12px 28px -6px rgba(48, 180, 87, 0.25);
+        }
+
+        /* Mini Member Chip Card in Grid */
+        .org-mini-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 14px;
+            padding: 8px 6px;
+            text-align: center;
+            transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+            cursor: pointer;
+        }
+        .org-mini-card:hover {
+            transform: translateY(-3px) scale(1.04);
+            background: #ffffff;
+            box-shadow: 0 8px 18px -4px rgba(48, 180, 87, 0.2);
+            border-color: rgba(48, 180, 87, 0.5);
+        }
+
+        /* Top-to-Bottom Cascading Scroll Trigger Reveal */
+        .cascade-reveal-top {
+            opacity: 0;
+            transform: translateY(-32px);
+            transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+        .cascade-reveal-top.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ======================================================== */
+        /* PINNED SCROLL SLIDE DECK (STICKY PRESENTATION REVEAL)    */
+        /* ======================================================== */
+        #structure {
+            position: relative;
+            height: 750vh; /* Lengthened specifically to give full natural scroll room for Member of SRC */
+            overflow: visible;
+        }
+
+        #structure-sticky-wrapper {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+            z-index: 20;
+        }
+
+        .structure-slide {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(40px) scale(0.96);
+            filter: blur(4px);
+            transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1), transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), filter 0.55s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.55s;
+            pointer-events: none;
+            will-change: opacity, transform, filter;
+            z-index: 10;
+        }
+
+        /* Slide 10: Starts top-aligned so 40-card full height scrolls naturally with page scroll */
+        #struct-slide-10 {
+            justify-content: flex-start !important;
+            padding-top: 10px;
+            overflow: hidden;
+        }
+
+        #member-of-src-container {
+            will-change: transform;
+            transition: transform 0.08s cubic-bezier(0.2, 0.8, 0.2, 1);
+            width: 100%;
+        }
+
+        .structure-slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+            filter: blur(0px);
+            pointer-events: auto;
+            z-index: 20;
+        }
+
+        .structure-slide.passed {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-40px) scale(0.96);
+            filter: blur(4px);
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Mouse Scroll Indicator Pulse */
+        .mouse-scroll-wheel {
+            width: 3px;
+            height: 6px;
+            background-color: #30B457;
+            border-radius: 9999px;
+            animation: mouseScrollWheelMove 1.6s ease-in-out infinite;
+        }
+
+        @keyframes mouseScrollWheelMove {
+            0% { transform: translateY(0); opacity: 1; }
+            50% { transform: translateY(5px); opacity: 0.3; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Dot Tracker Pulse & Glow */
+        .struct-step-dot.active {
+            background-color: #30B457;
+            transform: scale(1.3);
+            box-shadow: 0 0 12px rgba(48, 180, 87, 0.6), 0 0 0 3px rgba(48, 180, 87, 0.2);
+        }
+
+        /* ======================================================== */
+        /* EXACT FLOWCHART CHART STYLING (FROM USER DIAGRAM)        */
+        /* SEAMLESS INTEGRATION WITH WEBSITE BACKGROUND (NO BOXES)  */
+        /* ======================================================== */
+        .chart-tree-canvas {
+            position: relative;
+            width: 100%;
+            margin: 0 auto;
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            padding: 0;
+        }
+
+        .chart-outer-box {
+            /* Seamless container - zero box enclosure to blend with site background */
+            background: transparent !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+            padding: 0 !important;
+            position: relative;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .chart-header-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1.5px solid rgba(226, 232, 240, 0.9);
+            background: rgba(255, 255, 255, 0.95);
+            color: #0f172a;
+            font-weight: 800;
+            font-size: 13px;
+            padding: 7px 24px;
+            border-radius: 9999px;
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            letter-spacing: 0.02em;
+            text-align: center;
+            margin: 0 auto;
+            transition: transform 0.3s ease;
+        }
+
+        /* ======================================================== */
+        /* MODERN AVATAR PROFILE CARD (MATCHING USER BRIEF)         */
+        /* Outer soft translucent bezel + Inner clean card + Badge  */
+        /* ======================================================== */
+        .chart-card {
+            background: rgba(255, 255, 255, 0.78);
+            border: 1.5px solid rgba(255, 255, 255, 0.95);
+            border-radius: 26px;
+            padding: 5px;
+            box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 3px 8px -2px rgba(15, 23, 42, 0.03);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            cursor: pointer;
+            transition: transform 0.32s cubic-bezier(0.175, 0.885, 0.32, 1.25), box-shadow 0.32s ease, border-color 0.3s ease;
+            user-select: none;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            will-change: transform, opacity;
+            position: relative;
+        }
+        .chart-card:hover {
+            transform: translateY(-6px) scale(1.025) !important;
+            border-color: rgba(48, 180, 87, 0.45);
+            box-shadow: 0 20px 42px -10px rgba(48, 180, 87, 0.22), 0 6px 14px -3px rgba(15, 23, 42, 0.05);
+        }
+
+        .chart-card-inner {
+            background: #ffffff;
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            box-shadow: inset 0 0 0 1px rgba(241, 245, 249, 0.9);
+        }
+
+        .chart-card-photo-box {
+            width: 100%;
+            aspect-ratio: 3 / 3.9;
+            overflow: hidden;
+            background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+            position: relative;
+        }
+        .chart-card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 20%;
+            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .chart-card:hover .chart-card-img {
+            transform: scale(1.04);
+        }
+
+        .chart-card-body {
+            padding: 10px 12px 12px;
+            background: #ffffff;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .chart-card-name-row {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            width: 100%;
+        }
+
+        .chart-card-name-text {
+            font-size: 13px;
+            font-weight: 700;
+            color: #0f172a;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.25;
+            letter-spacing: -0.015em;
+        }
+
+        .chart-card-desc-text {
+            font-size: 10.5px;
+            font-weight: 400;
+            color: #64748b;
+            line-height: 1.35;
+            margin-top: 2.5px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Per-Member Card Reveal Stagger Animation */
+        @keyframes memberCardReveal {
+            0% {
+                opacity: 0;
+                transform: translateY(26px) scale(0.92);
+                filter: blur(4px);
+            }
+            60% {
+                filter: blur(0px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: blur(0px);
+            }
+        }
+
+        .structure-slide:not(.active) .chart-card {
+            opacity: 0;
+            transform: translateY(26px) scale(0.92);
+            pointer-events: none;
+        }
+
+        .structure-slide.active .chart-card {
+            animation: memberCardReveal 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .structure-slide.active .chart-header-pill {
+            animation: pillRevealAnim 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        @keyframes pillRevealAnim {
+            0% {
+                opacity: 0;
+                transform: translateY(-14px) scale(0.96);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Dedicated Tall Portrait Member of SRC Grid Styling (Matching Sarah Swift Brief) */
+        .chart-card-member {
+            border-radius: 20px !important;
+            padding: 4px !important;
+            box-shadow: 0 6px 18px -4px rgba(15, 23, 42, 0.07) !important;
+            min-width: 0 !important;
+            width: 100% !important;
+        }
+        .chart-card-member .chart-card-inner {
+            border-radius: 16px !important;
+        }
+        .chart-card-member .chart-card-photo-box {
+            aspect-ratio: 3 / 3.7 !important;
+            min-height: 110px;
+            max-height: none !important;
+        }
+        .chart-card-member .chart-card-body {
+            padding: 6px 7px 8px !important;
+        }
+        .chart-card-member .chart-card-name-text {
+            font-size: 10px !important;
+            font-weight: 700;
+        }
+        .chart-card-member .chart-card-desc-text {
+            font-size: 8.5px !important;
+            line-height: 1.2 !important;
+            margin-top: 1.5px !important;
+            -webkit-line-clamp: 1;
+        }
+
+        .member-grid-full {
+            width: 100% !important;
+            overflow-x: hidden !important;
+            max-width: 100% !important;
+        }
+
+        /* Backward compatibility for name pill classes */
+        .chart-card-name-pill {
+            width: 100%;
+            background: #0f172a;
+            color: #ffffff;
+            border-top: 1.5px dashed rgba(255, 255, 255, 0.35);
+            font-size: 9.5px;
+            font-weight: 700;
+            text-align: center;
+            padding: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Interactive Profile Popout Card */
+        #member-detail-modal:not(.hidden) {
+            animation: modalFadeInBackdrop 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes modalFadeInBackdrop {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        #member-detail-modal .modal-dialog-anim {
+            transform: scale(0.92) translateY(20px);
+            opacity: 0;
+            will-change: transform, opacity;
+        }
+        #member-detail-modal:not(.hidden) .modal-dialog-anim {
+            animation: modalScaleSpring 0.38s cubic-bezier(0.175, 0.885, 0.32, 1.25) forwards;
+        }
+        @keyframes modalScaleSpring {
+            0% { transform: scale(0.9) translateY(24px); opacity: 0; }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
+        }
